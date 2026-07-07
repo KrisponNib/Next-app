@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  min-height: 100%;
+  background-color: theme("colors.bg");
+  color: theme("colors.text");
+}
+
+body {
+  /* מרווח תחתון קבוע כדי שהתפריט התחתון לא יכסה תוכן */
+  padding-bottom: 88px;
+}
+
+@media (max-width: 520px) {
+  body {
+    padding-bottom: 132px;
+  }
+}
