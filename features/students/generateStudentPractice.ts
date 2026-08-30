@@ -31,8 +31,14 @@ export function generateStudentPractice(student: Student, availableMinutes?: num
     items.push({ title: `עבודה על המטרה: ${student.currentGoal}`, minutes: Math.max(7, Math.round(minutes * 0.55)) });
   }
 
-  if (latestReflection?.status === "stuck" && latestReflection.improveNext && minutes >= 25) {
-    items.push({ title: `לפתור את מה שנתקע: ${latestReflection.improveNext}`, minutes: 7 });
+  if (latestReflection?.improveNext && minutes >= 25) {
+    items.push({
+      title:
+        latestReflection.status === "stuck"
+          ? `לפתור את מה שנתקע: ${latestReflection.improveNext}`
+          : `עבודה ממוקדת מהאימון הקודם: ${latestReflection.improveNext}`,
+      minutes: latestReflection.status === "stuck" ? 7 : 5,
+    });
   }
 
   const used = items.reduce((sum, item) => sum + item.minutes, 0);
@@ -41,7 +47,13 @@ export function generateStudentPractice(student: Student, availableMinutes?: num
   const reasonParts = [`המטרה כרגע היא “${student.currentGoal}”.`];
   if (openAssignment) reasonParts.push("יש משימה פתוחה מהשיעור ולכן היא מקבלת עדיפות.");
   else reasonParts.push(`${student.primaryLearningSource} הוא מקור הלמידה הראשי.`);
-  if (latestReflection?.status === "stuck") reasonParts.push("האימון האחרון סימן קושי שעדיין צריך לפתור.");
+  if (latestReflection?.improveNext) {
+    reasonParts.push(
+      latestReflection.status === "stuck"
+        ? "האימון האחרון סימן קושי שעדיין צריך לפתור."
+        : `מהאימון האחרון עולה שכדאי להמשיך לעבוד על: ${latestReflection.improveNext}.`
+    );
+  }
 
   return { type: "plan", title: `אימון ${minutes} דקות`, reason: reasonParts.join(" "), items };
 }
