@@ -77,6 +77,69 @@ export default function StudentPage({ params }: { params: { id: string } }) {
       </Card>
 
       <Card>
+        <h2 className="font-extrabold text-lg">האימונים האחרונים</h2>
+        <p className="text-sm text-muted mt-1">
+          מה התלמיד דיווח אחרי האימון ואיך זה צריך להשפיע על הצעד הבא.
+        </p>
+
+        <div className="mt-4 space-y-3">
+          {student.reflections.length > 0 ? (
+            student.reflections.slice(0, 5).map((reflection) => (
+              <div
+                key={reflection.id}
+                className="bg-surface-soft rounded-button-sm p-4"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <b>
+                    {reflection.status === "good"
+                      ? "🟢 הלך טוב"
+                      : reflection.status === "stuck"
+                      ? "🔴 נתקע"
+                      : "🟡 בערך"}
+                  </b>
+
+                  <span className="text-xs text-muted">
+                    {new Date(reflection.date).toLocaleDateString("he-IL")}
+                  </span>
+                </div>
+
+                {reflection.worked && (
+                  <div className="mt-3">
+                    <p className="text-xs font-extrabold text-muted">
+                      מה עבד
+                    </p>
+                    <p className="mt-1">{reflection.worked}</p>
+                  </div>
+                )}
+
+                {reflection.improveNext && (
+                  <div className="mt-3">
+                    <p className="text-xs font-extrabold text-muted">
+                      מה לשפר בפעם הבאה
+                    </p>
+                    <p className="mt-1">{reflection.improveNext}</p>
+                  </div>
+                )}
+
+                {reflection.evidenceUrl && (
+                  <a
+                    href={reflection.evidenceUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block mt-3 font-bold text-accent"
+                  >
+                    פתח הקלטה / הוכחה ↗
+                  </a>
+                )}
+              </div>
+            ))
+          ) : (
+            <p className="text-muted">עדיין אין Reflection מאימון.</p>
+          )}
+        </div>
+      </Card>
+
+      <Card>
         <h2 className="font-extrabold text-lg">Win אמיתי</h2>
         <div className="flex gap-2 mt-3">
           <input className="flex-1 bg-surface-soft rounded-button-sm px-3 py-3" placeholder="למשל: שיר ראשון מהתחלה עד הסוף" value={winTitle} onChange={(e) => setWinTitle(e.target.value)} />
