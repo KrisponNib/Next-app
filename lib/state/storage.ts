@@ -21,6 +21,7 @@ export function createDefaultState(): NextState {
     reflections: [],
     income: [],
     dailyAnswers: [],
+    students: [],
     profile: {
       identityGoal:
         "להיות מוזיקאי מקצועי שמתפרנס 100% ממוזיקה, עובד עם אנשים טובים, מלמד ברמה גבוהה ומשאיר מקום לחיים עצמם.",
@@ -75,6 +76,7 @@ function mergeWithDefaults(partial: Partial<NextState>): NextState {
     income: partial.income ?? defaults.income,
     dailyAnswers: partial.dailyAnswers ?? defaults.dailyAnswers,
     profile: partial.profile ?? defaults.profile,
+    students: partial.students ?? defaults.students,
   };
 }
 

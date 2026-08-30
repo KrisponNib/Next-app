@@ -1,8 +1,4 @@
-// כל הטיפוסים כאן משקפים אחד-לאחד את שדות ה-state שהיו ב-next-mvp-v2.html.
-// לא נוסף כאן שום שדה שלא היה קיים באב-טיפוס.
-
-// מזהה מטרה. כרגע זה עדיין רק מחרוזת חופשית - לא נבנתה ישות מטרה מלאה,
-// וזה לא רשימה סגורה. זו הכנה לטיפוסים בלבד, לפני שיבנה ניהול מטרות מלא.
+// מזהה מטרה. כרגע זה עדיין רק מחרוזת חופשית.
 export type GoalId = string;
 
 export interface Task {
@@ -22,7 +18,7 @@ export interface Win {
   id: string;
   title: string;
   goal: GoalId;
-  date: string; // ISO
+  date: string;
 }
 
 export type ReflectionType =
@@ -38,7 +34,7 @@ export interface Reflection {
   type: ReflectionType;
   wentWell: string;
   improve: string;
-  date: string; // ISO
+  date: string;
 }
 
 export type IncomeType = "music" | "other";
@@ -48,18 +44,81 @@ export interface IncomeEntry {
   type: IncomeType;
   amount: number;
   label: string;
-  date: string; // ISO
+  date: string;
 }
 
 export interface DailyAnswer {
   id: string;
   answer: string;
-  date: string; // ISO
+  date: string;
 }
 
 export interface Profile {
   identityGoal: string;
   identityTraits: string[];
+}
+
+// --- Students V1 ---
+// V1 נשאר קטן בכוונה: שומרים רק מידע שמשנה את ההחלטה מה לעשות עכשיו.
+export type StudentPath = "fun" | "serious" | "band" | "professional" | "young";
+export type StudentAssignmentStatus = "todo" | "done" | "stuck";
+
+export interface StudentAssignment {
+  id: string;
+  title: string;
+  instructions?: string;
+  status: StudentAssignmentStatus;
+  createdAt: string;
+}
+
+export interface StudentPracticeReflection {
+  id: string;
+  status: "good" | "mixed" | "stuck";
+  worked: string;
+  improveNext: string;
+  evidenceUrl?: string;
+  date: string;
+}
+
+export interface StudentWin {
+  id: string;
+  title: string;
+  description?: string;
+  before?: string;
+  after?: string;
+  date: string;
+}
+
+export interface StudentLesson {
+  id: string;
+  date: string;
+  workedOn: string;
+  wentWell: string;
+  mainFocus: string;
+}
+
+export interface StudentPracticeProfile {
+  defaultDurationMinutes?: number;
+  weeklyTargetSessions?: number;
+  preferredPracticeStyle?: "structured" | "free" | "mixed";
+  mainObstacle?: string;
+  successDefinition?: string;
+}
+
+export interface Student {
+  id: string;
+  shareToken?: string;
+  name: string;
+  path: StudentPath;
+  currentGoal: string;
+  goalReason?: string;
+  primaryLearningSource: string;
+  practiceProfile: StudentPracticeProfile;
+  assignments: StudentAssignment[];
+  reflections: StudentPracticeReflection[];
+  wins: StudentWin[];
+  lessons: StudentLesson[];
+  createdAt: string;
 }
 
 export interface NextState {
@@ -71,4 +130,5 @@ export interface NextState {
   income: IncomeEntry[];
   dailyAnswers: DailyAnswer[];
   profile: Profile;
+  students: Student[];
 }

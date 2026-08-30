@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 const NAV_ITEMS = [
   { href: "/today", label: "היום" },
   { href: "/practice", label: "אימון" },
+  { href: "/students", label: "תלמידים" },
   { href: "/reflect", label: "למידה" },
   { href: "/wins", label: "Wins" },
   { href: "/money", label: "כסף" },
@@ -18,9 +19,11 @@ const NAV_ITEMS = [
 export function BottomNav() {
   const pathname = usePathname();
 
+  if (pathname?.startsWith("/student/")) return null;
+
   return (
     <nav className="fixed inset-x-0 bottom-0 bg-bg/[.86] backdrop-blur-2xl border-t border-line py-2 px-2.5 pb-5 z-20">
-      <div className="max-w-[760px] mx-auto grid grid-cols-3 sm:grid-cols-6 gap-1">
+      <div className="max-w-[760px] mx-auto grid grid-cols-4 sm:grid-cols-7 gap-1">
         {NAV_ITEMS.map((item) => {
           const isActive = pathname?.startsWith(item.href);
           return (
