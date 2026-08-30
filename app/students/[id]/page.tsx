@@ -17,7 +17,7 @@ export default function StudentPage({ params }: { params: { id: string } }) {
   const [instructions, setInstructions] = useState("");
   const [winTitle, setWinTitle] = useState("");
 
-  if (!student) return <section><ScreenHeader eyebrow="Students" title="תלמיד לא נמצא" /><Link href="/students" className="font-bold text-accent">חזרה לתלמידים</Link></section>;
+  if (!student) return <section><ScreenHeader eyebrow="Students" title="תלמיד לא נמצא" description="" /><Link href="/students" className="font-bold text-accent">חזרה לתלמידים</Link></section>;
 
   function closeLesson(event: FormEvent) {
     event.preventDefault();
