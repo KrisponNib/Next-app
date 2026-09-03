@@ -29,7 +29,7 @@ export default function StudentPage({ params }: { params: { id: string } }) {
     setSuccess(student.practiceProfile.successDefinition || "");
   }, [student?.id]);
 
-  if (!student) return <section><ScreenHeader eyebrow="תלמידים" title="תלמיד לא נמצא" /><Link href="/students" className="font-bold text-accent">חזרה לתלמידים</Link></section>;
+  if (!student) return <section><ScreenHeader eyebrow="תלמידים" title="תלמיד לא נמצא" description="לא מצאתי תלמיד עם המזהה הזה." /><Link href="/students" className="font-bold text-accent">חזרה לתלמידים</Link></section>;
 
   function saveProfile() {
     updateStudentDetails(student!.id, {
