@@ -31,7 +31,7 @@ export default function StudentsPage() {
 
   return (
     <section>
-      <ScreenHeader eyebrow="Students V1" title="התלמידים שלי" description="לא CRM. המסך הזה קיים כדי לדעת מה צריך לקרות עם כל תלמיד עכשיו." />
+      <ScreenHeader eyebrow="תלמידים" title="התלמידים שלי" description="המסך הזה קיים כדי לדעת מה צריך לקרות עם כל תלמיד עכשיו." />
 
       <Card>
         <h2 className="text-lg font-extrabold mb-3">תלמיד חדש</h2>

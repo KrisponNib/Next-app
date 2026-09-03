@@ -11,7 +11,7 @@ const NAV_ITEMS = [
   { href: "/practice", label: "אימון" },
   { href: "/students", label: "תלמידים" },
   { href: "/reflect", label: "למידה" },
-  { href: "/wins", label: "Wins" },
+  { href: "/wins", label: "הישגים" },
   { href: "/money", label: "כסף" },
   { href: "/profile", label: "פרופיל" },
 ];

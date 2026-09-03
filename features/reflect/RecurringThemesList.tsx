@@ -10,7 +10,7 @@ export function RecurringThemesList() {
   if (recent.length === 0) {
     return (
       <p className="text-muted">
-        עדיין אין תובנות. אחרי הופעה, חזרה או שיעור — רשום Reflection קצר.
+        עדיין אין תובנות. אחרי הופעה, חזרה או שיעור — רשום סיכום קצר.
       </p>
     );
   }

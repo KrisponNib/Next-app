@@ -7,7 +7,7 @@ export default function ReflectPage() {
   return (
     <section>
       <ScreenHeader
-        eyebrow="Learning Loop"
+        eyebrow="לולאת למידה"
         title="מה למדנו?"
         description="כל הופעה, חזרה, שיעור או סרטון צריכים להפוך לשיפור עתידי."
       />

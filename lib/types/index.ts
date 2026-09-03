@@ -63,10 +63,24 @@ export interface Profile {
 export type StudentPath = "fun" | "serious" | "band" | "professional" | "young";
 export type StudentAssignmentStatus = "todo" | "done" | "stuck";
 
+export interface StudentAssignmentResource {
+  id: string;
+  label?: string;
+  url: string;
+}
+
+export interface StudentAssignmentAttachment {
+  name: string;
+  type: string;
+  dataUrl: string;
+}
+
 export interface StudentAssignment {
   id: string;
   title: string;
   instructions?: string;
+  resources?: StudentAssignmentResource[];
+  attachment?: StudentAssignmentAttachment;
   status: StudentAssignmentStatus;
   createdAt: string;
 }

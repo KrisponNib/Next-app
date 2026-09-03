@@ -38,7 +38,7 @@ export function ReflectionForm() {
 
   return (
     <Card>
-      <h2 className="text-[27px] mb-3.5 font-extrabold">Reflection מהיר</h2>
+      <h2 className="text-[27px] mb-3.5 font-extrabold">סיכום מהיר</h2>
 
       <Select
         value={type}

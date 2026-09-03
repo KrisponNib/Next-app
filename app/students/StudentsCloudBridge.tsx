@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
 import { useNextState } from "@/lib/state/useNextState";
 import { Student } from "@/lib/types";
 
@@ -11,17 +10,11 @@ function fingerprint(students: Student[]) {
 
 export function StudentsCloudBridge({ children }: { children: React.ReactNode }) {
   const { state, replaceStudents } = useNextState();
-  const pathname = usePathname();
-  const isLoginPage = pathname === "/students/login";
   const [ready, setReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const lastSynced = useRef("");
 
   useEffect(() => {
-    if (isLoginPage) {
-      setReady(true);
-      return;
-    }
     let cancelled = false;
     async function hydrate() {
       try {
@@ -64,10 +57,10 @@ export function StudentsCloudBridge({ children }: { children: React.ReactNode })
     return () => { cancelled = true; };
     // initial bridge hydration only
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoginPage]);
+  }, []);
 
   useEffect(() => {
-    if (isLoginPage || !ready || error) return;
+    if (!ready || error) return;
     const current = fingerprint(state.students);
     if (current === lastSynced.current) return;
     const timer = window.setTimeout(async () => {
@@ -87,9 +80,8 @@ export function StudentsCloudBridge({ children }: { children: React.ReactNode })
       }
     }, 500);
     return () => window.clearTimeout(timer);
-  }, [state.students, ready, error, replaceStudents, isLoginPage]);
+  }, [state.students, ready, error, replaceStudents]);
 
-  if (isLoginPage) return <>{children}</>;
   if (!ready) return <div className="py-16 text-center text-muted">מסנכרן תלמידים…</div>;
   return <>{error && <div className="mb-4 rounded-button-sm bg-surface-soft p-3 text-sm">שגיאת סנכרון: {error}</div>}{children}</>;
 }

@@ -36,7 +36,7 @@ export function StudentPortal({ initialStudent }: { initialStudent: Student }) {
 
   if (complete) {
     return <section>
-      <p className="text-sm text-muted">Reflect</p>
+      <p className="text-sm text-muted">סיכום אימון</p>
       <h1 className="text-3xl font-extrabold mt-1">איך היה?</h1>
       <p className="text-muted mt-2">שתי תשובות קצרות כדי שהאימון הבא יהיה טוב יותר.</p>
       <div className="bg-surface rounded-card p-5 shadow-card mt-5">
@@ -51,7 +51,7 @@ export function StudentPortal({ initialStudent }: { initialStudent: Student }) {
 
   if (!minutes) {
     return <section>
-      <p className="text-sm text-muted">NEXT / Drums</p>
+      <p className="text-sm text-muted">NEXT / תופים</p>
       <h1 className="text-3xl font-extrabold mt-1">היי {student.name} 👋</h1>
       <div className="bg-text text-white rounded-hero p-6 mt-5">
         <p className="text-white/60 text-xs font-bold">המטרה שלי עכשיו</p>
@@ -60,7 +60,19 @@ export function StudentPortal({ initialStudent }: { initialStudent: Student }) {
       <h2 className="text-2xl font-extrabold mt-7">כמה זמן יש לך עכשיו?</h2>
       <div className="grid grid-cols-4 gap-2 mt-3">{TIMES.map(m => <button key={m} onClick={()=>setMinutes(m)} className="bg-surface rounded-seg py-4 font-extrabold shadow-card">{m}</button>)}</div>
       <div className="mt-8">
-        <h2 className="text-xl font-extrabold">Wins</h2>
+        <h2 className="text-xl font-extrabold">שיעורי הבית שלי</h2>
+        <div className="mt-3 space-y-3">
+          {student.assignments.filter(a => a.status !== "done").map(a => <div key={a.id} className="bg-surface rounded-button-sm p-4 shadow-card">
+            <p className="font-extrabold">{a.title}</p>
+            {a.instructions && <p className="text-sm text-muted mt-1">{a.instructions}</p>}
+            {a.resources?.map(r => <a key={r.id} href={r.url} target="_blank" rel="noreferrer" className="block text-accent font-bold mt-3">🔗 {r.label || "פתח קישור"}</a>)}
+            {a.attachment && <a href={a.attachment.dataUrl} download={a.attachment.name} className="block text-accent font-bold mt-3">📎 {a.attachment.name}</a>}
+          </div>)}
+          {!student.assignments.some(a => a.status !== "done") && <p className="text-muted">אין כרגע שיעורי בית פתוחים.</p>}
+        </div>
+      </div>
+      <div className="mt-8">
+        <h2 className="text-xl font-extrabold">הישגים</h2>
         <div className="mt-3 space-y-2">{student.wins.slice(0,4).map(w => <div key={w.id} className="bg-surface rounded-button-sm p-3 shadow-card">🏆 <b>{w.title}</b></div>)}{student.wins.length===0 && <p className="text-muted">כאן יופיעו הוכחות אמיתיות להתקדמות.</p>}</div>
       </div>
     </section>;
@@ -71,7 +83,7 @@ export function StudentPortal({ initialStudent }: { initialStudent: Student }) {
   }
 
   return <section>
-    <p className="text-sm text-muted">NEXT Practice</p>
+    <p className="text-sm text-muted">האימון שלי</p>
     <h1 className="text-3xl font-extrabold mt-1">{decision.title}</h1>
     <div className="bg-text text-white rounded-hero p-6 mt-5"><p className="text-xs font-bold opacity-60">למה זה האימון</p><p className="mt-2 font-semibold leading-relaxed">{decision.reason}</p></div>
     <div className="bg-surface rounded-card p-5 shadow-card mt-5">{decision.items.map((item,i)=><div key={`${item.title}-${i}`} className={`py-4 flex justify-between gap-3 ${i?"border-t border-line":""}`}><div><span className="text-xs text-muted">שלב {i+1}</span><p className="font-extrabold mt-1">{item.title}</p></div><span className="bg-surface-soft rounded-full px-3 py-1 h-fit text-sm font-bold">{item.minutes} דק׳</span></div>)}</div>

@@ -38,7 +38,7 @@ export function updateStudentDetails(
 export function closeStudentLesson(
   state: NextState,
   studentId: string,
-  input: { workedOn: string; wentWell: string; mainFocus: string; assignments: { title: string; instructions?: string }[] }
+  input: { workedOn: string; wentWell: string; mainFocus: string; assignments: { title: string; instructions?: string; resources?: { id: string; label?: string; url: string }[]; attachment?: { name: string; type: string; dataUrl: string } }[] }
 ): NextState {
   return updateStudent(state, studentId, (student) => ({
     ...student,
@@ -57,6 +57,8 @@ export function closeStudentLesson(
         id: crypto.randomUUID(),
         title: a.title.trim(),
         instructions: a.instructions?.trim() || undefined,
+        resources: a.resources?.filter((r) => r.url.trim()),
+        attachment: a.attachment,
         status: "todo" as const,
         createdAt: new Date().toISOString(),
       })),

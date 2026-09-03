@@ -8,8 +8,8 @@ export default function ProfilePage() {
   return (
     <section>
       <ScreenHeader
-        eyebrow="Identity Model"
-        title="מה Next יודע עליך"
+        eyebrow="מודל אישי"
+        title="מה NEXT יודע עליך"
         description="לא פיצ׳רים. הקשר. זה מה שמאפשר המלצות טובות."
       />
 

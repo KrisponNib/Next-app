@@ -58,7 +58,7 @@ type Action =
   | { type: "ADD_STUDENT"; input: Pick<Student, "name" | "path" | "currentGoal"> }
   | { type: "REPLACE_STUDENTS"; students: Student[] }
   | { type: "UPDATE_STUDENT_DETAILS"; studentId: string; patch: Partial<Pick<Student, "currentGoal" | "goalReason" | "path" | "primaryLearningSource" | "practiceProfile">> }
-  | { type: "CLOSE_STUDENT_LESSON"; studentId: string; input: { workedOn: string; wentWell: string; mainFocus: string; assignments: { title: string; instructions?: string }[] } }
+  | { type: "CLOSE_STUDENT_LESSON"; studentId: string; input: { workedOn: string; wentWell: string; mainFocus: string; assignments: { title: string; instructions?: string; resources?: { id: string; label?: string; url: string }[]; attachment?: { name: string; type: string; dataUrl: string } }[] } }
   | { type: "SET_STUDENT_ASSIGNMENT_STATUS"; studentId: string; assignmentId: string; status: StudentAssignmentStatus }
   | { type: "ADD_STUDENT_REFLECTION"; studentId: string; input: { status: "good" | "mixed" | "stuck"; worked: string; improveNext: string; evidenceUrl?: string } }
   | { type: "ADD_STUDENT_WIN"; studentId: string; input: { title: string; description?: string; before?: string; after?: string } }
@@ -124,7 +124,7 @@ interface NextStateContextValue {
   addStudent: (input: Pick<Student, "name" | "path" | "currentGoal">) => void;
   replaceStudents: (students: Student[]) => void;
   updateStudentDetails: (studentId: string, patch: Partial<Pick<Student, "currentGoal" | "goalReason" | "path" | "primaryLearningSource" | "practiceProfile">>) => void;
-  closeStudentLesson: (studentId: string, input: { workedOn: string; wentWell: string; mainFocus: string; assignments: { title: string; instructions?: string }[] }) => void;
+  closeStudentLesson: (studentId: string, input: { workedOn: string; wentWell: string; mainFocus: string; assignments: { title: string; instructions?: string; resources?: { id: string; label?: string; url: string }[]; attachment?: { name: string; type: string; dataUrl: string } }[] }) => void;
   setStudentAssignmentStatus: (studentId: string, assignmentId: string, status: StudentAssignmentStatus) => void;
   addStudentReflection: (studentId: string, input: { status: "good" | "mixed" | "stuck"; worked: string; improveNext: string; evidenceUrl?: string }) => void;
   addStudentWin: (studentId: string, input: { title: string; description?: string; before?: string; after?: string }) => void;

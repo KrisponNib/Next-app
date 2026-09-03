@@ -24,9 +24,9 @@ export default function PracticePage() {
   return (
     <section>
       <ScreenHeader
-        eyebrow="Practice Generator"
+        eyebrow="בונה האימונים"
         title="כמה זמן יש לך?"
-        description="Next בונה אימון לפי זמן פנוי ולפי דברים שעלו ב-Reflections."
+        description="NEXT בונה אימון לפי הזמן הפנוי ולפי מה שעלה בסיכומי האימונים."
       />
 
       <Card>
