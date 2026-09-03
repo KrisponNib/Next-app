@@ -18,6 +18,7 @@ export function addStudent(state: NextState, input: Pick<Student, "name" | "path
     currentGoal: input.currentGoal,
     primaryLearningSource: "Omri / Drum Academy",
     practiceProfile: {},
+    allowGeneratedPractice: false,
     assignments: [],
     reflections: [],
     wins: [],
@@ -30,7 +31,7 @@ export function addStudent(state: NextState, input: Pick<Student, "name" | "path
 export function updateStudentDetails(
   state: NextState,
   studentId: string,
-  patch: Partial<Pick<Student, "currentGoal" | "goalReason" | "path" | "primaryLearningSource" | "practiceProfile">>
+  patch: Partial<Pick<Student, "currentGoal" | "goalReason" | "path" | "primaryLearningSource" | "practiceProfile" | "allowGeneratedPractice">>
 ): NextState {
   return updateStudent(state, studentId, (student) => ({ ...student, ...patch }));
 }
@@ -64,6 +65,21 @@ export function closeStudentLesson(
       })),
       ...student.assignments,
     ],
+  }));
+}
+
+
+export function updateStudentAssignment(
+  state: NextState,
+  studentId: string,
+  assignmentId: string,
+  patch: Partial<Pick<Student["assignments"][number], "title" | "instructions" | "resources" | "attachment" | "status">>
+): NextState {
+  return updateStudent(state, studentId, (student) => ({
+    ...student,
+    assignments: student.assignments.map((assignment) =>
+      assignment.id === assignmentId ? { ...assignment, ...patch } : assignment
+    ),
   }));
 }
 

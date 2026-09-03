@@ -40,6 +40,7 @@ import {
   updateStudentDetails as updateStudentDetailsAction,
   closeStudentLesson as closeStudentLessonAction,
   setStudentAssignmentStatus as setStudentAssignmentStatusAction,
+  updateStudentAssignment as updateStudentAssignmentAction,
   addStudentReflection as addStudentReflectionAction,
   addStudentWin as addStudentWinAction,
 } from "@/lib/state/actions/students";
@@ -57,8 +58,9 @@ type Action =
   | { type: "SET_PROFILE"; profile: Profile }
   | { type: "ADD_STUDENT"; input: Pick<Student, "name" | "path" | "currentGoal"> }
   | { type: "REPLACE_STUDENTS"; students: Student[] }
-  | { type: "UPDATE_STUDENT_DETAILS"; studentId: string; patch: Partial<Pick<Student, "currentGoal" | "goalReason" | "path" | "primaryLearningSource" | "practiceProfile">> }
+  | { type: "UPDATE_STUDENT_DETAILS"; studentId: string; patch: Partial<Pick<Student, "currentGoal" | "goalReason" | "path" | "primaryLearningSource" | "practiceProfile" | "allowGeneratedPractice">> }
   | { type: "CLOSE_STUDENT_LESSON"; studentId: string; input: { workedOn: string; wentWell: string; mainFocus: string; assignments: { title: string; instructions?: string; resources?: { id: string; label?: string; url: string }[]; attachment?: { name: string; type: string; dataUrl: string } }[] } }
+  | { type: "UPDATE_STUDENT_ASSIGNMENT"; studentId: string; assignmentId: string; patch: Partial<Pick<Student["assignments"][number], "title" | "instructions" | "resources" | "attachment" | "status">> }
   | { type: "SET_STUDENT_ASSIGNMENT_STATUS"; studentId: string; assignmentId: string; status: StudentAssignmentStatus }
   | { type: "ADD_STUDENT_REFLECTION"; studentId: string; input: { status: "good" | "mixed" | "stuck"; worked: string; improveNext: string; evidenceUrl?: string } }
   | { type: "ADD_STUDENT_WIN"; studentId: string; input: { title: string; description?: string; before?: string; after?: string } }
@@ -96,6 +98,9 @@ function reducer(state: NextState, action: Action): NextState {
     case "CLOSE_STUDENT_LESSON":
       return closeStudentLessonAction(state, action.studentId, action.input);
 
+    case "UPDATE_STUDENT_ASSIGNMENT":
+      return updateStudentAssignmentAction(state, action.studentId, action.assignmentId, action.patch);
+
     case "SET_STUDENT_ASSIGNMENT_STATUS":
       return setStudentAssignmentStatusAction(state, action.studentId, action.assignmentId, action.status);
 
@@ -123,8 +128,9 @@ interface NextStateContextValue {
   setProfile: (profile: Profile) => void;
   addStudent: (input: Pick<Student, "name" | "path" | "currentGoal">) => void;
   replaceStudents: (students: Student[]) => void;
-  updateStudentDetails: (studentId: string, patch: Partial<Pick<Student, "currentGoal" | "goalReason" | "path" | "primaryLearningSource" | "practiceProfile">>) => void;
+  updateStudentDetails: (studentId: string, patch: Partial<Pick<Student, "currentGoal" | "goalReason" | "path" | "primaryLearningSource" | "practiceProfile" | "allowGeneratedPractice">>) => void;
   closeStudentLesson: (studentId: string, input: { workedOn: string; wentWell: string; mainFocus: string; assignments: { title: string; instructions?: string; resources?: { id: string; label?: string; url: string }[]; attachment?: { name: string; type: string; dataUrl: string } }[] }) => void;
+  updateStudentAssignment: (studentId: string, assignmentId: string, patch: Partial<Pick<Student["assignments"][number], "title" | "instructions" | "resources" | "attachment" | "status">>) => void;
   setStudentAssignmentStatus: (studentId: string, assignmentId: string, status: StudentAssignmentStatus) => void;
   addStudentReflection: (studentId: string, input: { status: "good" | "mixed" | "stuck"; worked: string; improveNext: string; evidenceUrl?: string }) => void;
   addStudentWin: (studentId: string, input: { title: string; description?: string; before?: string; after?: string }) => void;
@@ -166,6 +172,7 @@ export function NextStateProvider({ children }: { children: React.ReactNode }) {
       replaceStudents: (students) => dispatch({ type: "REPLACE_STUDENTS", students }),
       updateStudentDetails: (studentId, patch) => dispatch({ type: "UPDATE_STUDENT_DETAILS", studentId, patch }),
       closeStudentLesson: (studentId, input) => dispatch({ type: "CLOSE_STUDENT_LESSON", studentId, input }),
+      updateStudentAssignment: (studentId, assignmentId, patch) => dispatch({ type: "UPDATE_STUDENT_ASSIGNMENT", studentId, assignmentId, patch }),
       setStudentAssignmentStatus: (studentId, assignmentId, status) => dispatch({ type: "SET_STUDENT_ASSIGNMENT_STATUS", studentId, assignmentId, status }),
       addStudentReflection: (studentId, input) => dispatch({ type: "ADD_STUDENT_REFLECTION", studentId, input }),
       addStudentWin: (studentId, input) => dispatch({ type: "ADD_STUDENT_WIN", studentId, input }),

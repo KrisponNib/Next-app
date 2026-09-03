@@ -57,8 +57,11 @@ export function StudentPortal({ initialStudent }: { initialStudent: Student }) {
         <p className="text-white/60 text-xs font-bold">המטרה שלי עכשיו</p>
         <p className="text-xl font-extrabold mt-2">{student.currentGoal}</p>
       </div>
-      <h2 className="text-2xl font-extrabold mt-7">כמה זמן יש לך עכשיו?</h2>
-      <div className="grid grid-cols-4 gap-2 mt-3">{TIMES.map(m => <button key={m} onClick={()=>setMinutes(m)} className="bg-surface rounded-seg py-4 font-extrabold shadow-card">{m}</button>)}</div>
+      {student.allowGeneratedPractice && <>
+        <h2 className="text-2xl font-extrabold mt-7">רוצה לבנות אימון עכשיו?</h2>
+        <p className="text-sm text-muted mt-1">המורה שלך הפעיל עבורך בניית אימון אוטומטית.</p>
+        <div className="grid grid-cols-4 gap-2 mt-3">{TIMES.map(m => <button key={m} onClick={()=>setMinutes(m)} className="bg-surface rounded-seg py-4 font-extrabold shadow-card">{m} דק׳</button>)}</div>
+      </>}
       <div className="mt-8">
         <h2 className="text-xl font-extrabold">שיעורי הבית שלי</h2>
         <div className="mt-3 space-y-3">

@@ -128,6 +128,7 @@ export interface Student {
   goalReason?: string;
   primaryLearningSource: string;
   practiceProfile: StudentPracticeProfile;
+  allowGeneratedPractice?: boolean;
   assignments: StudentAssignment[];
   reflections: StudentPracticeReflection[];
   wins: StudentWin[];
