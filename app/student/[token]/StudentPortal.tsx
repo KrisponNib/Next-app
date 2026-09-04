@@ -71,8 +71,9 @@ export function StudentPortal({ initialStudent }: { initialStudent: Student }) {
       <p className="text-sm text-muted">NEXT / תופים</p>
       <h1 className="text-3xl font-extrabold mt-1">היי {student.name} 👋</h1>
       <div className="bg-text text-white rounded-hero p-6 mt-5">
-        <p className="text-white/60 text-xs font-bold">המשפט של היום</p>
-        <p className="text-xl md:text-2xl font-extrabold mt-2 leading-relaxed">״{dailyQuote.text}״</p>
+        <p className="text-white/60 text-xs font-bold">הציטוט של היום</p>
+        <p dir="ltr" className="text-2xl md:text-3xl font-extrabold mt-3 leading-relaxed text-left">“{dailyQuote.quote}”</p>
+        <p dir="rtl" className="text-sm md:text-base text-white/70 mt-3 leading-relaxed">{dailyQuote.translation}</p>
         <a href={dailyQuote.wikipedia} target="_blank" rel="noreferrer" className="inline-block mt-4 text-sm font-bold text-white/70 hover:text-white underline underline-offset-4">{dailyQuote.musician} · ויקיפדיה ↗</a>
       </div>
       {student.allowGeneratedPractice && <>
