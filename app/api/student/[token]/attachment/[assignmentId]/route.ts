@@ -1,50 +1,55 @@
+import { Buffer } from "node:buffer";
 import { getStudentByToken } from "@/lib/cloud/supabaseRest";
 
-function decodeDataUrl(dataUrl: string): { bytes: Uint8Array; contentType: string } | null {
-  const match = /^data:([^;,]+)?(;base64)?,([\s\S]*)$/.exec(dataUrl);
-  if (!match) return null;
-  const contentType = match[1] || "application/octet-stream";
+function safeFilename(name: string) {
+  return name.replace(/[\r\n"]/g, "_");
+}
+
+function decodeDataUrl(dataUrl: string): { body: ArrayBuffer; contentType: string } | null {
+  if (!dataUrl.startsWith("data:")) return null;
+  const comma = dataUrl.indexOf(",");
+  if (comma < 0) return null;
+
+  const header = dataUrl.slice(5, comma);
+  const payload = dataUrl.slice(comma + 1);
+  const parts = header.split(";");
+  const contentType = parts[0] || "application/octet-stream";
+  const isBase64 = parts.includes("base64");
+
   try {
-    if (match[2]) {
-      const buffer = Buffer.from(match[3], "base64");
-      return { bytes: new Uint8Array(buffer), contentType };
-    }
-    const buffer = Buffer.from(decodeURIComponent(match[3]), "utf8");
-    return { bytes: new Uint8Array(buffer), contentType };
+    const buffer = isBase64
+      ? Buffer.from(payload, "base64")
+      : Buffer.from(decodeURIComponent(payload), "utf8");
+    const body = buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength) as ArrayBuffer;
+    return { body, contentType };
   } catch {
     return null;
   }
 }
 
-function safeFilename(name: string) {
-  return name.replace(/[\r\n"\\/]/g, "_").slice(0, 180) || "attachment";
-}
-
 export async function GET(
-  _: Request,
-  { params }: { params: { token: string; assignmentId: string } },
+  _request: Request,
+  { params }: { params: { token: string; assignmentId: string } }
 ) {
   const student = await getStudentByToken(params.token);
   if (!student) return new Response("Not found", { status: 404 });
 
-  const assignment = student.assignments?.find((item) => item.id === params.assignmentId);
+  const assignment = student.assignments.find((item) => item.id === params.assignmentId);
   const attachment = assignment?.attachment;
-  if (!attachment?.dataUrl) return new Response("Not found", { status: 404 });
+  if (!attachment) return new Response("Not found", { status: 404 });
 
   const decoded = decodeDataUrl(attachment.dataUrl);
   if (!decoded) return new Response("Invalid attachment", { status: 422 });
 
-  const contentType = attachment.type || decoded.contentType;
-  const disposition = contentType === "application/pdf" || contentType.startsWith("image/") ? "inline" : "attachment";
-  const filename = safeFilename(attachment.name);
+  const contentType = attachment.type || decoded.contentType || "application/octet-stream";
+  const filename = safeFilename(attachment.name || "attachment");
+  const inline = contentType === "application/pdf" || contentType.startsWith("image/");
 
-  const body = decoded.bytes.buffer.slice(decoded.bytes.byteOffset, decoded.bytes.byteOffset + decoded.bytes.byteLength) as ArrayBuffer;
-
-  return new Response(body, {
+  return new Response(decoded.body, {
     headers: {
       "Content-Type": contentType,
-      "Content-Disposition": `${disposition}; filename="${filename}"; filename*=UTF-8''${encodeURIComponent(filename)}`,
-      "Cache-Control": "private, no-store",
+      "Content-Disposition": `${inline ? "inline" : "attachment"}; filename="${filename}"; filename*=UTF-8''${encodeURIComponent(filename)}`,
+      "Cache-Control": "private, max-age=300",
       "X-Content-Type-Options": "nosniff",
     },
   });
