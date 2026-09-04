@@ -21,3 +21,33 @@ body {
     padding-bottom: 132px;
   }
 }
+
+
+/* NEXT visual atmosphere — mature, music-first, intentionally low contrast */
+body { background:
+  radial-gradient(circle at 8% 12%, rgba(111,24,49,.07), transparent 25rem),
+  radial-gradient(circle at 92% 34%, rgba(24,63,50,.075), transparent 28rem),
+  #f5f0e8;
+  overflow-x: hidden;
+}
+.practice-atmosphere { position:absolute; inset:0; min-height:1900px; overflow:hidden; pointer-events:none; z-index:0; }
+.atmo-blob { position:absolute; width:340px; height:210px; border-radius:48% 52% 58% 42%; filter:blur(1px); opacity:.09; will-change:transform; }
+.atmo-blob-burgundy { top:280px; right:-185px; background:#6f1831; }
+.atmo-blob-green { top:820px; left:-210px; width:390px; height:260px; background:#183f32; }
+.atmo-cymbal,.atmo-sticks,.atmo-snare { position:absolute; fill:none; stroke-linecap:round; stroke-linejoin:round; will-change:transform; }
+.atmo-cymbal { width:230px; top:120px; right:-82px; stroke:#6f1831; stroke-width:2.2; opacity:.17; }
+.atmo-sticks { width:185px; top:610px; left:-48px; stroke:#183f32; stroke-width:5; opacity:.13; }
+.atmo-snare { width:230px; top:1180px; right:-105px; stroke:#6f1831; stroke-width:2.2; opacity:.14; }
+.atmo-rhythm { position:absolute; top:970px; left:-18px; color:#183f32; opacity:.11; font-weight:800; font-size:18px; letter-spacing:.22em; transform:rotate(-90deg); transform-origin:left top; white-space:nowrap; will-change:transform; }
+/* give white areas warmth and a little depth without turning them into floating toys */
+.bg-surface { backdrop-filter: blur(3px); }
+@media (max-width: 720px) {
+  .atmo-cymbal { width:165px; right:-78px; opacity:.12; }
+  .atmo-sticks { width:135px; left:-54px; opacity:.10; }
+  .atmo-snare { width:170px; right:-82px; opacity:.10; }
+  .atmo-rhythm { opacity:.08; }
+  .atmo-blob { opacity:.06; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .practice-atmosphere * { transform:none !important; }
+}

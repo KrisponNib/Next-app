@@ -12,15 +12,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: "#f7f7f4",
-        surface: "#ffffff",
-        "surface-soft": "#f1f1ee",
-        text: "#1d1d1f",
-        muted: "#6e6e73",
-        line: "#e4e4df",
-        accent: "#0a84ff",
-        "accent-soft": "#e8f2ff",
-        note: "#064a8b",
+        bg: "#f5f0e8",
+        surface: "#fffdf8",
+        "surface-soft": "#eee6dc",
+        text: "#20231f",
+        muted: "#746d65",
+        line: "#ded3c6",
+        accent: "#6f1831",
+        "accent-soft": "#f0dfe3",
+        note: "#183f32",
       },
       borderRadius: {
         card: "24px",
