@@ -11,7 +11,7 @@ import { generateStudentPractice } from "@/features/students/generateStudentPrac
 const TIMES = [15, 30, 45, 60];
 
 export default function StudentPracticePage({ params }: { params: { id: string } }) {
-  const { state, updateStudentDetails, addStudentReflection, setStudentAssignmentStatus } = useNextState();
+  const { state, addStudentReflection, setStudentAssignmentStatus } = useNextState();
   const student = state.students.find((item) => item.id === params.id);
   const [minutes, setMinutes] = useState<number | undefined>();
   const [complete, setComplete] = useState(false);
@@ -27,9 +27,7 @@ export default function StudentPracticePage({ params }: { params: { id: string }
     return <section><ScreenHeader eyebrow="אימון תלמיד" title="כמה זמן יש לך עכשיו?" description={`המטרה: ${student.currentGoal}`} /><Card><div className="grid grid-cols-4 gap-2">{TIMES.map((m) => <button key={m} onClick={() => setMinutes(m)} className="bg-surface-soft rounded-seg py-4 font-extrabold">{m}</button>)}</div></Card></section>;
   }
 
-  if (decision.type === "question" && decision.field === "successDefinition") {
-    return <section><ScreenHeader eyebrow="חסר לי דבר אחד" title={decision.question} description="NEXT שואלת במקום לנחש." /><Card><input className="w-full bg-surface-soft rounded-button-sm px-4 py-3" placeholder="למשל: לנגן את השיר בלי לעצור" onBlur={(e) => { if (e.target.value.trim()) updateStudentDetails(student.id, { practiceProfile: { ...student.practiceProfile, successDefinition: e.target.value.trim() } }); }} /><p className="text-sm text-muted mt-3">כתוב תשובה ואז חזור למסך הזה.</p></Card></section>;
-  }
+
 
   if (decision.type !== "plan") return null;
 

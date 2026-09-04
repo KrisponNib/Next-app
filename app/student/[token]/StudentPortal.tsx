@@ -17,6 +17,7 @@ export function StudentPortal({ initialStudent }: { initialStudent: Student }) {
   const [saving, setSaving] = useState(false);
 
   const decision = useMemo(() => generateStudentPractice(student, minutes), [student, minutes]);
+  const isFemale = student.gender === "female";
 
   async function saveReflection() {
     setSaving(true);
@@ -82,7 +83,7 @@ export function StudentPortal({ initialStudent }: { initialStudent: Student }) {
   }
 
   if (decision.type === "question") {
-    return <section><p className="text-sm text-muted">חסר משהו אחד</p><h1 className="text-3xl font-extrabold mt-1">{decision.question}</h1><p className="text-muted mt-3">בקש מהמורה להשלים את הפרט הזה לפני האימון הבא.</p><button onClick={()=>setMinutes(undefined)} className="mt-5 font-bold text-accent">חזרה</button></section>;
+    return <section><p className="text-sm text-muted">חסר משהו אחד</p><h1 className="text-3xl font-extrabold mt-1">{decision.question}</h1><p className="text-muted mt-3">{isFemale ? "בקשי" : "בקש"} מהמורה להשלים את הפרט הזה לפני האימון הבא.</p><button onClick={()=>setMinutes(undefined)} className="mt-5 font-bold text-accent">חזרה</button></section>;
   }
 
   return <section>

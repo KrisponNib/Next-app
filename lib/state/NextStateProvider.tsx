@@ -56,9 +56,9 @@ type Action =
   | { type: "ADD_INCOME"; input: AddIncomeInput }
   | { type: "ADD_DAILY_ANSWER"; answer: string }
   | { type: "SET_PROFILE"; profile: Profile }
-  | { type: "ADD_STUDENT"; input: Pick<Student, "name" | "path" | "currentGoal"> }
+  | { type: "ADD_STUDENT"; input: Pick<Student, "name" | "gender" | "path" | "currentGoal"> }
   | { type: "REPLACE_STUDENTS"; students: Student[] }
-  | { type: "UPDATE_STUDENT_DETAILS"; studentId: string; patch: Partial<Pick<Student, "currentGoal" | "goalReason" | "path" | "primaryLearningSource" | "practiceProfile" | "allowGeneratedPractice">> }
+  | { type: "UPDATE_STUDENT_DETAILS"; studentId: string; patch: Partial<Pick<Student, "name" | "gender" | "currentGoal" | "goalReason" | "path" | "primaryLearningSource" | "practiceProfile" | "allowGeneratedPractice">> }
   | { type: "CLOSE_STUDENT_LESSON"; studentId: string; input: { workedOn: string; wentWell: string; mainFocus: string; assignments: { title: string; instructions?: string; resources?: { id: string; label?: string; url: string }[]; attachment?: { name: string; type: string; dataUrl: string } }[] } }
   | { type: "UPDATE_STUDENT_ASSIGNMENT"; studentId: string; assignmentId: string; patch: Partial<Pick<Student["assignments"][number], "title" | "instructions" | "resources" | "attachment" | "status">> }
   | { type: "SET_STUDENT_ASSIGNMENT_STATUS"; studentId: string; assignmentId: string; status: StudentAssignmentStatus }
@@ -126,9 +126,9 @@ interface NextStateContextValue {
   addIncome: (input: { type: IncomeEntry["type"]; amount: number; label: string }) => void;
   addDailyAnswer: (answer: string) => void;
   setProfile: (profile: Profile) => void;
-  addStudent: (input: Pick<Student, "name" | "path" | "currentGoal">) => void;
+  addStudent: (input: Pick<Student, "name" | "gender" | "path" | "currentGoal">) => void;
   replaceStudents: (students: Student[]) => void;
-  updateStudentDetails: (studentId: string, patch: Partial<Pick<Student, "currentGoal" | "goalReason" | "path" | "primaryLearningSource" | "practiceProfile" | "allowGeneratedPractice">>) => void;
+  updateStudentDetails: (studentId: string, patch: Partial<Pick<Student, "name" | "gender" | "currentGoal" | "goalReason" | "path" | "primaryLearningSource" | "practiceProfile" | "allowGeneratedPractice">>) => void;
   closeStudentLesson: (studentId: string, input: { workedOn: string; wentWell: string; mainFocus: string; assignments: { title: string; instructions?: string; resources?: { id: string; label?: string; url: string }[]; attachment?: { name: string; type: string; dataUrl: string } }[] }) => void;
   updateStudentAssignment: (studentId: string, assignmentId: string, patch: Partial<Pick<Student["assignments"][number], "title" | "instructions" | "resources" | "attachment" | "status">>) => void;
   setStudentAssignmentStatus: (studentId: string, assignmentId: string, status: StudentAssignmentStatus) => void;

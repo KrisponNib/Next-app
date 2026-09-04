@@ -9,11 +9,12 @@ function updateStudent(state: NextState, studentId: string, updater: (student: S
   };
 }
 
-export function addStudent(state: NextState, input: Pick<Student, "name" | "path" | "currentGoal">): NextState {
+export function addStudent(state: NextState, input: Pick<Student, "name" | "gender" | "path" | "currentGoal">): NextState {
   const student: Student = {
     id: crypto.randomUUID(),
     shareToken: crypto.randomUUID(),
     name: input.name,
+    gender: input.gender,
     path: input.path,
     currentGoal: input.currentGoal,
     primaryLearningSource: "Omri / Drum Academy",
@@ -31,7 +32,7 @@ export function addStudent(state: NextState, input: Pick<Student, "name" | "path
 export function updateStudentDetails(
   state: NextState,
   studentId: string,
-  patch: Partial<Pick<Student, "currentGoal" | "goalReason" | "path" | "primaryLearningSource" | "practiceProfile" | "allowGeneratedPractice">>
+  patch: Partial<Pick<Student, "name" | "gender" | "currentGoal" | "goalReason" | "path" | "primaryLearningSource" | "practiceProfile" | "allowGeneratedPractice">>
 ): NextState {
   return updateStudent(state, studentId, (student) => ({ ...student, ...patch }));
 }

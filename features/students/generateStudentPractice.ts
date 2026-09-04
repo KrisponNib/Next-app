@@ -6,7 +6,7 @@ export interface StudentPracticeItem {
 }
 
 export type StudentPracticeDecision =
-  | { type: "question"; question: string; field: "duration" | "successDefinition" }
+  | { type: "question"; question: string; field: "duration" }
   | { type: "plan"; title: string; reason: string; items: StudentPracticeItem[] };
 
 export function generateStudentPractice(student: Student, availableMinutes?: number): StudentPracticeDecision {
@@ -14,10 +14,6 @@ export function generateStudentPractice(student: Student, availableMinutes?: num
   if (!availableMinutes && !profile.defaultDurationMinutes) {
     return { type: "question", question: "כמה זמן יש לך לאימון עכשיו?", field: "duration" };
   }
-  if (!profile.successDefinition) {
-    return { type: "question", question: "איך תדע שהאימונים באמת עובדים?", field: "successDefinition" };
-  }
-
   const minutes = availableMinutes ?? profile.defaultDurationMinutes ?? 30;
   const openAssignment = student.assignments.find((a) => a.status !== "done");
   const latestReflection = student.reflections[0];

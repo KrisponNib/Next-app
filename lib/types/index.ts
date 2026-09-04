@@ -61,6 +61,7 @@ export interface Profile {
 // --- Students V1 ---
 // V1 נשאר קטן בכוונה: שומרים רק מידע שמשנה את ההחלטה מה לעשות עכשיו.
 export type StudentPath = "fun" | "serious" | "band" | "professional" | "young";
+export type StudentGender = "male" | "female";
 export type StudentAssignmentStatus = "todo" | "done" | "stuck";
 
 export interface StudentAssignmentResource {
@@ -116,13 +117,13 @@ export interface StudentPracticeProfile {
   weeklyTargetSessions?: number;
   preferredPracticeStyle?: "structured" | "free" | "mixed";
   mainObstacle?: string;
-  successDefinition?: string;
 }
 
 export interface Student {
   id: string;
   shareToken?: string;
   name: string;
+  gender?: StudentGender;
   path: StudentPath;
   currentGoal: string;
   goalReason?: string;

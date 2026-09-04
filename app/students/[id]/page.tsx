@@ -6,13 +6,15 @@ import { useNextState } from "@/lib/state/useNextState";
 import { ScreenHeader } from "@/components/layout/ScreenHeader";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { StudentGender } from "@/lib/types";
 
 export default function StudentPage({ params }: { params: { id: string } }) {
   const { state, updateStudentDetails, closeStudentLesson, addStudentWin, updateStudentAssignment } = useNextState();
   const student = state.students.find((item) => item.id === params.id);
+  const [studentName, setStudentName] = useState("");
+  const [gender, setGender] = useState<StudentGender | "">("");
   const [goal, setGoal] = useState("");
   const [duration, setDuration] = useState("");
-  const [success, setSuccess] = useState("");
   const [workedOn, setWorkedOn] = useState("");
   const [wentWell, setWentWell] = useState("");
   const [mainFocus, setMainFocus] = useState("");
@@ -26,23 +28,26 @@ export default function StudentPage({ params }: { params: { id: string } }) {
   const [editInstructions, setEditInstructions] = useState("");
   const [editLinks, setEditLinks] = useState<{ id: string; label: string; url: string }[]>([]);
   const [editAttachment, setEditAttachment] = useState<{ name: string; type: string; dataUrl: string } | undefined>();
+  const [lessonSaveMessage, setLessonSaveMessage] = useState("");
 
   useEffect(() => {
     if (!student) return;
+    setStudentName(student.name);
+    setGender(student.gender || "");
     setGoal(student.currentGoal);
     setDuration(student.practiceProfile.defaultDurationMinutes?.toString() || "");
-    setSuccess(student.practiceProfile.successDefinition || "");
   }, [student?.id]);
 
   if (!student) return <section><ScreenHeader eyebrow="תלמידים" title="תלמיד לא נמצא" description="לא מצאתי תלמיד עם המזהה הזה." /><Link href="/students" className="font-bold text-accent">חזרה לתלמידים</Link></section>;
 
   function saveProfile() {
     updateStudentDetails(student!.id, {
+      name: studentName.trim() || student!.name,
+      gender: gender || student!.gender,
       currentGoal: goal.trim() || student!.currentGoal,
       practiceProfile: {
         ...student!.practiceProfile,
         defaultDurationMinutes: Number(duration) || undefined,
-        successDefinition: success.trim() || undefined,
       },
     });
   }
@@ -92,12 +97,21 @@ export default function StudentPage({ params }: { params: { id: string } }) {
 
   function closeLesson(event: FormEvent) {
     event.preventDefault();
-    if (!workedOn.trim()) return;
+    setLessonSaveMessage("");
+    const hasLessonContent = Boolean(workedOn.trim() || wentWell.trim() || mainFocus.trim());
+    const hasHomework = Boolean(assignment.trim());
+    if (!hasLessonContent && !hasHomework) {
+      setLessonSaveMessage("צריך למלא לפחות פרט אחד מהשיעור או להוסיף משימת בית.");
+      return;
+    }
     closeStudentLesson(student!.id, {
-      workedOn, wentWell, mainFocus,
-      assignments: assignment.trim() ? [{ title: assignment, instructions, resources: links.filter((l) => l.url.trim()), attachment }] : [],
+      workedOn: workedOn.trim(),
+      wentWell: wentWell.trim(),
+      mainFocus: mainFocus.trim(),
+      assignments: hasHomework ? [{ title: assignment.trim(), instructions: instructions.trim(), resources: links.filter((l) => l.url.trim()), attachment }] : [],
     });
     setWorkedOn(""); setWentWell(""); setMainFocus(""); setAssignment(""); setInstructions(""); setLinks([]); setAttachment(undefined);
+    setLessonSaveMessage("השיעור ושיעורי הבית נשמרו ✓");
   }
 
   return <section>
@@ -106,11 +120,21 @@ export default function StudentPage({ params }: { params: { id: string } }) {
     <Card>
       <h2 className="font-extrabold text-lg">מטרה ואופן התרגול</h2>
       <p className="text-sm text-muted mt-1">אפשר לחזור לכאן ולערוך את הפרטים בכל שלב. הנתונים האלה משפיעים ישירות על האימון ש־NEXT בונה.</p>
+      <label className="block mt-4 text-sm font-bold">שם התלמיד/ה</label>
+      <input className="w-full mt-2 bg-surface-soft rounded-button-sm px-3 py-3 font-bold" value={studentName} onChange={(e) => setStudentName(e.target.value)} placeholder="שם" />
+      <div className="mt-4">
+        <label className="text-sm font-bold">איך לפנות לתלמיד/ה?</label>
+        <div className="grid grid-cols-2 gap-2 mt-2">
+          <button type="button" onClick={() => setGender("male")} className={`rounded-button-sm py-3 font-bold ${gender === "male" ? "bg-text text-white" : "bg-surface-soft"}`}>זכר</button>
+          <button type="button" onClick={() => setGender("female")} className={`rounded-button-sm py-3 font-bold ${gender === "female" ? "bg-text text-white" : "bg-surface-soft"}`}>נקבה</button>
+        </div>
+      </div>
       <label className="block mt-4 text-sm font-bold">המטרה הנוכחית</label>
       <input className="w-full mt-2 bg-surface-soft rounded-button-sm px-3 py-3 font-bold" value={goal} onChange={(e) => setGoal(e.target.value)} placeholder="למשל: לנגן את השיר מהתחלה עד הסוף בקצב המקורי" />
-      <div className="grid md:grid-cols-2 gap-3 mt-4">
-        <div><label className="text-sm font-bold">כמה דקות הוא בדרך כלל מתרגל?</label><p className="text-xs text-muted mt-1 mb-2">עוזר ל־NEXT לבנות אימון באורך מציאותי גם בלי לשאול בכל פעם.</p><input type="number" min="5" className="w-full bg-surface-soft rounded-button-sm px-3 py-3" value={duration} onChange={(e) => setDuration(e.target.value)} placeholder="למשל 30" /></div>
-        <div><label className="text-sm font-bold">איך נדע שהמטרה הושגה?</label><p className="text-xs text-muted mt-1 mb-2">הגדרה ברורה של הצלחה מונעת אימונים כלליים מדי.</p><input className="w-full bg-surface-soft rounded-button-sm px-3 py-3" value={success} onChange={(e) => setSuccess(e.target.value)} placeholder="למשל: לנגן פעמיים ברצף בלי לעצור" /></div>
+      <div className="mt-4">
+        <label className="text-sm font-bold">כמה דקות {gender === "female" ? "היא" : gender === "male" ? "הוא" : "התלמיד/ה"} בדרך כלל מתרגל{gender === "female" ? "ת" : ""}?</label>
+        <p className="text-xs text-muted mt-1 mb-2">משמש את NEXT רק אם בחרת לאפשר בניית אימון אוטומטי.</p>
+        <input type="number" min="5" className="w-full bg-surface-soft rounded-button-sm px-3 py-3" value={duration} onChange={(e) => setDuration(e.target.value)} placeholder="למשל 30" />
       </div>
       <div className="mt-4 bg-surface-soft rounded-button-sm p-3 flex items-start gap-3">
         <input id="allow-auto-practice" type="checkbox" className="mt-1" checked={Boolean(student.allowGeneratedPractice)} onChange={(e) => updateStudentDetails(student.id, { allowGeneratedPractice: e.target.checked })} />
@@ -138,6 +162,7 @@ export default function StudentPage({ params }: { params: { id: string } }) {
         <div className="bg-surface-soft rounded-button-sm p-3"><div className="flex justify-between items-center"><div><p className="font-bold">קישורים לשירים / סרטונים</p><p className="text-xs text-muted">אפשר להוסיף כמה קישורים שצריך.</p></div><button type="button" onClick={addLink} className="font-bold text-accent">+ הוסף קישור</button></div>{links.map((link) => <div key={link.id} className="grid grid-cols-[1fr_2fr_auto] gap-2 mt-2"><input className="bg-surface rounded-button-sm px-3 py-2" placeholder="שם, למשל: השיר" value={link.label} onChange={(e) => updateLink(link.id,"label",e.target.value)} /><input className="bg-surface rounded-button-sm px-3 py-2" placeholder="https://..." value={link.url} onChange={(e) => updateLink(link.id,"url",e.target.value)} /><button type="button" onClick={() => removeLink(link.id)} className="px-2">✕</button></div>)}</div>
         <div className="bg-surface-soft rounded-button-sm p-3"><p className="font-bold">תווים / דף תרגיל</p><p className="text-xs text-muted mt-1">צרף PDF או תמונה שכתבת לתלמיד. כרגע עד 2.5MB.</p><input type="file" accept="image/*,.pdf,application/pdf" onChange={readAttachment} className="mt-3 text-sm" />{attachment && <div className="mt-2 flex justify-between"><span className="text-sm font-bold">📎 {attachment.name}</span><button type="button" onClick={() => setAttachment(undefined)} className="text-sm text-accent">הסר</button></div>}</div>
         <Button type="submit">סגור שיעור ושמור שיעורי בית</Button>
+        {lessonSaveMessage && <p className="text-sm font-bold mt-2">{lessonSaveMessage}</p>}
       </form>
     </Card>
 

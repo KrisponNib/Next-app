@@ -6,7 +6,7 @@ import { ScreenHeader } from "@/components/layout/ScreenHeader";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { useNextState } from "@/lib/state/useNextState";
-import { StudentPath } from "@/lib/types";
+import { StudentGender, StudentPath } from "@/lib/types";
 
 const PATHS: { value: StudentPath; label: string }[] = [
   { value: "fun", label: "בשביל הכיף" },
@@ -21,12 +21,13 @@ export default function StudentsPage() {
   const [name, setName] = useState("");
   const [goal, setGoal] = useState("");
   const [path, setPath] = useState<StudentPath>("serious");
+  const [gender, setGender] = useState<StudentGender | "">("");
 
   function submit(event: FormEvent) {
     event.preventDefault();
-    if (!name.trim() || !goal.trim()) return;
-    addStudent({ name: name.trim(), currentGoal: goal.trim(), path });
-    setName(""); setGoal("");
+    if (!name.trim() || !goal.trim() || !gender) return;
+    addStudent({ name: name.trim(), gender, currentGoal: goal.trim(), path });
+    setName(""); setGoal(""); setGender("");
   }
 
   return (
@@ -37,7 +38,14 @@ export default function StudentsPage() {
         <h2 className="text-lg font-extrabold mb-3">תלמיד חדש</h2>
         <form onSubmit={submit} className="space-y-3">
           <input className="w-full bg-surface-soft rounded-button-sm px-4 py-3 outline-none" placeholder="שם" value={name} onChange={(e) => setName(e.target.value)} />
-          <input className="w-full bg-surface-soft rounded-button-sm px-4 py-3 outline-none" placeholder="מה הוא רוצה להשיג עכשיו?" value={goal} onChange={(e) => setGoal(e.target.value)} />
+          <div>
+            <p className="text-sm font-bold mb-2">איך לפנות לתלמיד/ה?</p>
+            <div className="grid grid-cols-2 gap-2">
+              <button type="button" onClick={() => setGender("male")} className={`rounded-button-sm py-3 font-bold ${gender === "male" ? "bg-text text-white" : "bg-surface-soft"}`}>זכר</button>
+              <button type="button" onClick={() => setGender("female")} className={`rounded-button-sm py-3 font-bold ${gender === "female" ? "bg-text text-white" : "bg-surface-soft"}`}>נקבה</button>
+            </div>
+          </div>
+          <input className="w-full bg-surface-soft rounded-button-sm px-4 py-3 outline-none" placeholder={gender === "female" ? "מה היא רוצה להשיג עכשיו?" : gender === "male" ? "מה הוא רוצה להשיג עכשיו?" : "מה המטרה הנוכחית?"} value={goal} onChange={(e) => setGoal(e.target.value)} />
           <select className="w-full bg-surface-soft rounded-button-sm px-4 py-3" value={path} onChange={(e) => setPath(e.target.value as StudentPath)}>
             {PATHS.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}
           </select>
