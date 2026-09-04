@@ -1,7 +1,7 @@
 import { getStudentByToken } from "@/lib/cloud/supabaseRest";
 
 function decodeDataUrl(dataUrl: string): { bytes: Uint8Array; contentType: string } | null {
-  const match = /^data:([^;,]+)?(;base64)?,(.*)$/s.exec(dataUrl);
+  const match = /^data:([^;,]+)?(;base64)?,([\s\S]*)$/.exec(dataUrl);
   if (!match) return null;
   const contentType = match[1] || "application/octet-stream";
   try {
