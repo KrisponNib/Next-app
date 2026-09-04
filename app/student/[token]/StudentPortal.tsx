@@ -35,6 +35,26 @@ export function StudentPortal({ initialStudent }: { initialStudent: Student }) {
     setStudent(json.student);
   }
 
+  function openAttachment(attachment: { name: string; type: string; dataUrl: string }) {
+    try {
+      const [meta, encoded] = attachment.dataUrl.split(",", 2);
+      const mime = attachment.type || meta?.match(/data:([^;]+)/)?.[1] || "application/octet-stream";
+      if (!encoded) {
+        window.open(attachment.dataUrl, "_blank", "noopener,noreferrer");
+        return;
+      }
+      const binary = atob(encoded);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+      const blobUrl = URL.createObjectURL(new Blob([bytes], { type: mime }));
+      const opened = window.open(blobUrl, "_blank", "noopener,noreferrer");
+      if (!opened) window.location.href = blobUrl;
+      window.setTimeout(() => URL.revokeObjectURL(blobUrl), 60_000);
+    } catch {
+      window.open(attachment.dataUrl, "_blank", "noopener,noreferrer");
+    }
+  }
+
   async function saveReflection() {
     setSaving(true);
     const res = await fetch(`/api/student/${student.shareToken}`, {
@@ -94,7 +114,7 @@ export function StudentPortal({ initialStudent }: { initialStudent: Student }) {
               {tempoSavingId===a.id && <p className="text-xs text-muted mt-2">שומר טמפו…</p>}
             </div>}
             {a.resources?.map(r => <a key={r.id} href={r.url} target="_blank" rel="noreferrer" className="block text-accent font-bold mt-3">🔗 {r.label || "פתח קישור"}</a>)}
-            {a.attachment && <a href={a.attachment.dataUrl} download={a.attachment.name} className="block text-accent font-bold mt-3">📎 {a.attachment.name}</a>}
+            {a.attachment && <button type="button" onClick={() => openAttachment(a.attachment!)} className="block text-accent font-bold mt-3 text-right">📎 פתח קובץ: {a.attachment.name}</button>}
           </div>)}
           {!student.assignments.some(a => a.status !== "done") && <p className="text-muted">אין כרגע שיעורי בית פתוחים.</p>}
         </div>
