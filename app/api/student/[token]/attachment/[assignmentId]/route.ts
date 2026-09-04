@@ -38,7 +38,9 @@ export async function GET(
   const disposition = contentType === "application/pdf" || contentType.startsWith("image/") ? "inline" : "attachment";
   const filename = safeFilename(attachment.name);
 
-  return new Response(decoded.bytes, {
+  const body = decoded.bytes.buffer.slice(decoded.bytes.byteOffset, decoded.bytes.byteOffset + decoded.bytes.byteLength) as ArrayBuffer;
+
+  return new Response(body, {
     headers: {
       "Content-Type": contentType,
       "Content-Disposition": `${disposition}; filename="${filename}"; filename*=UTF-8''${encodeURIComponent(filename)}`,
