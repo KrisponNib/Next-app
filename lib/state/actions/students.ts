@@ -40,7 +40,7 @@ export function updateStudentDetails(
 export function closeStudentLesson(
   state: NextState,
   studentId: string,
-  input: { workedOn: string; wentWell: string; mainFocus: string; assignments: { title: string; instructions?: string; resources?: { id: string; label?: string; url: string }[]; attachment?: { name: string; type: string; dataUrl: string } }[] }
+  input: { workedOn: string; wentWell: string; mainFocus: string; assignments: { title: string; instructions?: string; resources?: { id: string; label?: string; url: string }[]; attachment?: { name: string; type: string; dataUrl: string }; practiceMinutes?: number; startTempo?: number; currentTempo?: number }[] }
 ): NextState {
   return updateStudent(state, studentId, (student) => ({
     ...student,
@@ -61,6 +61,9 @@ export function closeStudentLesson(
         instructions: a.instructions?.trim() || undefined,
         resources: a.resources?.filter((r) => r.url.trim()),
         attachment: a.attachment,
+        practiceMinutes: a.practiceMinutes,
+        startTempo: a.startTempo,
+        currentTempo: a.currentTempo ?? a.startTempo,
         status: "todo" as const,
         createdAt: new Date().toISOString(),
       })),
@@ -74,7 +77,7 @@ export function updateStudentAssignment(
   state: NextState,
   studentId: string,
   assignmentId: string,
-  patch: Partial<Pick<Student["assignments"][number], "title" | "instructions" | "resources" | "attachment" | "status">>
+  patch: Partial<Pick<Student["assignments"][number], "title" | "instructions" | "resources" | "attachment" | "practiceMinutes" | "startTempo" | "currentTempo" | "status">>
 ): NextState {
   return updateStudent(state, studentId, (student) => ({
     ...student,

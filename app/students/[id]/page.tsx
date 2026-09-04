@@ -22,12 +22,16 @@ export default function StudentPage({ params }: { params: { id: string } }) {
   const [instructions, setInstructions] = useState("");
   const [links, setLinks] = useState<{ id: string; label: string; url: string }[]>([]);
   const [attachment, setAttachment] = useState<{ name: string; type: string; dataUrl: string } | undefined>();
+  const [practiceMinutes, setPracticeMinutes] = useState("");
+  const [startTempo, setStartTempo] = useState("");
   const [winTitle, setWinTitle] = useState("");
   const [editingAssignmentId, setEditingAssignmentId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
   const [editInstructions, setEditInstructions] = useState("");
   const [editLinks, setEditLinks] = useState<{ id: string; label: string; url: string }[]>([]);
   const [editAttachment, setEditAttachment] = useState<{ name: string; type: string; dataUrl: string } | undefined>();
+  const [editPracticeMinutes, setEditPracticeMinutes] = useState("");
+  const [editStartTempo, setEditStartTempo] = useState("");
   const [lessonSaveMessage, setLessonSaveMessage] = useState("");
 
   useEffect(() => {
@@ -60,6 +64,8 @@ export default function StudentPage({ params }: { params: { id: string } }) {
     setEditInstructions(item.instructions || "");
     setEditLinks((item.resources || []).map((r) => ({ id: r.id, label: r.label || "", url: r.url })));
     setEditAttachment(item.attachment);
+    setEditPracticeMinutes(item.practiceMinutes?.toString() || "");
+    setEditStartTempo(item.startTempo?.toString() || "");
   }
 
   function saveEditedAssignment() {
@@ -69,6 +75,9 @@ export default function StudentPage({ params }: { params: { id: string } }) {
       instructions: editInstructions.trim() || undefined,
       resources: editLinks.filter((l) => l.url.trim()).map((l) => ({ ...l, url: l.url.trim(), label: l.label.trim() || undefined })),
       attachment: editAttachment,
+      practiceMinutes: Number(editPracticeMinutes) || undefined,
+      startTempo: Number(editStartTempo) || undefined,
+      currentTempo: Number(editStartTempo) || undefined,
     });
     setEditingAssignmentId(null);
   }
@@ -108,9 +117,9 @@ export default function StudentPage({ params }: { params: { id: string } }) {
       workedOn: workedOn.trim(),
       wentWell: wentWell.trim(),
       mainFocus: mainFocus.trim(),
-      assignments: hasHomework ? [{ title: assignment.trim(), instructions: instructions.trim(), resources: links.filter((l) => l.url.trim()), attachment }] : [],
+      assignments: hasHomework ? [{ title: assignment.trim(), instructions: instructions.trim(), resources: links.filter((l) => l.url.trim()), attachment, practiceMinutes: Number(practiceMinutes) || undefined, startTempo: Number(startTempo) || undefined, currentTempo: Number(startTempo) || undefined }] : [],
     });
-    setWorkedOn(""); setWentWell(""); setMainFocus(""); setAssignment(""); setInstructions(""); setLinks([]); setAttachment(undefined);
+    setWorkedOn(""); setWentWell(""); setMainFocus(""); setAssignment(""); setInstructions(""); setLinks([]); setAttachment(undefined); setPracticeMinutes(""); setStartTempo("");
     setLessonSaveMessage("השיעור ושיעורי הבית נשמרו ✓");
   }
 
@@ -159,6 +168,7 @@ export default function StudentPage({ params }: { params: { id: string } }) {
         <div className="border-t border-line pt-4"><p className="font-extrabold">משימה לתרגול בבית</p></div>
         <input className="w-full bg-surface-soft rounded-button-sm px-3 py-3" placeholder="שם המשימה" value={assignment} onChange={(e) => setAssignment(e.target.value)} />
         <textarea className="w-full bg-surface-soft rounded-button-sm p-3" placeholder="הוראות: איך בדיוק לתרגל אותה?" value={instructions} onChange={(e) => setInstructions(e.target.value)} />
+        <div className="grid grid-cols-2 gap-3"><div><label className="text-sm font-bold">כמה זמן לתרגל?</label><div className="flex items-center gap-2 mt-1"><input type="number" min="1" className="w-full bg-surface-soft rounded-button-sm px-3 py-3" placeholder="10" value={practiceMinutes} onChange={(e) => setPracticeMinutes(e.target.value)} /><span className="text-sm font-bold">דק׳</span></div></div><div><label className="text-sm font-bold">טמפו התחלתי</label><div className="flex items-center gap-2 mt-1"><input type="number" min="1" className="w-full bg-surface-soft rounded-button-sm px-3 py-3" placeholder="80" value={startTempo} onChange={(e) => setStartTempo(e.target.value)} /><span className="text-sm font-bold">BPM</span></div></div></div>
         <div className="bg-surface-soft rounded-button-sm p-3"><div className="flex justify-between items-center"><div><p className="font-bold">קישורים לשירים / סרטונים</p><p className="text-xs text-muted">אפשר להוסיף כמה קישורים שצריך.</p></div><button type="button" onClick={addLink} className="font-bold text-accent">+ הוסף קישור</button></div>{links.map((link) => <div key={link.id} className="grid grid-cols-[1fr_2fr_auto] gap-2 mt-2"><input className="bg-surface rounded-button-sm px-3 py-2" placeholder="שם, למשל: השיר" value={link.label} onChange={(e) => updateLink(link.id,"label",e.target.value)} /><input className="bg-surface rounded-button-sm px-3 py-2" placeholder="https://..." value={link.url} onChange={(e) => updateLink(link.id,"url",e.target.value)} /><button type="button" onClick={() => removeLink(link.id)} className="px-2">✕</button></div>)}</div>
         <div className="bg-surface-soft rounded-button-sm p-3"><p className="font-bold">תווים / דף תרגיל</p><p className="text-xs text-muted mt-1">צרף PDF או תמונה שכתבת לתלמיד. כרגע עד 2.5MB.</p><input type="file" accept="image/*,.pdf,application/pdf" onChange={readAttachment} className="mt-3 text-sm" />{attachment && <div className="mt-2 flex justify-between"><span className="text-sm font-bold">📎 {attachment.name}</span><button type="button" onClick={() => setAttachment(undefined)} className="text-sm text-accent">הסר</button></div>}</div>
         <Button type="submit">סגור שיעור ושמור שיעורי בית</Button>
@@ -174,6 +184,7 @@ export default function StudentPage({ params }: { params: { id: string } }) {
           <div key={a.id} className="bg-surface-soft rounded-button-sm p-3 space-y-3">
             <input className="w-full bg-surface rounded-button-sm px-3 py-2 font-bold" value={editTitle} onChange={(e) => setEditTitle(e.target.value)} placeholder="שם המשימה" />
             <textarea className="w-full bg-surface rounded-button-sm p-3" value={editInstructions} onChange={(e) => setEditInstructions(e.target.value)} placeholder="הוראות לתרגול" />
+            <div className="grid grid-cols-2 gap-2"><div><label className="text-xs font-bold">זמן תרגול (דקות)</label><input type="number" min="1" className="w-full bg-surface rounded-button-sm px-3 py-2 mt-1" value={editPracticeMinutes} onChange={(e) => setEditPracticeMinutes(e.target.value)} /></div><div><label className="text-xs font-bold">טמפו התחלתי (BPM)</label><input type="number" min="1" className="w-full bg-surface rounded-button-sm px-3 py-2 mt-1" value={editStartTempo} onChange={(e) => setEditStartTempo(e.target.value)} /></div></div>
             <div>
               <div className="flex items-center justify-between"><p className="text-sm font-bold">קישורים</p><button type="button" className="text-sm font-bold text-accent" onClick={() => setEditLinks((x) => [...x, { id: crypto.randomUUID(), label: "", url: "" }])}>+ הוסף קישור</button></div>
               {editLinks.map((link) => <div key={link.id} className="grid grid-cols-[1fr_2fr_auto] gap-2 mt-2"><input className="bg-surface rounded-button-sm px-2 py-2" placeholder="שם" value={link.label} onChange={(e) => setEditLinks((xs) => xs.map((x) => x.id === link.id ? { ...x, label: e.target.value } : x))} /><input className="bg-surface rounded-button-sm px-2 py-2" placeholder="https://..." value={link.url} onChange={(e) => setEditLinks((xs) => xs.map((x) => x.id === link.id ? { ...x, url: e.target.value } : x))} /><button type="button" onClick={() => setEditLinks((xs) => xs.filter((x) => x.id !== link.id))}>✕</button></div>)}
@@ -189,6 +200,7 @@ export default function StudentPage({ params }: { params: { id: string } }) {
           <div key={a.id} className="bg-surface-soft rounded-button-sm p-3">
             <div className="flex justify-between gap-3"><b>{a.title}</b><button type="button" onClick={() => startEditAssignment(a.id)} className="text-sm font-bold text-accent">ערוך</button></div>
             {a.instructions && <p className="text-sm text-muted mt-1">{a.instructions}</p>}
+            {(a.practiceMinutes || a.startTempo) && <p className="text-sm font-bold mt-2">{a.practiceMinutes ? `⏱ ${a.practiceMinutes} דק׳` : ""}{a.practiceMinutes && a.startTempo ? " · " : ""}{a.startTempo ? `🎯 התחלה: ${a.startTempo} BPM` : ""}{a.currentTempo ? ` · עכשיו: ${a.currentTempo} BPM` : ""}</p>}
             {a.resources?.map((r) => <a key={r.id} href={r.url} target="_blank" rel="noreferrer" className="block text-sm text-accent mt-2">🔗 {r.label || r.url}</a>)}
             {a.attachment && <a href={a.attachment.dataUrl} download={a.attachment.name} className="block text-sm text-accent mt-2">📎 {a.attachment.name}</a>}
             <p className="text-xs mt-2">{a.status === "stuck" ? "נתקע" : "עוד לא הושלם"}</p>

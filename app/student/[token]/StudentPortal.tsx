@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { Student } from "@/lib/types";
 import { generateStudentPractice } from "@/features/students/generateStudentPractice";
+import { quoteForToday } from "@/lib/studentQuotes";
 
 const TIMES = [15, 30, 45, 60];
 
@@ -15,9 +16,24 @@ export function StudentPortal({ initialStudent }: { initialStudent: Student }) {
   const [improve, setImprove] = useState("");
   const [evidence, setEvidence] = useState("");
   const [saving, setSaving] = useState(false);
+  const [tempoSavingId, setTempoSavingId] = useState<string | null>(null);
+  const dailyQuote = useMemo(() => quoteForToday(), []);
 
   const decision = useMemo(() => generateStudentPractice(student, minutes), [student, minutes]);
   const isFemale = student.gender === "female";
+
+  async function updateTempo(assignmentId: string, currentTempo: number) {
+    setTempoSavingId(assignmentId);
+    const res = await fetch(`/api/student/${student.shareToken}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "updateTempo", assignmentId, currentTempo }),
+    });
+    setTempoSavingId(null);
+    if (!res.ok) return;
+    const json = await res.json();
+    setStudent(json.student);
+  }
 
   async function saveReflection() {
     setSaving(true);
@@ -55,8 +71,9 @@ export function StudentPortal({ initialStudent }: { initialStudent: Student }) {
       <p className="text-sm text-muted">NEXT / תופים</p>
       <h1 className="text-3xl font-extrabold mt-1">היי {student.name} 👋</h1>
       <div className="bg-text text-white rounded-hero p-6 mt-5">
-        <p className="text-white/60 text-xs font-bold">המטרה שלי עכשיו</p>
-        <p className="text-xl font-extrabold mt-2">{student.currentGoal}</p>
+        <p className="text-white/60 text-xs font-bold">המשפט של היום</p>
+        <p className="text-xl md:text-2xl font-extrabold mt-2 leading-relaxed">״{dailyQuote.text}״</p>
+        <a href={dailyQuote.wikipedia} target="_blank" rel="noreferrer" className="inline-block mt-4 text-sm font-bold text-white/70 hover:text-white underline underline-offset-4">{dailyQuote.musician} · ויקיפדיה ↗</a>
       </div>
       {student.allowGeneratedPractice && <>
         <h2 className="text-2xl font-extrabold mt-7">רוצה לבנות אימון עכשיו?</h2>
@@ -69,6 +86,12 @@ export function StudentPortal({ initialStudent }: { initialStudent: Student }) {
           {student.assignments.filter(a => a.status !== "done").map(a => <div key={a.id} className="bg-surface rounded-button-sm p-4 shadow-card">
             <p className="font-extrabold">{a.title}</p>
             {a.instructions && <p className="text-sm text-muted mt-1">{a.instructions}</p>}
+            {a.practiceMinutes && <p className="text-sm font-bold mt-3">⏱ לתרגל {a.practiceMinutes} דקות</p>}
+            {a.startTempo && <div className="mt-3 bg-surface-soft rounded-button-sm p-3">
+              <p className="text-xs text-muted font-bold">טמפו</p>
+              <div className="flex items-center justify-between gap-3 mt-1"><span className="font-bold">התחלה: {a.startTempo} BPM</span><span className="text-muted">→</span><label className="flex items-center gap-2"><span className="text-sm font-bold">אני עכשיו</span><input type="number" min="1" max="400" defaultValue={a.currentTempo || a.startTempo} onBlur={(e)=>{const value=Number(e.target.value); if(value && value !== (a.currentTempo || a.startTempo)) updateTempo(a.id,value);}} className="w-20 bg-surface rounded-button-sm px-2 py-2 font-extrabold text-center" /><span className="text-sm font-bold">BPM</span></label></div>
+              {tempoSavingId===a.id && <p className="text-xs text-muted mt-2">שומר טמפו…</p>}
+            </div>}
             {a.resources?.map(r => <a key={r.id} href={r.url} target="_blank" rel="noreferrer" className="block text-accent font-bold mt-3">🔗 {r.label || "פתח קישור"}</a>)}
             {a.attachment && <a href={a.attachment.dataUrl} download={a.attachment.name} className="block text-accent font-bold mt-3">📎 {a.attachment.name}</a>}
           </div>)}

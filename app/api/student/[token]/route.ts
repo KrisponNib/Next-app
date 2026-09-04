@@ -31,5 +31,16 @@ export async function PATCH(req: Request, { params }: { params: { token: string 
     return NextResponse.json({ ok: true, student });
   }
 
+  if (body.action === "updateTempo") {
+    const assignment = student.assignments?.find((a) => a.id === String(body.assignmentId || ""));
+    const tempo = Number(body.currentTempo);
+    if (!assignment || !Number.isFinite(tempo) || tempo < 1 || tempo > 400) {
+      return NextResponse.json({ error: "invalid tempo" }, { status: 400 });
+    }
+    assignment.currentTempo = Math.round(tempo);
+    await saveStudent(student);
+    return NextResponse.json({ ok: true, student });
+  }
+
   return NextResponse.json({ error: "unsupported action" }, { status: 400 });
 }

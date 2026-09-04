@@ -82,6 +82,9 @@ export interface StudentAssignment {
   instructions?: string;
   resources?: StudentAssignmentResource[];
   attachment?: StudentAssignmentAttachment;
+  practiceMinutes?: number;
+  startTempo?: number;
+  currentTempo?: number;
   status: StudentAssignmentStatus;
   createdAt: string;
 }
