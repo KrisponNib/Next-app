@@ -144,7 +144,7 @@ export interface Student {
 // --- Lesson scheduling ---
 export type LessonBookingStatus = "booked" | "cancelled";
 export type LessonRequestStatus = "pending" | "approved" | "declined";
-export type ScheduleActivityType = "booking" | "request" | "practice" | "google_sync";
+export type ScheduleActivityType = "booking" | "request" | "practice" | "homework_question" | "google_sync";
 export interface LessonAvailabilityWindow { weekday:0|1|2|3|4|5|6; enabled:boolean; start:string; end:string; }
 export interface RecurringLesson { id:string; studentId?:string; studentName:string; weekday:0|1|2|3|4|5|6; startTime:string; endTime:string; active?:boolean; createdAt:string; }
 export interface LessonBooking { id:string; studentId:string; studentName:string; date:string; startTime:string; endTime:string; status:LessonBookingStatus; createdAt:string; googleEventId?:string; googleSyncStatus?:"synced"|"failed"|"not_connected"; }

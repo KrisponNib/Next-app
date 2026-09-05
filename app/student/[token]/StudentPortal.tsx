@@ -18,6 +18,10 @@ export function StudentPortal({ initialStudent }: { initialStudent: Student }) {
   const [evidence, setEvidence] = useState("");
   const [saving, setSaving] = useState(false);
   const [tempoSavingId, setTempoSavingId] = useState<string | null>(null);
+  const [questionAssignmentId, setQuestionAssignmentId] = useState<string | null>(null);
+  const [question, setQuestion] = useState("");
+  const [questionSending, setQuestionSending] = useState(false);
+  const [questionSentId, setQuestionSentId] = useState<string | null>(null);
   const dailyQuote = useMemo(() => quoteForToday(), []);
 
   const decision = useMemo(() => generateStudentPractice(student, minutes), [student, minutes]);
@@ -34,6 +38,21 @@ export function StudentPortal({ initialStudent }: { initialStudent: Student }) {
     if (!res.ok) return;
     const json = await res.json();
     setStudent(json.student);
+  }
+
+  async function askHomeworkQuestion(assignmentId: string) {
+    if (!question.trim()) return;
+    setQuestionSending(true);
+    const res = await fetch(`/api/student/${student.shareToken}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "askHomeworkQuestion", assignmentId, question: question.trim() }),
+    });
+    setQuestionSending(false);
+    if (!res.ok) return;
+    setQuestionSentId(assignmentId);
+    setQuestionAssignmentId(null);
+    setQuestion("");
   }
 
   async function saveReflection() {
@@ -103,6 +122,7 @@ export function StudentPortal({ initialStudent }: { initialStudent: Student }) {
             </div>}
             {a.resources?.map(r => <a key={r.id} href={r.url} target="_blank" rel="noreferrer" className="block text-accent font-bold mt-3">🔗 {r.label || "פתח קישור"}</a>)}
             {a.attachment && <a href={`/api/student/${student.shareToken}/attachment/${a.id}`} target="_blank" rel="noopener noreferrer" className="block text-accent font-bold mt-3">📎 צפה בתווים</a>}
+            {questionSentId===a.id ? <p className="mt-4 bg-[#dfece5] rounded-button-sm p-3 text-sm font-bold">✓ השאלה נשלחה לעמרי</p> : questionAssignmentId===a.id ? <div className="mt-4 bg-surface-soft rounded-button-sm p-3"><textarea autoFocus className="w-full bg-surface rounded-button-sm p-3 text-sm" placeholder="מה לא ברור? כתבו כאן ועמרי יראה את זה." value={question} onChange={e=>setQuestion(e.target.value)} /><div className="flex gap-2 mt-2"><button disabled={!question.trim()||questionSending} onClick={()=>askHomeworkQuestion(a.id)} className="bg-text text-white rounded-button-sm px-4 py-2 text-sm font-extrabold disabled:opacity-40">{questionSending?"שולח…":"שלחו שאלה"}</button><button onClick={()=>{setQuestionAssignmentId(null);setQuestion("")}} className="px-3 text-sm font-bold text-muted">ביטול</button></div></div> : <button onClick={()=>{setQuestionAssignmentId(a.id);setQuestion("")}} className="mt-4 text-sm font-extrabold text-accent">💬 יש לי שאלה על המשימה</button>}
           </div>)}
           {!student.assignments.some(a => a.status !== "done") && <p className="text-muted">אין כרגע שיעורי בית פתוחים.</p>}
         </div>
