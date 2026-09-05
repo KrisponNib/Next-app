@@ -1,0 +1,3 @@
+import { NextRequest, NextResponse } from "next/server";
+import { exchangeGoogleCode } from "@/lib/googleCalendar";
+export async function GET(req:NextRequest){const code=req.nextUrl.searchParams.get("code"),state=req.nextUrl.searchParams.get("state"),saved=req.cookies.get("next_google_oauth_state")?.value;if(!code||!state||state!==saved)return NextResponse.redirect(new URL('/students/schedule?google=error',req.url));try{await exchangeGoogleCode(code,req.nextUrl.origin);const res=NextResponse.redirect(new URL('/students/schedule?google=connected',req.url));res.cookies.delete("next_google_oauth_state");return res}catch{return NextResponse.redirect(new URL('/students/schedule?google=error',req.url))}}

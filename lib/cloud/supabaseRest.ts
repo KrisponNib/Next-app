@@ -62,12 +62,17 @@ export async function saveStudent(student: Student): Promise<void> {
 
 export const DEFAULT_LESSON_SCHEDULE: LessonSchedule = {
   lessonMinutes: 55,
+  slotIntervalMinutes: 15,
+  offersPerDay: 3,
+  advanceDays: 14,
   availability: [
     { weekday: 0, enabled: true, start: "15:00", end: "18:00" },
     { weekday: 2, enabled: true, start: "15:00", end: "18:00" },
     { weekday: 4, enabled: true, start: "10:00", end: "15:00" },
   ],
-  bookings: [], requests: [], updatedAt: new Date(0).toISOString(),
+  bookings: [], requests: [], activity: [],
+  googleCalendar: { calendarId: "primary", eventTitleTemplate: "שיעור תופים — {student}" },
+  updatedAt: new Date(0).toISOString(),
 };
 
 export async function getLessonSchedule(): Promise<LessonSchedule> {
@@ -75,11 +80,31 @@ export async function getLessonSchedule(): Promise<LessonSchedule> {
   const res = await fetch(`${url}/rest/v1/lesson_schedule_v1?id=eq.main&select=data&limit=1`, { headers: headers(), cache: "no-store" });
   if (!res.ok) throw new Error(`Supabase schedule read failed: ${res.status} ${await res.text()}`);
   const rows = await res.json();
-  return rows[0]?.data ? ({ ...DEFAULT_LESSON_SCHEDULE, ...rows[0].data } as LessonSchedule) : DEFAULT_LESSON_SCHEDULE;
+  const data = rows[0]?.data || {};
+  return {
+    ...DEFAULT_LESSON_SCHEDULE,
+    ...data,
+    availability: data.availability || DEFAULT_LESSON_SCHEDULE.availability,
+    bookings: data.bookings || [], requests: data.requests || [], activity: data.activity || [],
+    googleCalendar: { ...DEFAULT_LESSON_SCHEDULE.googleCalendar, ...(data.googleCalendar || {}) },
+  } as LessonSchedule;
 }
 export async function saveLessonSchedule(schedule: LessonSchedule): Promise<void> {
   const { url } = env();
   const payload = { id:"main", data:{...schedule,updatedAt:new Date().toISOString()}, updated_at:new Date().toISOString() };
   const res = await fetch(`${url}/rest/v1/lesson_schedule_v1?on_conflict=id`, { method:"POST", headers:headers({Prefer:"resolution=merge-duplicates,return=minimal"}), body:JSON.stringify(payload) });
   if (!res.ok) throw new Error(`Supabase schedule save failed: ${res.status} ${await res.text()}`);
+}
+
+export interface GoogleCalendarCredentials { accessToken?:string; refreshToken?:string; expiresAt?:number; }
+export async function getGoogleCalendarCredentials(): Promise<GoogleCalendarCredentials | null> {
+  const { url } = env();
+  const res = await fetch(`${url}/rest/v1/calendar_integration_v1?id=eq.google&select=data&limit=1`, { headers:headers(), cache:"no-store" });
+  if (!res.ok) throw new Error(`Supabase calendar credentials read failed: ${res.status} ${await res.text()}`);
+  const rows = await res.json(); return rows[0]?.data || null;
+}
+export async function saveGoogleCalendarCredentials(data:GoogleCalendarCredentials):Promise<void>{
+  const {url}=env(); const payload={id:"google",data,updated_at:new Date().toISOString()};
+  const res=await fetch(`${url}/rest/v1/calendar_integration_v1?on_conflict=id`,{method:"POST",headers:headers({Prefer:"resolution=merge-duplicates,return=minimal"}),body:JSON.stringify(payload)});
+  if(!res.ok)throw new Error(`Supabase calendar credentials save failed: ${res.status} ${await res.text()}`);
 }

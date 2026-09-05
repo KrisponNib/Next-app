@@ -78,6 +78,12 @@ export function StudentPortal({ initialStudent }: { initialStudent: Student }) {
         <a href={dailyQuote.wikipedia} target="_blank" rel="noreferrer" className="inline-block mt-4 text-sm font-bold text-white/70 hover:text-white underline underline-offset-4">{dailyQuote.musician} · ויקיפדיה ↗</a>
       </div>
       <StudentBookingFlow student={student} />
+      {process.env.NEXT_PUBLIC_TEACHER_WHATSAPP ? <a
+        href={`https://wa.me/${process.env.NEXT_PUBLIC_TEACHER_WHATSAPP.replace(/\D/g, "")}?text=${encodeURIComponent(`היי עמרי, זה ${student.name} 👋`)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block w-full bg-[#25D366] text-[#0b2b16] rounded-button-sm py-3 px-5 font-extrabold text-center mt-3"
+      >💬 שלחו לי הודעה בוואטסאפ</a> : null}
       {student.allowGeneratedPractice && <>
         <h2 className="text-2xl font-extrabold mt-7">רוצה לבנות אימון עכשיו?</h2>
         <p className="text-sm text-muted mt-1">המורה שלך הפעיל עבורך בניית אימון אוטומטית.</p>

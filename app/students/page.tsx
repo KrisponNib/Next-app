@@ -1,77 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import { ScreenHeader } from "@/components/layout/ScreenHeader";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { useNextState } from "@/lib/state/useNextState";
-import { StudentGender, StudentPath } from "@/lib/types";
+import { LessonSchedule, StudentGender, StudentPath } from "@/lib/types";
 import { StudentScheduleStats } from "@/features/students/StudentScheduleStats";
 
-const PATHS: { value: StudentPath; label: string }[] = [
-  { value: "fun", label: "בשביל הכיף" },
-  { value: "serious", label: "חובב רציני" },
-  { value: "band", label: "להקה" },
-  { value: "professional", label: "מקצועי" },
-  { value: "young", label: "תלמיד צעיר" },
-];
+const PATHS:{value:StudentPath;label:string}[]=[{value:"fun",label:"בשביל הכיף"},{value:"serious",label:"חובב רציני"},{value:"band",label:"להקה"},{value:"professional",label:"מקצועי"},{value:"young",label:"תלמיד צעיר"}];
 
-export default function StudentsPage() {
-  const { state, addStudent } = useNextState();
-  const [name, setName] = useState("");
-  const [goal, setGoal] = useState("");
-  const [path, setPath] = useState<StudentPath>("serious");
-  const [gender, setGender] = useState<StudentGender | "">("");
-
-  function submit(event: FormEvent) {
-    event.preventDefault();
-    if (!name.trim() || !goal.trim() || !gender) return;
-    addStudent({ name: name.trim(), gender, currentGoal: goal.trim(), path });
-    setName(""); setGoal(""); setGender("");
-  }
-
-  return (
-    <section>
-      <ScreenHeader eyebrow="תלמידים" title="התלמידים שלי" description="המסך הזה קיים כדי לדעת מה צריך לקרות עם כל תלמיד עכשיו." />
-
-      <StudentScheduleStats studentCount={state.students.length} />
-
-      <Card>
-        <h2 className="text-lg font-extrabold mb-3">תלמיד חדש</h2>
-        <form onSubmit={submit} className="space-y-3">
-          <input className="w-full bg-surface-soft rounded-button-sm px-4 py-3 outline-none" placeholder="שם" value={name} onChange={(e) => setName(e.target.value)} />
-          <div>
-            <p className="text-sm font-bold mb-2">איך לפנות לתלמיד/ה?</p>
-            <div className="grid grid-cols-2 gap-2">
-              <button type="button" onClick={() => setGender("male")} className={`rounded-button-sm py-3 font-bold ${gender === "male" ? "bg-text text-white" : "bg-surface-soft"}`}>זכר</button>
-              <button type="button" onClick={() => setGender("female")} className={`rounded-button-sm py-3 font-bold ${gender === "female" ? "bg-text text-white" : "bg-surface-soft"}`}>נקבה</button>
-            </div>
-          </div>
-          <input className="w-full bg-surface-soft rounded-button-sm px-4 py-3 outline-none" placeholder={gender === "female" ? "מה היא רוצה להשיג עכשיו?" : gender === "male" ? "מה הוא רוצה להשיג עכשיו?" : "מה המטרה הנוכחית?"} value={goal} onChange={(e) => setGoal(e.target.value)} />
-          <select className="w-full bg-surface-soft rounded-button-sm px-4 py-3" value={path} onChange={(e) => setPath(e.target.value as StudentPath)}>
-            {PATHS.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}
-          </select>
-          <Button type="submit">הוסף תלמיד</Button>
-        </form>
-      </Card>
-
-      <div className="space-y-3 mt-5">
-        {state.students.map((student) => {
-          const open = student.assignments.filter((a) => a.status !== "done").length;
-          return (
-            <Link key={student.id} href={`/students/${student.id}`} className="block">
-              <Card className="my-0">
-                <div className="flex items-start justify-between gap-4">
-                  <div><h3 className="font-extrabold text-lg">{student.name}</h3><p className="text-muted mt-1">{student.currentGoal}</p></div>
-                  <span className="text-xs font-bold bg-surface-soft rounded-full px-3 py-1">{open} פתוחות</span>
-                </div>
-              </Card>
-            </Link>
-          );
-        })}
-        {state.students.length === 0 && <Card><p className="text-muted">תוסיף תלמיד אמיתי אחד. זה כל מה שצריך כדי להתחיל לבדוק את המערכת.</p></Card>}
-      </div>
-    </section>
-  );
-}
+export default function StudentsPage(){const{state,addStudent}=useNextState();const[name,setName]=useState(""),[goal,setGoal]=useState(""),[path,setPath]=useState<StudentPath>("serious"),[gender,setGender]=useState<StudentGender|"">(""),[showAdd,setShowAdd]=useState(false),[schedule,setSchedule]=useState<LessonSchedule|null>(null);
+useEffect(()=>{fetch("/api/schedule",{cache:"no-store"}).then(async r=>{if(r.ok)setSchedule((await r.json()).schedule)})},[]);
+const bookedStudentIds=useMemo(()=>{const today=new Date().toISOString().slice(0,10);return new Set((schedule?.bookings||[]).filter(b=>b.status==="booked"&&b.date>=today).map(b=>b.studentId))},[schedule]);
+function submit(e:FormEvent){e.preventDefault();if(!name.trim()||!goal.trim()||!gender)return;addStudent({name:name.trim(),gender,currentGoal:goal.trim(),path});setName("");setGoal("");setGender("");setShowAdd(false)}
+return <section><ScreenHeader eyebrow="תלמידים" title="התלמידים שלי" description="הלוז והתלמידים במקום אחד."/><StudentScheduleStats studentCount={state.students.length}/><div className="space-y-3 mt-5">{state.students.map(student=>{const open=student.assignments.filter(a=>a.status!=="done").length,booked=bookedStudentIds.has(student.id);return <Link key={student.id} href={`/students/${student.id}`} className="block"><div className={`rounded-card p-5 shadow-card border ${booked?"bg-[#dfece5] border-[#183f32]/20":"bg-[#f1dde2] border-[#6f1831]/20"}`}><div className="flex items-start justify-between gap-4"><div><div className="flex items-center gap-2"><span className={`w-2.5 h-2.5 rounded-full ${booked?"bg-[#183f32]":"bg-[#6f1831]"}`}/><h3 className="font-extrabold text-lg">{student.name}</h3></div><p className="text-muted mt-1">{student.currentGoal}</p><p className={`text-xs font-extrabold mt-2 ${booked?"text-[#183f32]":"text-[#6f1831]"}`}>{booked?"יש שיעור קבוע בלוז":"אין שיעור קבוע בלוז"}</p></div><span className="text-xs font-bold bg-white/60 rounded-full px-3 py-1">{open} פתוחות</span></div></div></Link>})}{state.students.length===0&&<Card><p className="text-muted">עוד אין תלמידים.</p></Card>}</div><button onClick={()=>setShowAdd(v=>!v)} className="w-full bg-text text-white rounded-button-sm py-4 font-extrabold mt-5">{showAdd?"סגור הוספת תלמיד":"+ הוסף תלמיד חדש"}</button>{showAdd&&<Card><h2 className="text-lg font-extrabold mb-3">תלמיד חדש</h2><form onSubmit={submit} className="space-y-3"><input className="w-full bg-surface-soft rounded-button-sm px-4 py-3 outline-none" placeholder="שם" value={name} onChange={e=>setName(e.target.value)}/><div><p className="text-sm font-bold mb-2">איך לפנות לתלמיד/ה?</p><div className="grid grid-cols-2 gap-2"><button type="button" onClick={()=>setGender("male")} className={`rounded-button-sm py-3 font-bold ${gender==="male"?"bg-text text-white":"bg-surface-soft"}`}>זכר</button><button type="button" onClick={()=>setGender("female")} className={`rounded-button-sm py-3 font-bold ${gender==="female"?"bg-text text-white":"bg-surface-soft"}`}>נקבה</button></div></div><input className="w-full bg-surface-soft rounded-button-sm px-4 py-3 outline-none" placeholder={gender==="female"?"מה היא רוצה להשיג עכשיו?":gender==="male"?"מה הוא רוצה להשיג עכשיו?":"מה המטרה הנוכחית?"} value={goal} onChange={e=>setGoal(e.target.value)}/><select className="w-full bg-surface-soft rounded-button-sm px-4 py-3" value={path} onChange={e=>setPath(e.target.value as StudentPath)}>{PATHS.map(i=><option key={i.value} value={i.value}>{i.label}</option>)}</select><Button type="submit">הוסף תלמיד</Button></form></Card>}</section>}

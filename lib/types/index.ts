@@ -141,13 +141,27 @@ export interface Student {
 }
 
 
-// --- Lesson scheduling V1 ---
+// --- Lesson scheduling ---
 export type LessonBookingStatus = "booked" | "cancelled";
 export type LessonRequestStatus = "pending" | "approved" | "declined";
-export interface LessonAvailabilityWindow { weekday: 0|1|2|3|4|5|6; enabled: boolean; start: string; end: string; }
-export interface LessonBooking { id:string; studentId:string; studentName:string; date:string; startTime:string; endTime:string; status:LessonBookingStatus; createdAt:string; }
+export type ScheduleActivityType = "booking" | "request" | "practice" | "google_sync";
+export interface LessonAvailabilityWindow { weekday:0|1|2|3|4|5|6; enabled:boolean; start:string; end:string; }
+export interface LessonBooking { id:string; studentId:string; studentName:string; date:string; startTime:string; endTime:string; status:LessonBookingStatus; createdAt:string; googleEventId?:string; googleSyncStatus?:"synced"|"failed"|"not_connected"; }
 export interface LessonScheduleRequest { id:string; studentId:string; studentName:string; preferredDay?:string; message:string; status:LessonRequestStatus; createdAt:string; }
-export interface LessonSchedule { lessonMinutes:number; availability:LessonAvailabilityWindow[]; bookings:LessonBooking[]; requests:LessonScheduleRequest[]; updatedAt:string; }
+export interface ScheduleActivity { id:string; type:ScheduleActivityType; studentId?:string; studentName?:string; title:string; detail?:string; createdAt:string; read:boolean; requiresAction:boolean; relatedId?:string; resolved?:boolean; }
+export interface GoogleCalendarScheduleSettings { calendarId:string; calendarName?:string; eventColorId?:string; eventTitleTemplate:string; }
+export interface LessonSchedule {
+  lessonMinutes:number;
+  slotIntervalMinutes:number;
+  offersPerDay:number;
+  advanceDays:number;
+  availability:LessonAvailabilityWindow[];
+  bookings:LessonBooking[];
+  requests:LessonScheduleRequest[];
+  activity:ScheduleActivity[];
+  googleCalendar:GoogleCalendarScheduleSettings;
+  updatedAt:string;
+}
 
 export interface NextState {
   goals: GoalId[];
