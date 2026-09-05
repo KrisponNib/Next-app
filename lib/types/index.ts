@@ -140,6 +140,15 @@ export interface Student {
   createdAt: string;
 }
 
+
+// --- Lesson scheduling V1 ---
+export type LessonBookingStatus = "booked" | "cancelled";
+export type LessonRequestStatus = "pending" | "approved" | "declined";
+export interface LessonAvailabilityWindow { weekday: 0|1|2|3|4|5|6; enabled: boolean; start: string; end: string; }
+export interface LessonBooking { id:string; studentId:string; studentName:string; date:string; startTime:string; endTime:string; status:LessonBookingStatus; createdAt:string; }
+export interface LessonScheduleRequest { id:string; studentId:string; studentName:string; preferredDay?:string; message:string; status:LessonRequestStatus; createdAt:string; }
+export interface LessonSchedule { lessonMinutes:number; availability:LessonAvailabilityWindow[]; bookings:LessonBooking[]; requests:LessonScheduleRequest[]; updatedAt:string; }
+
 export interface NextState {
   goals: GoalId[];
   tasks: Task[];

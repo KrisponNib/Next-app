@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Student } from "@/lib/types";
 import { generateStudentPractice } from "@/features/students/generateStudentPractice";
 import { quoteForToday } from "@/lib/studentQuotes";
+import { StudentBookingFlow } from "@/features/students/StudentBookingFlow";
 
 const TIMES = [15, 30, 45, 60];
 
@@ -76,6 +77,7 @@ export function StudentPortal({ initialStudent }: { initialStudent: Student }) {
         <p dir="rtl" className="text-sm md:text-base text-white/70 mt-3 leading-relaxed">{dailyQuote.translation}</p>
         <a href={dailyQuote.wikipedia} target="_blank" rel="noreferrer" className="inline-block mt-4 text-sm font-bold text-white/70 hover:text-white underline underline-offset-4">{dailyQuote.musician} · ויקיפדיה ↗</a>
       </div>
+      <StudentBookingFlow student={student} />
       {student.allowGeneratedPractice && <>
         <h2 className="text-2xl font-extrabold mt-7">רוצה לבנות אימון עכשיו?</h2>
         <p className="text-sm text-muted mt-1">המורה שלך הפעיל עבורך בניית אימון אוטומטית.</p>

@@ -1,4 +1,4 @@
-import { Student } from "@/lib/types";
+import { LessonSchedule, Student } from "@/lib/types";
 
 function env() {
   const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -58,4 +58,28 @@ export async function getStudentByToken(token: string): Promise<Student | null> 
 
 export async function saveStudent(student: Student): Promise<void> {
   await upsertStudents([student]);
+}
+
+export const DEFAULT_LESSON_SCHEDULE: LessonSchedule = {
+  lessonMinutes: 55,
+  availability: [
+    { weekday: 0, enabled: true, start: "15:00", end: "18:00" },
+    { weekday: 2, enabled: true, start: "15:00", end: "18:00" },
+    { weekday: 4, enabled: true, start: "10:00", end: "15:00" },
+  ],
+  bookings: [], requests: [], updatedAt: new Date(0).toISOString(),
+};
+
+export async function getLessonSchedule(): Promise<LessonSchedule> {
+  const { url } = env();
+  const res = await fetch(`${url}/rest/v1/lesson_schedule_v1?id=eq.main&select=data&limit=1`, { headers: headers(), cache: "no-store" });
+  if (!res.ok) throw new Error(`Supabase schedule read failed: ${res.status} ${await res.text()}`);
+  const rows = await res.json();
+  return rows[0]?.data ? ({ ...DEFAULT_LESSON_SCHEDULE, ...rows[0].data } as LessonSchedule) : DEFAULT_LESSON_SCHEDULE;
+}
+export async function saveLessonSchedule(schedule: LessonSchedule): Promise<void> {
+  const { url } = env();
+  const payload = { id:"main", data:{...schedule,updatedAt:new Date().toISOString()}, updated_at:new Date().toISOString() };
+  const res = await fetch(`${url}/rest/v1/lesson_schedule_v1?on_conflict=id`, { method:"POST", headers:headers({Prefer:"resolution=merge-duplicates,return=minimal"}), body:JSON.stringify(payload) });
+  if (!res.ok) throw new Error(`Supabase schedule save failed: ${res.status} ${await res.text()}`);
 }

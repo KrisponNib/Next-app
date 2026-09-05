@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { useNextState } from "@/lib/state/useNextState";
 import { StudentGender, StudentPath } from "@/lib/types";
+import { StudentScheduleStats } from "@/features/students/StudentScheduleStats";
 
 const PATHS: { value: StudentPath; label: string }[] = [
   { value: "fun", label: "בשביל הכיף" },
@@ -33,6 +34,8 @@ export default function StudentsPage() {
   return (
     <section>
       <ScreenHeader eyebrow="תלמידים" title="התלמידים שלי" description="המסך הזה קיים כדי לדעת מה צריך לקרות עם כל תלמיד עכשיו." />
+
+      <StudentScheduleStats studentCount={state.students.length} />
 
       <Card>
         <h2 className="text-lg font-extrabold mb-3">תלמיד חדש</h2>
