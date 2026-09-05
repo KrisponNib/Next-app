@@ -70,7 +70,7 @@ export const DEFAULT_LESSON_SCHEDULE: LessonSchedule = {
     { weekday: 2, enabled: true, start: "15:00", end: "18:00" },
     { weekday: 4, enabled: true, start: "10:00", end: "15:00" },
   ],
-  bookings: [], requests: [], activity: [],
+  bookings: [], recurringLessons: [], requests: [], activity: [],
   googleCalendar: { calendarId: "primary", eventTitleTemplate: "שיעור תופים — {student}" },
   updatedAt: new Date(0).toISOString(),
 };
@@ -85,7 +85,7 @@ export async function getLessonSchedule(): Promise<LessonSchedule> {
     ...DEFAULT_LESSON_SCHEDULE,
     ...data,
     availability: data.availability || DEFAULT_LESSON_SCHEDULE.availability,
-    bookings: data.bookings || [], requests: data.requests || [], activity: data.activity || [],
+    bookings: data.bookings || [], recurringLessons: data.recurringLessons || [], requests: data.requests || [], activity: data.activity || [],
     googleCalendar: { ...DEFAULT_LESSON_SCHEDULE.googleCalendar, ...(data.googleCalendar || {}) },
   } as LessonSchedule;
 }
