@@ -94,7 +94,7 @@ export function StudentPortal({ initialStudent }: { initialStudent: Student }) {
               {tempoSavingId===a.id && <p className="text-xs text-muted mt-2">שומר טמפו…</p>}
             </div>}
             {a.resources?.map(r => <a key={r.id} href={r.url} target="_blank" rel="noreferrer" className="block text-accent font-bold mt-3">🔗 {r.label || "פתח קישור"}</a>)}
-            {a.attachment && <a href={`/api/student/${student.shareToken}/attachment/${a.id}`} target="_blank" rel="noopener noreferrer" className="block text-accent font-bold mt-3">📎 {a.attachment.name}</a>}
+            {a.attachment && <a href={`/api/student/${student.shareToken}/attachment/${a.id}`} target="_blank" rel="noopener noreferrer" className="block text-accent font-bold mt-3">📎 צפה בתווים</a>}
           </div>)}
           {!student.assignments.some(a => a.status !== "done") && <p className="text-muted">אין כרגע שיעורי בית פתוחים.</p>}
         </div>
