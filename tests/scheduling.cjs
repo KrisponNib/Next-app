@@ -1,0 +1,88 @@
+const { test } = require('node:test');
+const assert = require('node:assert/strict');
+const ts = require('typescript');
+const fs = require('node:fs');
+const vm = require('node:vm');
+function load(file, globals = {}) {
+  const module = { exports: {} };
+  const code = ts.transpileModule(fs.readFileSync(file, 'utf8'), {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+  }).outputText;
+  vm.runInNewContext(code, { module, exports: module.exports, require, Date, Intl, process, ...globals });
+  return module.exports;
+}
+const scheduling = load('lib/scheduling.ts');
+const { DEFAULT_LESSON_SCHEDULE } = load('lib/cloud/supabaseRest.ts');
+const now = new Date('2026-09-06T09:00:00Z'); // noon in Israel
+const schedule = () => ({ ...structuredClone(DEFAULT_LESSON_SCHEDULE), offersPerDay: 100,
+  availability: Array.from({length: 7}, (_, weekday) => ({weekday, enabled: true, start: '10:00', end: '16:00'})) });
+test('24-hour boundary includes exactly 24 hours, excludes one millisecond less', () => {
+  assert.equal(scheduling.canStudentBook('2026-09-07', '12:00', now.getTime()), true);
+  assert.equal(scheduling.canStudentBook('2026-09-07', '12:00', now.getTime() + 1), false);
+  assert.equal(scheduling.canStudentBook('2026-01-07', '12:00', Date.parse('2026-01-06T10:00Z')), true);
+});
+test('offers exclude today and tomorrow morning in Israel, independently of host timezone', () => {
+  const days = scheduling.upcomingBookableDays(schedule(), now);
+  assert.equal(days[0].date, '2026-09-07');
+  assert.equal(days[0].times[0], '12:00');
+  assert.ok(days.every(d => d.times.every(t => scheduling.canStudentBook(d.date, t, now.getTime()))));
+});
+test('another student booking hides every overlapping start; cancellation frees them', () => {
+  const s = schedule();
+  s.bookings.push({studentId: 'other', date: '2026-09-07', startTime: '13:00', endTime: '13:55', status: 'booked'});
+  const times = scheduling.upcomingBookableDays(s, now)[0].times;
+  for (const time of ['12:15', '12:30', '12:45', '13:00', '13:15', '13:30', '13:45']) assert.ok(!times.includes(time));
+  assert.ok(times.includes('12:00')); assert.ok(times.includes('14:00'));
+  s.bookings[0].status = 'cancelled';
+  assert.ok(scheduling.upcomingBookableDays(s, now)[0].times.includes('13:00'));
+});
+test('concurrent saves accept one booking and reject stale writes', async () => {
+  let stored = { ...schedule(), updatedAt: '2026-09-01T00:00:00.000Z' };
+  const api = load('lib/cloud/supabaseRest.ts', {
+    process: { env: { SUPABASE_URL: 'https://example.test', SUPABASE_SERVICE_ROLE_KEY: 'test' } },
+    fetch: async (url, options) => {
+      const expected = new URL(url).searchParams.get('data->>updatedAt').slice(3);
+      if (stored.updatedAt !== expected) return { ok: true, json: async () => [] };
+      stored = JSON.parse(options.body).data;
+      return { ok: true, json: async () => [{data: stored}] };
+    },
+  });
+  const first = structuredClone(stored), second = structuredClone(stored);
+  first.bookings.push({ id: 'first' }); second.bookings.push({ id: 'second' });
+  const results = await Promise.allSettled([api.saveLessonSchedule(first), api.saveLessonSchedule(second)]);
+  assert.equal(results[0].status, 'fulfilled'); assert.equal(results[1].status, 'rejected');
+  assert.equal(results[1].reason.constructor.name, 'ScheduleConflictError');
+  assert.equal(stored.bookings[0].id, 'first');
+});
+
+test('weekly availability endpoint requires admin and preserves existing bookings', async () => {
+  const stored = schedule();
+  stored.bookings = [{ id: 'existing', status: 'booked' }];
+  let saved;
+  const api = load('app/api/schedule/route.ts', {
+    process: { env: { NEXT_STUDENTS_ADMIN_TOKEN: 'admin' } },
+    require: name => {
+      if (name === 'next/server') return { NextResponse: { json: (body, options) => ({ body, status: options?.status || 200 }) } };
+      if (name === '@/lib/cloud/supabaseRest') return {
+        getLessonSchedule: async () => structuredClone(stored),
+        saveLessonSchedule: async value => { saved = value; },
+        ScheduleConflictError: class extends Error {},
+      };
+      if (name === '@/lib/googleCalendar') return {};
+      throw new Error(name);
+    },
+  });
+  const availability = Array.from({length: 7}, (_, weekday) => ({weekday, enabled: weekday === 5, start: '09:00', end: '14:00'}));
+  const request = (value, token = 'admin') => ({cookies: {get: () => ({value: token})}, json: async () => ({availability: value})});
+  assert.equal((await api.PATCH(request(availability, 'wrong'))).status, 401);
+  assert.equal(saved, undefined);
+  assert.equal((await api.PATCH(request(availability))).status, 200);
+  assert.deepEqual(saved.bookings, stored.bookings);
+  assert.equal(saved.availability.length, 7);
+  assert.equal(saved.availability[5].enabled, true);
+  for (const invalid of [availability.slice(0, 3), availability.map(d => ({...d, weekday: 0})), availability.map(d => ({...d, enabled: true, start: '18:00', end: '09:00'}))]) {
+    assert.equal((await api.PATCH(request(invalid))).status, 400);
+  }
+  assert.equal((await api.PATCH(request(availability.map(d => ({...d, enabled: false}))))).status, 200);
+  assert.ok(saved.availability.every(d => !d.enabled));
+});

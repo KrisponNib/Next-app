@@ -67,8 +67,12 @@ export const DEFAULT_LESSON_SCHEDULE: LessonSchedule = {
   advanceDays: 14,
   availability: [
     { weekday: 0, enabled: true, start: "15:00", end: "18:00" },
+    { weekday: 1, enabled: false, start: "09:00", end: "17:00" },
     { weekday: 2, enabled: true, start: "15:00", end: "18:00" },
+    { weekday: 3, enabled: false, start: "09:00", end: "17:00" },
     { weekday: 4, enabled: true, start: "10:00", end: "15:00" },
+    { weekday: 5, enabled: false, start: "09:00", end: "17:00" },
+    { weekday: 6, enabled: false, start: "09:00", end: "17:00" },
   ],
   bookings: [], recurringLessons: [], requests: [], activity: [],
   googleCalendar: { calendarId: "primary", eventTitleTemplate: "שיעור תופים — {student}" },
@@ -89,11 +93,23 @@ export async function getLessonSchedule(): Promise<LessonSchedule> {
     googleCalendar: { ...DEFAULT_LESSON_SCHEDULE.googleCalendar, ...(data.googleCalendar || {}) },
   } as LessonSchedule;
 }
+export class ScheduleConflictError extends Error {
+  constructor(){super("schedule_changed");}
+}
 export async function saveLessonSchedule(schedule: LessonSchedule): Promise<void> {
   const { url } = env();
-  const payload = { id:"main", data:{...schedule,updatedAt:new Date().toISOString()}, updated_at:new Date().toISOString() };
-  const res = await fetch(`${url}/rest/v1/lesson_schedule_v1?on_conflict=id`, { method:"POST", headers:headers({Prefer:"resolution=merge-duplicates,return=minimal"}), body:JSON.stringify(payload) });
+  const updatedAt = new Date(Math.max(Date.now(), Date.parse(schedule.updatedAt) + 1)).toISOString();
+  const payload = { id:"main", data:{...schedule,updatedAt}, updated_at:updatedAt };
+  const initial = schedule.updatedAt === DEFAULT_LESSON_SCHEDULE.updatedAt;
+  const query = initial ? "on_conflict=id" : `id=eq.main&data->>updatedAt=eq.${encodeURIComponent(schedule.updatedAt)}`;
+  const res = await fetch(`${url}/rest/v1/lesson_schedule_v1?${query}`, {
+    method: initial ? "POST" : "PATCH",
+    headers: headers({Prefer: initial ? "resolution=ignore-duplicates,return=representation" : "return=representation"}),
+    body: JSON.stringify(payload),
+  });
   if (!res.ok) throw new Error(`Supabase schedule save failed: ${res.status} ${await res.text()}`);
+  if (!(await res.json()).length) throw new ScheduleConflictError();
+  schedule.updatedAt = updatedAt;
 }
 
 export interface GoogleCalendarCredentials { accessToken?:string; refreshToken?:string; expiresAt?:number; }

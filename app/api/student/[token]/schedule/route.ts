@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getLessonSchedule,getStudentByToken,saveLessonSchedule } from "@/lib/cloud/supabaseRest";
+import { getLessonSchedule,getStudentByToken,saveLessonSchedule,ScheduleConflictError } from "@/lib/cloud/supabaseRest";
 import { addMinutes,bookingConflicts,canStudentModifyBooking,upcomingBookableDays } from "@/lib/scheduling";
 import { createLessonEvent,deleteLessonEvent } from "@/lib/googleCalendar";
 import { LessonBooking } from "@/lib/types";
@@ -15,7 +15,7 @@ export async function GET(_req:NextRequest,{params}:{params:{token:string}}){
     const schedule=await getLessonSchedule();
     const existing=nextBooking(schedule,student.id);
     return NextResponse.json({days:upcomingBookableDays(schedule),existing:existing?{...existing,canModify:canStudentModifyBooking(existing)}:null})
-  }catch(e){return NextResponse.json({error:e instanceof Error?e.message:"unknown error"},{status:500})}
+  }catch(e){if(e instanceof ScheduleConflictError)return NextResponse.json({error:"schedule_changed"},{status:409});return NextResponse.json({error:e instanceof Error?e.message:"unknown error"},{status:500})}
 }
 
 export async function POST(req:NextRequest,{params}:{params:{token:string}}){
@@ -35,9 +35,10 @@ export async function POST(req:NextRequest,{params}:{params:{token:string}}){
       if(!booking)return NextResponse.json({error:"no_booking"},{status:404});
       if(!canStudentModifyBooking(booking))return NextResponse.json({error:"too_late",message:"אפשר לבטל או להזיז שיעור רק עד 24 שעות לפניו."},{status:403});
       booking.status="cancelled";
-      if(booking.googleEventId){try{await deleteLessonEvent(schedule,booking.googleEventId)}catch{}}
+
       schedule.activity.unshift({id:crypto.randomUUID(),type:"booking",studentId:student.id,studentName:student.name,title:body.action==="reschedule"?`${student.name} הזיז/ה שיעור`:`${student.name} ביטל/ה שיעור`,detail:`${booking.date} · ${booking.startTime}`,createdAt:new Date().toISOString(),read:false,requiresAction:false,relatedId:booking.id});
       await saveLessonSchedule(schedule);
+      if(booking.googleEventId){try{await deleteLessonEvent(schedule,booking.googleEventId)}catch{}}
       return NextResponse.json({ok:true,kind:body.action})
     }
 
@@ -49,8 +50,13 @@ export async function POST(req:NextRequest,{params}:{params:{token:string}}){
       const booking:LessonBooking={id:crypto.randomUUID(),studentId:student.id,studentName:student.name,date,startTime,endTime:addMinutes(startTime,schedule.lessonMinutes),status:"booked" as const,createdAt:new Date().toISOString(),googleSyncStatus:"not_connected" as const};
       try{booking.googleEventId=await createLessonEvent(schedule,booking);booking.googleSyncStatus="synced"}catch{booking.googleSyncStatus="failed"}
       schedule.bookings.push(booking);schedule.activity.unshift({id:crypto.randomUUID(),type:"booking",studentId:student.id,studentName:student.name,title:`${student.name} קבע/ה שיעור`,detail:`${date} · ${startTime}`,createdAt:new Date().toISOString(),read:false,requiresAction:false,relatedId:booking.id});
-      await saveLessonSchedule(schedule);return NextResponse.json({ok:true,kind:"booking"})
+      try { await saveLessonSchedule(schedule); }
+      catch(error) {
+        if(booking.googleEventId){try{await deleteLessonEvent(schedule,booking.googleEventId)}catch{}}
+        throw error;
+      }
+      return NextResponse.json({ok:true,kind:"booking"})
     }
     return NextResponse.json({error:"unknown_action"},{status:400})
-  }catch(e){return NextResponse.json({error:e instanceof Error?e.message:"unknown error"},{status:500})}
+  }catch(e){if(e instanceof ScheduleConflictError)return NextResponse.json({error:"schedule_changed"},{status:409});return NextResponse.json({error:e instanceof Error?e.message:"unknown error"},{status:500})}
 }
