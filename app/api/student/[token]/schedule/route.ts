@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getLessonSchedule,getStudentByToken,saveLessonSchedule,ScheduleConflictError } from "@/lib/cloud/supabaseRest";
-import { addMinutes,bookingConflicts,canStudentModifyBooking,upcomingBookableDays } from "@/lib/scheduling";
+import { bookingWeeks,addMinutes,bookingConflicts,canStudentModifyBooking,upcomingBookableDays } from "@/lib/scheduling";
 import { createLessonEvent,deleteLessonEvent } from "@/lib/googleCalendar";
 import { LessonBooking } from "@/lib/types";
 
@@ -14,7 +14,8 @@ export async function GET(_req:NextRequest,{params}:{params:{token:string}}){
     const student=await getStudentByToken(params.token);if(!student)return NextResponse.json({error:"not_found"},{status:404});
     const schedule=await getLessonSchedule();
     const existing=nextBooking(schedule,student.id);
-    return NextResponse.json({days:upcomingBookableDays(schedule),existing:existing?{...existing,canModify:canStudentModifyBooking(existing)}:null})
+    const now = new Date();
+    return NextResponse.json({weeks:bookingWeeks(now),days:upcomingBookableDays(schedule,now),existing:existing?{...existing,canModify:canStudentModifyBooking(existing)}:null})
   }catch(e){if(e instanceof ScheduleConflictError)return NextResponse.json({error:"schedule_changed"},{status:409});return NextResponse.json({error:e instanceof Error?e.message:"unknown error"},{status:500})}
 }
 

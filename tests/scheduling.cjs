@@ -128,3 +128,26 @@ test('an added Friday remains visible after the three default weekdays', () => {
   const days = scheduling.upcomingBookableDays(s, new Date('2026-09-05T06:00:00Z'));
   assert.ok(days.some(day => day.date === '2026-09-11'), 'New Friday availability must not be hidden after Sunday, Tuesday and Thursday');
 });
+
+test('week choices use Sunday through Saturday in Israel across month and year boundaries', () => {
+  const weeks = scheduling.bookingWeeks(new Date('2026-12-31T12:00:00Z'));
+  assert.equal(weeks[0].start, '2026-12-27');
+  assert.equal(weeks[0].end, '2027-01-02');
+  assert.equal(weeks[1].start, '2027-01-03');
+  assert.equal(weeks[1].end, '2027-01-09');
+  // Still Saturday in UTC, already Sunday in Israel.
+  const rollover = scheduling.bookingWeeks(new Date('2026-09-05T21:30:00Z'));
+  assert.equal(rollover[0].start, '2026-09-06');
+  assert.equal(scheduling.bookingWeeks(new Date('2026-09-05T20:30:00Z'))[0].end, '2026-09-05');
+});
+
+test('each selected week contains only its own available dates', () => {
+  const weeks = scheduling.bookingWeeks(now);
+  const days = scheduling.upcomingBookableDays(schedule(), now);
+  const current = days.filter(day => day.date >= weeks[0].start && day.date <= weeks[0].end);
+  const next = days.filter(day => day.date >= weeks[1].start && day.date <= weeks[1].end);
+  assert.ok(current.length && next.length);
+  assert.ok(current.every(day => day.date < weeks[1].start));
+  assert.ok(next.every(day => day.date > weeks[0].end));
+  assert.ok(!current.some(day => next.some(other => other.date === day.date)));
+});

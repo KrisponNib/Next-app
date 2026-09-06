@@ -46,3 +46,19 @@ export function canStudentModifyBooking(booking:LessonBooking,now=Date.now()){
 export function canStudentBook(date:string,time:string,now=Date.now()){
   return jerusalemLessonStartMs(date,time)-now>=24*60*60*1000;
 }
+
+export function bookingWeeks(now = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Jerusalem", year: "numeric", month: "2-digit", day: "2-digit",
+  }).formatToParts(now);
+  const part = (type: string) => Number(parts.find(p => p.type === type)!.value);
+  const sunday = new Date(Date.UTC(part("year"), part("month") - 1, part("day")));
+  sunday.setUTCDate(sunday.getUTCDate() - sunday.getUTCDay());
+  return ["השבוע", "שבוע הבא"].map((label, index) => {
+    const start = new Date(sunday);
+    start.setUTCDate(start.getUTCDate() + index * 7);
+    const end = new Date(start);
+    end.setUTCDate(end.getUTCDate() + 6);
+    return { label, start: start.toISOString().slice(0, 10), end: end.toISOString().slice(0, 10) };
+  });
+}
