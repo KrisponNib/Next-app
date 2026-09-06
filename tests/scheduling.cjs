@@ -86,3 +86,45 @@ test('weekly availability endpoint requires admin and preserves existing booking
   assert.equal((await api.PATCH(request(availability.map(d => ({...d, enabled: false}))))).status, 200);
   assert.ok(saved.availability.every(d => !d.enabled));
 });
+
+test('saving custom availability is reflected in student GET instead of defaults', async () => {
+  let stored = { ...structuredClone(DEFAULT_LESSON_SCHEDULE), updatedAt: '2026-09-01T00:00:00.000Z' };
+  const cloud = load('lib/cloud/supabaseRest.ts', {
+    process: { env: { SUPABASE_URL: 'https://example.test', SUPABASE_SERVICE_ROLE_KEY: 'test' } },
+    fetch: async (url, options) => {
+      if (url.includes('/students_v1?')) return {ok: true, json: async () => [{id: 'student', share_token: 'token', data: {name: 'Student'}}]};
+      if (options.method === 'PATCH') {
+        stored = JSON.parse(options.body).data;
+        return {ok: true, json: async () => [{data: structuredClone(stored)}]};
+      }
+      return {ok: true, json: async () => [{data: structuredClone(stored)}]};
+    },
+  });
+  const globals = {
+    process: { env: { NEXT_STUDENTS_ADMIN_TOKEN: 'admin' } },
+    require: name => {
+      if (name === 'next/server') return {NextResponse: {json: (body, options) => ({body, status: options?.status || 200})}};
+      if (name === '@/lib/cloud/supabaseRest') return cloud;
+      if (name === '@/lib/scheduling') return scheduling;
+      if (name === '@/lib/googleCalendar') return {};
+      throw new Error(name);
+    },
+  };
+  const admin = load('app/api/schedule/route.ts', globals);
+  const student = load('app/api/student/[token]/schedule/route.ts', globals);
+  // A morning window on every day cannot be mistaken for the original defaults.
+  const availability = Array.from({length: 7}, (_, weekday) => ({weekday, enabled: true, start: '07:00', end: '09:00'}));
+  assert.equal((await admin.PATCH({cookies: {get: () => ({value: 'admin'})}, json: async () => ({availability})})).status, 200);
+  const result = await student.GET({}, {params: {token: 'token'}});
+  assert.equal(result.status, 200);
+  assert.ok(result.body.days.length > 0);
+  assert.ok(result.body.days.every(day => day.times.every(time => time >= '07:00' && time < '09:00')));
+  assert.equal((await cloud.getLessonSchedule()).availability[0].start, '07:00');
+});
+
+test('an added Friday remains visible after the three default weekdays', () => {
+  const s = structuredClone(DEFAULT_LESSON_SCHEDULE);
+  s.availability.find(day => day.weekday === 5).enabled = true;
+  const days = scheduling.upcomingBookableDays(s, new Date('2026-09-05T06:00:00Z'));
+  assert.ok(days.some(day => day.date === '2026-09-11'), 'New Friday availability must not be hidden after Sunday, Tuesday and Thursday');
+});
