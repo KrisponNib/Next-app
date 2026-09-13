@@ -144,7 +144,7 @@ export default function LessonsBehavior() {
  useEffect(() => {
   const root = document.querySelector(".omri-lessons");
   if (!root || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const decorativeClasses = ["snare", "kit-art", "snare-lines", "offer-badge", "headphones-bg", "line-art"];
+  const decorativeClasses = ["snare", "kit-art", "snare-lines", "offer-badge", "headphones-bg", "line-art", "btn-icon"];
   const imgs = Array.from(root.querySelectorAll<HTMLImageElement>("img")).filter(img => !img.closest(".ambient-art"));
   imgs.forEach(img => {
    const decorative = decorativeClasses.some(c => img.classList.contains(c));

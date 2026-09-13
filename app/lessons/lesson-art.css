@@ -335,6 +335,9 @@
   transition: color 250ms;
   will-change: transform;
 }
+.js-cta.cta-docked img.btn-icon {
+  width: 20px;
+}
 /* The header itself is always wine, so the docked button always keeps a
    cream background for contrast — only its text color tracks which CTA
    further down the page was most recently scrolled past. */
@@ -639,12 +642,11 @@
 .omri-lessons img.img-fade-motion.in-view {
   transform: none;
 }
-.omri-lessons .btn-icon {
-  display: inline-flex;
-  align-items: center;
+.omri-lessons img.btn-icon {
+  display: block;
+  width: 30px;
+  height: auto;
   flex-shrink: 0;
-  font-size: 1.1em;
-  line-height: 1;
 }
 .omri-lessons .photo-credit {
   margin-top: 4px;
