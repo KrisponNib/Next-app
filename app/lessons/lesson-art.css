@@ -279,6 +279,16 @@
   z-index: 20;
   background: var(--wine);
   border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  max-height: 220px;
+  overflow: hidden;
+  transition: opacity 320ms ease, max-height 320ms ease;
+}
+/* Stage two: once the CTA has settled into the header slot, the header
+   itself dissolves away, leaving just the circular badge behind. */
+.omri-lessons .topbar-sticky.header-collapsed {
+  opacity: 0;
+  max-height: 0;
+  pointer-events: none;
 }
 .omri-lessons .topbar-sticky .topbar {
   display: flex;
@@ -332,7 +342,8 @@
   border-radius: var(--radius-sm);
   background: var(--cream);
   color: var(--wine);
-  transition: color 250ms;
+  transition: color 250ms, width 320ms ease, height 320ms ease,
+    border-radius 320ms ease, padding 320ms ease, background 320ms ease;
   will-change: transform;
 }
 .js-cta.cta-docked img.btn-icon {
@@ -364,6 +375,64 @@
   0% { transform: scale(0.82); opacity: 0.5; }
   60% { transform: scale(1.06); opacity: 1; }
   100% { transform: scale(1); }
+}
+
+/* Stage two: the header has dissolved, so the button stands on its own as
+   a small round badge with its label wrapped 360° around the rim.
+   Built as individually-rotated character spans rather than SVG
+   textPath — some rendering engines only draw the first glyph of a
+   multi-character textPath string, so plain CSS is the robust choice. */
+.omri-lessons .badge-circle-text {
+  display: none;
+}
+.omri-lessons .js-cta.cta-collapsed {
+  width: 58px;
+  height: 58px;
+  min-height: 0;
+  padding: 0;
+  border-radius: 50%;
+  gap: 0;
+  justify-content: center;
+}
+.js-cta.cta-collapsed .btn-label,
+.js-cta.cta-collapsed img.btn-icon {
+  display: none;
+}
+.js-cta.cta-collapsed .badge-circle-text {
+  display: block;
+  position: absolute;
+  inset: 0;
+}
+.omri-lessons .badge-circle-text span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: 0 0;
+  font-family: "Suez One", serif;
+  font-size: 7.5px;
+  color: var(--cream);
+  white-space: pre;
+  display: inline-block;
+}
+.js-cta.cta-collapsed.cta-a {
+  background: var(--wine);
+}
+.js-cta.cta-collapsed.cta-b {
+  background: var(--green);
+}
+.js-cta.cta-collapsed.cta-c {
+  background: var(--teal);
+}
+.js-cta.cta-collapsed.cta-d {
+  background: var(--amber);
+}
+.js-cta.cta-collapsed:hover {
+  background: var(--ink);
+}
+@media (prefers-reduced-motion: reduce) {
+  .js-cta.cta-docked {
+    transition: color 250ms;
+  }
 }
 @media (max-width: 760px) {
   /* An explicit 2x2 grid instead of flex-wrap: identity (logo/login) forms

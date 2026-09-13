@@ -76,8 +76,23 @@ export default function LessonsPage() {
               className="btn js-cta cta-a"
               href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
             >
-              בא לי לנגן
+              <span className="btn-label">בא לי לנגן</span>
               <img className="btn-icon" src="/marketing/illustrations/btn-drumsticks.png" alt="" aria-hidden="true" width="96" height="65" />
+              <span className="badge-circle-text" aria-hidden="true">
+                {(() => {
+                  const loop = "•  בא לי לנגן  •  בא לי לנגן  ".split("").reverse();
+                  return loop.map((ch, i) => (
+                    <span
+                      key={i}
+                      style={{
+                        transform: `rotate(${(i / loop.length) * 360}deg) translate(-50%, -25px)`,
+                      }}
+                    >
+                      {ch}
+                    </span>
+                  ));
+                })()}
+              </span>
             </a>
           </div>
         </section>

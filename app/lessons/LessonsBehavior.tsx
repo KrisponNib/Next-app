@@ -25,9 +25,14 @@ export default function LessonsBehavior() {
   if (!root || !btn || !slot || !anchor || ctas.length === 0) return;
   const colorClasses = ["cta-a", "cta-b", "cta-c", "cta-d"];
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+  // Captured once, before the header can ever collapse to 0 height, so the
+  // "have we scrolled past this CTA" threshold doesn't shrink along with it.
+  const headerHeight = header?.getBoundingClientRect().height || 80;
   let docked = false;
+  let collapsed = false;
   let activeIndex = 0;
   let frame = 0;
+  let collapseTimer: ReturnType<typeof setTimeout> | undefined;
 
   const snapToSlot = () => {
    const target = slot.getBoundingClientRect();
@@ -46,6 +51,27 @@ export default function LessonsBehavior() {
    btn.classList.remove("cta-pop");
    void btn.offsetWidth;
    btn.classList.add("cta-pop");
+  };
+
+  // Stage two: once the button has settled in the header, the header bar
+  // itself dissolves away and the button becomes a small circular badge
+  // pinned at the top corner, independent of the (now invisible) header.
+  const collapse = () => {
+   collapsed = true;
+   btn.classList.add("cta-collapsed");
+   header?.classList.add("header-collapsed");
+   btn.style.top = "14px";
+   btn.style.left = "14px";
+   btn.style.width = "";
+   btn.style.height = "";
+  };
+
+  const expand = () => {
+   collapsed = false;
+   if (collapseTimer) { clearTimeout(collapseTimer); collapseTimer = undefined; }
+   btn.classList.remove("cta-collapsed");
+   header?.classList.remove("header-collapsed");
+   if (docked) snapToSlot();
   };
 
   const dock = (animate: boolean) => {
@@ -79,6 +105,7 @@ export default function LessonsBehavior() {
 
   const undock = (animate: boolean) => {
    docked = false;
+   expand();
    const first = animate ? btn.getBoundingClientRect() : null;
    btn.classList.remove("cta-docked", "cta-pop");
    colorClasses.forEach(c => btn.classList.remove(c));
@@ -106,10 +133,12 @@ export default function LessonsBehavior() {
 
   const update = () => {
    frame = 0;
-   const headerHeight = header?.getBoundingClientRect().height || 80;
    let newIndex = -1;
    ctas.forEach((cta, i) => {
-    if (cta.getBoundingClientRect().top < headerHeight) newIndex = i;
+    // heroCta itself becomes position:fixed once docked, so its own rect no
+    // longer reflects scroll progress — use the anchor it started in instead.
+    const ref = cta === btn ? anchor : cta;
+    if (ref.getBoundingClientRect().top < headerHeight) newIndex = i;
    });
    // The last CTA may sit close enough to the bottom of the page that it
    // never scrolls all the way past the header (nothing left to scroll).
@@ -123,11 +152,12 @@ export default function LessonsBehavior() {
    if (!docked) {
     activeIndex = newIndex;
     dock(true);
+    collapseTimer = setTimeout(collapse, 550);
    } else if (newIndex !== activeIndex) {
     activeIndex = newIndex;
     setColor(activeIndex);
     replayPop();
-   } else {
+   } else if (!collapsed) {
     snapToSlot();
    }
   };
@@ -139,6 +169,7 @@ export default function LessonsBehavior() {
    window.removeEventListener("scroll", schedule);
    window.removeEventListener("resize", schedule);
    if (frame) cancelAnimationFrame(frame);
+   if (collapseTimer) clearTimeout(collapseTimer);
   };
  }, []);
  useEffect(() => {
