@@ -7,6 +7,7 @@ import { ScreenHeader } from "@/components/layout/ScreenHeader";
 import { Card } from "@/components/ui/Card";
 import { LessonSchedule,Student } from "@/lib/types";
 import { HEBREW_DAYS,addMinutes } from "@/lib/scheduling";
+import { newId } from "@/lib/id";
 
 type CalendarInfo={connected:boolean;calendars:{id:string;name:string;primary:boolean}[];colors:{id:string;background:string;foreground:string}[];settings?:LessonSchedule["googleCalendar"]};
 function displayDate(v:string){const[y,m,d]=v.split("-");return `${d}.${m}.${y}`}
@@ -31,7 +32,7 @@ export default function SchedulePage(){
   async function saveGoogle(patch:Partial<LessonSchedule["googleCalendar"]>){if(!schedule)return;const next={...schedule,googleCalendar:{...schedule.googleCalendar,...patch}};setSchedule(next);await fetch("/api/google-calendar/settings",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(patch)});await loadGoogle()}
   async function markActivity(id:string,resolved=false){if(!schedule)return;const activity=schedule.activity.map(a=>a.id===id?{...a,read:true,resolved:resolved||a.resolved}:a);const next={...schedule,activity};if(resolved){const item=activity.find(a=>a.id===id);if(item?.relatedId)next.requests=next.requests.map(r=>r.id===item.relatedId?{...r,status:"approved" as const}:r)}await save(next)}
   async function cancelBooking(id:string){if(!confirm("לבטל את השיעור? האירוע יימחק גם מ-Google Calendar."))return;const r=await fetch("/api/schedule",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"cancel_booking",bookingId:id})});if(r.ok)setSchedule((await r.json()).schedule)}
-  async function addRecurring(){if(!schedule||!newStudentId)return;const student=students.find(s=>s.id===newStudentId);if(!student)return;const item={id:crypto.randomUUID(),studentId:student.id,studentName:student.name,weekday:newWeekday as 0|1|2|3|4|5|6,startTime:newTime,endTime:addMinutes(newTime,schedule.lessonMinutes),active:true,createdAt:new Date().toISOString()};await save({...schedule,recurringLessons:[...(schedule.recurringLessons||[]),item]});setNewStudentId("")}
+  async function addRecurring(){if(!schedule||!newStudentId)return;const student=students.find(s=>s.id===newStudentId);if(!student)return;const item={id:newId(),studentId:student.id,studentName:student.name,weekday:newWeekday as 0|1|2|3|4|5|6,startTime:newTime,endTime:addMinutes(newTime,schedule.lessonMinutes),active:true,createdAt:new Date().toISOString()};await save({...schedule,recurringLessons:[...(schedule.recurringLessons||[]),item]});setNewStudentId("")}
   async function removeRecurring(id:string){if(!schedule)return;await save({...schedule,recurringLessons:(schedule.recurringLessons||[]).filter(r=>r.id!==id)})}
 
   const pending=schedule?.activity?.filter(a=>a.requiresAction&&!a.resolved)||[];

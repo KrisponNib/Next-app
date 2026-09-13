@@ -1,4 +1,5 @@
 import { IncomeEntry, NextState } from "@/lib/types";
+import { newId } from "@/lib/id";
 
 export interface AddIncomeInput {
   type: IncomeEntry["type"];
@@ -11,7 +12,7 @@ export function addIncome(state: NextState, input: AddIncomeInput): NextState {
     ...state,
     income: [
       {
-        id: crypto.randomUUID(),
+        id: newId(),
         type: input.type,
         amount: input.amount,
         label: input.label,

@@ -1,4 +1,5 @@
 import { NextState, Student, StudentAssignmentStatus } from "@/lib/types";
+import { newId } from "@/lib/id";
 
 function updateStudent(state: NextState, studentId: string, updater: (student: Student) => Student): NextState {
   return {
@@ -11,8 +12,8 @@ function updateStudent(state: NextState, studentId: string, updater: (student: S
 
 export function addStudent(state: NextState, input: Pick<Student, "name" | "gender" | "path" | "currentGoal">): NextState {
   const student: Student = {
-    id: crypto.randomUUID(),
-    shareToken: crypto.randomUUID(),
+    id: newId(),
+    shareToken: newId(),
     name: input.name,
     gender: input.gender,
     path: input.path,
@@ -46,7 +47,7 @@ export function closeStudentLesson(
     ...student,
     lessons: [
       {
-        id: crypto.randomUUID(),
+        id: newId(),
         date: new Date().toISOString(),
         workedOn: input.workedOn,
         wentWell: input.wentWell,
@@ -56,7 +57,7 @@ export function closeStudentLesson(
     ],
     assignments: [
       ...input.assignments.filter((a) => a.title.trim()).map((a) => ({
-        id: crypto.randomUUID(),
+        id: newId(),
         title: a.title.trim(),
         instructions: a.instructions?.trim() || undefined,
         resources: a.resources?.filter((r) => r.url.trim()),
@@ -110,7 +111,7 @@ export function addStudentReflection(
     ...student,
     reflections: [
       {
-        id: crypto.randomUUID(),
+        id: newId(),
         date: new Date().toISOString(),
         ...input,
       },
@@ -127,7 +128,7 @@ export function addStudentWin(
   return updateStudent(state, studentId, (student) => ({
     ...student,
     wins: [
-      { id: crypto.randomUUID(), date: new Date().toISOString(), ...input },
+      { id: newId(), date: new Date().toISOString(), ...input },
       ...student.wins,
     ],
   }));

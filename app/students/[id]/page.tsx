@@ -7,6 +7,7 @@ import { ScreenHeader } from "@/components/layout/ScreenHeader";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { StudentGender } from "@/lib/types";
+import { newId } from "@/lib/id";
 
 export default function StudentPage({ params }: { params: { id: string } }) {
   const { state, updateStudentDetails, closeStudentLesson, addStudentWin, updateStudentAssignment } = useNextState();
@@ -91,7 +92,7 @@ export default function StudentPage({ params }: { params: { id: string } }) {
     reader.readAsDataURL(file);
   }
 
-  function addLink() { setLinks((x) => [...x, { id: crypto.randomUUID(), label: "", url: "" }]); }
+  function addLink() { setLinks((x) => [...x, { id: newId(), label: "", url: "" }]); }
   function updateLink(id: string, field: "label" | "url", value: string) { setLinks((x) => x.map((l) => l.id === id ? { ...l, [field]: value } : l)); }
   function removeLink(id: string) { setLinks((x) => x.filter((l) => l.id !== id)); }
 
@@ -186,7 +187,7 @@ export default function StudentPage({ params }: { params: { id: string } }) {
             <textarea className="w-full bg-surface rounded-button-sm p-3" value={editInstructions} onChange={(e) => setEditInstructions(e.target.value)} placeholder="הוראות לתרגול" />
             <div className="grid grid-cols-2 gap-2"><div><label className="text-xs font-bold">זמן תרגול (דקות)</label><input type="number" min="1" className="w-full bg-surface rounded-button-sm px-3 py-2 mt-1" value={editPracticeMinutes} onChange={(e) => setEditPracticeMinutes(e.target.value)} /></div><div><label className="text-xs font-bold">טמפו התחלתי (BPM)</label><input type="number" min="1" className="w-full bg-surface rounded-button-sm px-3 py-2 mt-1" value={editStartTempo} onChange={(e) => setEditStartTempo(e.target.value)} /></div></div>
             <div>
-              <div className="flex items-center justify-between"><p className="text-sm font-bold">קישורים</p><button type="button" className="text-sm font-bold text-accent" onClick={() => setEditLinks((x) => [...x, { id: crypto.randomUUID(), label: "", url: "" }])}>+ הוסף קישור</button></div>
+              <div className="flex items-center justify-between"><p className="text-sm font-bold">קישורים</p><button type="button" className="text-sm font-bold text-accent" onClick={() => setEditLinks((x) => [...x, { id: newId(), label: "", url: "" }])}>+ הוסף קישור</button></div>
               {editLinks.map((link) => <div key={link.id} className="grid grid-cols-[1fr_2fr_auto] gap-2 mt-2"><input className="bg-surface rounded-button-sm px-2 py-2" placeholder="שם" value={link.label} onChange={(e) => setEditLinks((xs) => xs.map((x) => x.id === link.id ? { ...x, label: e.target.value } : x))} /><input className="bg-surface rounded-button-sm px-2 py-2" placeholder="https://..." value={link.url} onChange={(e) => setEditLinks((xs) => xs.map((x) => x.id === link.id ? { ...x, url: e.target.value } : x))} /><button type="button" onClick={() => setEditLinks((xs) => xs.filter((x) => x.id !== link.id))}>✕</button></div>)}
             </div>
             <div>

@@ -1,5 +1,6 @@
 import { NextState } from "@/lib/types";
 import { DEFAULT_GOALS } from "@/lib/constants/goals";
+import { newId } from "@/lib/id";
 
 // מפתח האחסון המקומי. אם בעתיד יוחלף באחסון סופאבייס - זה הקובץ היחיד
 // שדורש שינוי. שום קומפוננטה במסכים לא נוגעת ב-localStorage בעצמה.
@@ -9,13 +10,13 @@ export function createDefaultState(): NextState {
   return {
     goals: DEFAULT_GOALS,
     tasks: [
-      { id: crypto.randomUUID(), text: "לבחור שני שירי Portfolio", goal: "First Call", done: false },
-      { id: crypto.randomUUID(), text: "20 דקות קריאת תווים", goal: "Mastery", done: false },
-      { id: crypto.randomUUID(), text: "לשלוח הודעה לאיש קשר מקצועי אחד", goal: "Career", done: false },
+      { id: newId(), text: "לבחור שני שירי Portfolio", goal: "First Call", done: false },
+      { id: newId(), text: "20 דקות קריאת תווים", goal: "Mastery", done: false },
+      { id: newId(), text: "לשלוח הודעה לאיש קשר מקצועי אחד", goal: "Career", done: false },
     ],
     schedule: [
-      { id: crypto.randomUUID(), time: "17:00", title: "שיעור תופים" },
-      { id: crypto.randomUUID(), time: "20:00", title: "חלון עבודה על Next" },
+      { id: newId(), time: "17:00", title: "שיעור תופים" },
+      { id: newId(), time: "20:00", title: "חלון עבודה על Next" },
     ],
     wins: [],
     reflections: [],

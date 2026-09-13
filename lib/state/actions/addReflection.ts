@@ -1,4 +1,5 @@
 import { NextState, Reflection, ReflectionType } from "@/lib/types";
+import { newId } from "@/lib/id";
 
 export interface AddReflectionInput {
   type: ReflectionType;
@@ -8,7 +9,7 @@ export interface AddReflectionInput {
 
 export function addReflection(state: NextState, input: AddReflectionInput): NextState {
   const reflection: Reflection = {
-    id: crypto.randomUUID(),
+    id: newId(),
     type: input.type,
     wentWell: input.wentWell,
     improve: input.improve,
@@ -19,7 +20,7 @@ export function addReflection(state: NextState, input: AddReflectionInput): Next
   const newTasks = input.improve
     ? [
         {
-          id: crypto.randomUUID(),
+          id: newId(),
           text: `להכניס לאימון: ${input.improve.slice(0, 42)}`,
           goal: "Mastery",
           done: false,
@@ -34,7 +35,7 @@ export function addReflection(state: NextState, input: AddReflectionInput): Next
     tasks: newTasks,
     wins: [
       {
-        id: crypto.randomUUID(),
+        id: newId(),
         title: `סיכמתי ${input.type}`,
         goal: "Learning",
         date: new Date().toISOString(),
