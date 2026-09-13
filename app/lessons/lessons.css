@@ -5,3 +5,7 @@
 @media(max-width:760px){.omri-lessons .offer-badge{width:min(100%,350px);align-self:center}}
 
 body:has(.omri-lessons){padding-bottom:0;background:#F2E2BD}.omri-lessons .topics,.omri-lessons .practice-list{list-style:none}.omri-lessons .btn{line-height:1.7}
+/* Keep the expanded copy comfortable within the existing layouts. */
+.omri-lessons .conversion h2{min-width:0}
+.omri-lessons .body-copy strong{font-weight:700}
+@media(max-width:760px){.omri-lessons .sticky .wrap{gap:12px}.omri-lessons .sticky .wrap>span{font-size:13px;line-height:1.4;min-width:0}.omri-lessons .sticky .btn{font-size:15px;gap:10px;padding:10px 14px;flex-shrink:0}.omri-lessons .sticky small{font-size:12px;margin-top:4px}}
