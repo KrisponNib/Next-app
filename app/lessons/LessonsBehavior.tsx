@@ -22,7 +22,10 @@ export default function LessonsBehavior() {
    observer = new IntersectionObserver(entries => entries.forEach(entry => {
     if (entry.isIntersecting) { entry.target.classList.add("visible"); observer?.unobserve(entry.target); }
    }), { threshold: 0.15 });
-   root?.querySelectorAll(".reveal").forEach(el => observer?.observe(el));
+   root?.querySelectorAll(".reveal").forEach((el, i) => {
+    (el as HTMLElement).style.setProperty("--reveal-i", String(i % 4));
+    observer?.observe(el);
+   });
   }
   return () => {
    window.removeEventListener("scroll", schedule);
@@ -84,6 +87,31 @@ export default function LessonsBehavior() {
     section.style.removeProperty("--art-scroll");
     reset(section);
    });
+  };
+ }, []);
+ useEffect(() => {
+  const root = document.querySelector(".omri-lessons");
+  if (!root) return;
+  const bar = document.createElement("div");
+  bar.className = "scroll-progress";
+  bar.setAttribute("aria-hidden", "true");
+  root.prepend(bar);
+  let frame = 0;
+  const update = () => {
+   frame = 0;
+   const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+   const pct = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+   bar.style.setProperty("--progress", String(pct));
+  };
+  const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", schedule);
+  update();
+  return () => {
+   window.removeEventListener("scroll", schedule);
+   window.removeEventListener("resize", schedule);
+   if (frame) cancelAnimationFrame(frame);
+   bar.remove();
   };
  }, []);
  return null;
