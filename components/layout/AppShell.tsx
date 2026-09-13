@@ -8,7 +8,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   if (pathname === "/lessons" || pathname === "/lessons/") {
-    return <main className="lessons-page">{children}</main>;
+    return <>{children}</>;
   }
 
   return (

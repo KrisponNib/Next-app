@@ -14,6 +14,11 @@ export default function LessonsPage() {
       <a className="skip" href="#main">
         דילוג לתוכן
       </a>
+      <header className="topbar wrap">
+        <a className="logo" href="#">
+          עמרי ברגר<span>מתופף · מורה לתופים</span>
+        </a>
+      </header>
       <main id="main">
         <section className="opening wrap" aria-labelledby="hero-title">
           <div className="ambient-art art-cymbal-illustration" aria-hidden="true"><img src="/marketing/illustrations/cymbal-illustration.png" alt="" loading="lazy" decoding="async" /></div>
@@ -85,14 +90,14 @@ export default function LessonsPage() {
             <div>
               <h2 className="reveal">אז מה בא לך לדעת לנגן?</h2>
               <div className="kit-art-slot" aria-hidden="true">
-              <img
-                className="line-art kit-art"
-                src="/marketing/lessons/drum-kit-lines.png"
-                alt=""
-                width="1024"
-                height="1024"
-                loading="lazy"
-              />
+                <img
+                  className="line-art kit-art"
+                  src="/marketing/lessons/drum-kit-lines.png"
+                  alt=""
+                  width="1024"
+                  height="1024"
+                  loading="lazy"
+                />
               </div>
               <p>
                 אין תכנית אחת שכולם צריכים לעבור נבין מה בא לך להשיג - ונלמד את הדברים

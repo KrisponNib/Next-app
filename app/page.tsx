@@ -79,7 +79,10 @@ export default function DashboardPage() {
     if(!data)return;
     const next={...data.schedule,activity:(data.schedule.activity||[]).map(a=>a.id===activityId?{...a,read:true,resolved:true}:a)};
     setData({...data,schedule:next});
-    await fetch("/api/schedule",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({schedule:next})});
+    const r=await fetch("/api/schedule",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({schedule:next})});
+    const fresh=r.ok?r:await fetch("/api/schedule",{cache:"no-store"});
+    if(fresh.ok){const result=await fresh.json();setData(current=>current?{...current,schedule:result.schedule}:current)}
+    if(!r.ok)alert("הלוח השתנה או שהשמירה נכשלה. נא לנסות שוב.");
   }
 
   const now=new Date(); const dateTitle=now.toLocaleDateString("he-IL",{weekday:"long",day:"numeric",month:"long"});
