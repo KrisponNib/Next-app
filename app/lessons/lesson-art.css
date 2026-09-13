@@ -378,11 +378,8 @@
 }
 
 /* Stage two: the header has dissolved, so the button stands on its own as
-   a small round badge with its label wrapped 360° around the rim.
-   Built as individually-rotated character spans rather than SVG
-   textPath — some rendering engines only draw the first glyph of a
-   multi-character textPath string, so plain CSS is the robust choice. */
-.omri-lessons .badge-circle-text {
+   a small round badge showing a WhatsApp icon. */
+.omri-lessons .badge-icon {
   display: none;
 }
 .omri-lessons .js-cta.cta-collapsed {
@@ -398,21 +395,11 @@
 .js-cta.cta-collapsed img.btn-icon {
   display: none;
 }
-.js-cta.cta-collapsed .badge-circle-text {
+.js-cta.cta-collapsed .badge-icon {
   display: block;
-  position: absolute;
-  inset: 0;
-}
-.omri-lessons .badge-circle-text span {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform-origin: 0 0;
-  font-family: "Suez One", serif;
-  font-size: 7.5px;
+  width: 26px;
+  height: 26px;
   color: var(--cream);
-  white-space: pre;
-  display: inline-block;
 }
 .js-cta.cta-collapsed.cta-a {
   background: var(--wine);
