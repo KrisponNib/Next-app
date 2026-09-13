@@ -68,6 +68,7 @@ export default function LessonsPage() {
               <span>על הבמה</span>
               <bdi>Arctic Kartiv</bdi>
             </figcaption>
+            <p className="photo-credit">צילום: EilonBphoto</p>
           </figure>
           <div className="hero-action">
             <a
@@ -75,7 +76,8 @@ export default function LessonsPage() {
               className="btn js-cta cta-a"
               href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
             >
-              בא לי לנגן<span aria-hidden="true">↗</span>
+              בא לי לנגן
+              <span className="btn-icon" aria-hidden="true">🥁</span>
             </a>
           </div>
         </section>
@@ -150,6 +152,16 @@ export default function LessonsPage() {
           <div className="personal-callout">
             <h3>ובינתיים, הכול נשמר</h3>
             <p>מה כבר הצלחתם, על מה עובדים עכשיו ומה הדבר הבא - מחכה לכם באזור האישי</p>
+            <figure className="personal-area-shot">
+              <img
+                src="/marketing/personal-area/schedule-example.png"
+                alt="דוגמה אמיתית מהאזור האישי: השיעור הבא בלוז ופירוט שיעורי הבית"
+                width="1514"
+                height="1222"
+                loading="lazy"
+              />
+              <figcaption>ככה זה נראה אצלכם, לדוגמה</figcaption>
+            </figure>
           </div>
         </section>
         <section className="audience section wrap">
@@ -169,22 +181,6 @@ export default function LessonsPage() {
             </div>
           </div>
         </section>
-        <aside className="conversion">
-          <div className="wrap">
-            <h2 className="reveal">
-              אם הגעת עד לכאן, כנראה שיש לך חוש קצב
-              <br />
-              בוא.י לשיעור ניסיון!
-            </h2>
-            <a
-              id="cta2"
-              className="btn js-cta cta-b"
-              href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
-            >
-              בא לי לנגן<span aria-hidden="true">↗</span>
-            </a>
-          </div>
-        </aside>
         <section className="studio section">
           <div className="ambient-art art-tel-aviv-note" aria-hidden="true"><img src="/marketing/illustrations/tel-aviv-note.png" alt="" loading="lazy" decoding="async" /></div>
           <div className="wrap">
@@ -230,6 +226,23 @@ export default function LessonsPage() {
             </div>
           </div>
         </section>
+        <aside className="conversion">
+          <div className="wrap">
+            <h2 className="reveal">
+              אם הגעת עד לכאן, כנראה שיש לך חוש קצב
+              <br />
+              בוא.י לשיעור ניסיון!
+            </h2>
+            <a
+              id="cta2"
+              className="btn js-cta cta-b"
+              href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
+            >
+              בא לי לנגן
+              <span className="btn-icon" aria-hidden="true">🥁</span>
+            </a>
+          </div>
+        </aside>
         <section className="practice section">
           <div className="ambient-art art-practice-note" aria-hidden="true"><img src="/marketing/illustrations/practice-note.png" alt="" loading="lazy" decoding="async" /></div>
           <div className="wrap">
@@ -262,6 +275,15 @@ export default function LessonsPage() {
                       קצב להתחיל
                     </strong>
                   </p>
+                  <figure className="personal-area-shot">
+                    <img
+                      src="/marketing/personal-area/practice-example.png"
+                      alt="דוגמה אמיתית מהאזור האישי: תרגול ידיים - דאבלים"
+                      width="1486"
+                      height="634"
+                      loading="lazy"
+                    />
+                  </figure>
                 </div>
               </div>
               <div className="practice-step">
@@ -278,6 +300,15 @@ export default function LessonsPage() {
                     משהו לא ברור בתרגול? דרך האזור האישי אפשר לענות על כמה שאלות קצרות
                     ולהגיד לי בדיוק איפה נתקעתם ומה לא מסתדר - כדי שנדע על מה צריך לעבוד
                   </p>
+                  <figure className="personal-area-shot">
+                    <img
+                      src="/marketing/personal-area/question-example.png"
+                      alt="דוגמה אמיתית מהאזור האישי: שאלה על משימה"
+                      width="1422"
+                      height="400"
+                      loading="lazy"
+                    />
+                  </figure>
                 </div>
               </div>
               <div className="practice-step achievements">
@@ -302,6 +333,15 @@ export default function LessonsPage() {
                     ככה לאורך הזמן לא רק מרגישים שמתקדמים - אפשר לפתוח את האזור האישי
                     ולראות את כל הדברים שפעם לא ידעתם לעשות והיום כבר כן
                   </p>
+                  <figure className="personal-area-shot">
+                    <img
+                      src="/marketing/personal-area/achievement-example.png"
+                      alt="דוגמה אמיתית מהאזור האישי: הישג חדש"
+                      width="1534"
+                      height="268"
+                      loading="lazy"
+                    />
+                  </figure>
                 </div>
               </div>
             </div>
@@ -339,18 +379,6 @@ export default function LessonsPage() {
             </div>
           </div>
         </section>
-        <aside className="conversion">
-          <div className="wrap">
-            <h2 className="reveal">שווה לנסות לפחות פעם אחת בחיים, לא?</h2>
-            <a
-              id="cta3"
-              className="btn js-cta cta-c"
-              href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
-            >
-              בא לי לנגן<span aria-hidden="true">↗</span>
-            </a>
-          </div>
-        </aside>
         <section className="music section wrap">
           <div className="music-copy">
             <img
@@ -385,6 +413,7 @@ export default function LessonsPage() {
               loading="lazy"
             />
             <figcaption>מהסטודיו אל המוזיקה שבחוץ</figcaption>
+            <p className="photo-credit">צילום: EilonBphoto</p>
           </figure>
         </section>
         <figure className="quote">
@@ -437,6 +466,19 @@ export default function LessonsPage() {
             </div>
           </div>
         </section>
+        <aside className="conversion">
+          <div className="wrap">
+            <h2 className="reveal">שווה לנסות לפחות פעם אחת בחיים, לא?</h2>
+            <a
+              id="cta3"
+              className="btn js-cta cta-c"
+              href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
+            >
+              בא לי לנגן
+              <span className="btn-icon" aria-hidden="true">🥁</span>
+            </a>
+          </div>
+        </aside>
         <section className="stats section wrap">
           <h2 className="reveal">קצת נתונים</h2>
           <div className="stats-bar reveal">
@@ -502,7 +544,8 @@ export default function LessonsPage() {
               className="btn js-cta cta-d"
               href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
             >
-              יאללה קובעים.ות 🥁<span aria-hidden="true">↗</span>
+              יאללה קובעים.ות
+              <span className="btn-icon" aria-hidden="true">🥁</span>
             </a>
           </div>
           <img

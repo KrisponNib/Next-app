@@ -363,25 +363,37 @@
   100% { transform: scale(1); }
 }
 @media (max-width: 760px) {
+  /* An explicit 2x2 grid instead of flex-wrap: identity (logo/login) forms
+     one column on the right, actions (icon/CTA) form one column on the
+     left — symmetric and predictable whether the CTA slot is empty or not. */
   .omri-lessons .topbar-sticky .topbar {
-    flex-wrap: wrap;
-    row-gap: 8px;
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+    row-gap: 10px;
+    column-gap: 16px;
   }
   .omri-lessons .topbar-sticky .logo {
+    grid-column: 1;
+    grid-row: 1;
     font-size: 14.5px;
-    order: 1;
   }
   .omri-lessons .topbar-icon {
-    order: 2;
-  }
-  .omri-lessons .topbar-cta-slot {
-    order: 3;
-    width: 118px;
-    height: 34px;
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: start;
   }
   .omri-lessons .topbar-login {
-    order: 4;
+    grid-column: 1;
+    grid-row: 2;
     font-size: 13px;
+  }
+  .omri-lessons .topbar-cta-slot {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: start;
+    width: 108px;
+    height: 34px;
   }
   .js-cta.cta-docked {
     padding: 7px 12px;
@@ -626,6 +638,19 @@
 }
 .omri-lessons img.img-fade-motion.in-view {
   transform: none;
+}
+.omri-lessons .btn-icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  font-size: 1.1em;
+  line-height: 1;
+}
+.omri-lessons .photo-credit {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--muted);
+  opacity: 0.8;
 }
 
 /* Rounded corners on every "rectangle" element: buttons and real photos.
