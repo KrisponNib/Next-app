@@ -19,13 +19,23 @@ export default function LessonsPage() {
           <a className="logo" href="#">
             עמרי ברגר - מורה לתופים
           </a>
-          <nav className="topbar-mid">
-            <a href="https://www.instagram.com/omri_berger/" target="_blank" rel="noopener noreferrer">
-              אינסטגרם
-            </a>
-            <a href="/students/login">כניסה לאיזור האישי</a>
-          </nav>
+          <a
+            className="topbar-icon"
+            href="https://www.instagram.com/omri_berger/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="אינסטגרם"
+          >
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
+              <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="currentColor" strokeWidth="1.8" />
+              <circle cx="12" cy="12" r="4.6" stroke="currentColor" strokeWidth="1.8" />
+              <circle cx="17.4" cy="6.6" r="1.15" fill="currentColor" />
+            </svg>
+          </a>
           <span className="topbar-cta-slot" aria-hidden="true" />
+          <a className="topbar-login" href="/students/login">
+            כניסה לאיזור האישי
+          </a>
         </div>
       </header>
       <main id="main">
@@ -62,7 +72,7 @@ export default function LessonsPage() {
           <div className="hero-action">
             <a
               id="heroCta"
-              className="btn"
+              className="btn js-cta cta-a"
               href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
             >
               בא לי לנגן<span aria-hidden="true">↗</span>
@@ -167,7 +177,8 @@ export default function LessonsPage() {
               בוא.י לשיעור ניסיון!
             </h2>
             <a
-              className="btn"
+              id="cta2"
+              className="btn js-cta cta-b"
               href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
             >
               בא לי לנגן<span aria-hidden="true">↗</span>
@@ -233,38 +244,6 @@ export default function LessonsPage() {
               <p className="practice-lead">אתם לא נשארים לבד עד לשבוע הבא</p>
               <p>לכל מי שלומד אצלי יש אזור אישי שממשיך איתנו משיעור לשיעור</p>
             </header>
-            <div className="personal-area-mock">
-              <p className="mock-caption">ככה זה נראה אצלכם, לדוגמה:</p>
-              <div className="mock-window">
-                <div className="mock-titlebar">
-                  <span className="mock-dot" />
-                  <span className="mock-dot" />
-                  <span className="mock-dot" />
-                  <span className="mock-title">האזור האישי שלי</span>
-                </div>
-                <div className="mock-body">
-                  <div className="mock-row mock-row-done">
-                    <span className="mock-check">✓</span>
-                    <span>תרגול פראדידלים - 10 דקות</span>
-                  </div>
-                  <div className="mock-row">
-                    <span className="mock-check" />
-                    <span>השיר הבא: &quot;עוד תעלה&quot;</span>
-                  </div>
-                  <div className="mock-row mock-row-done">
-                    <span className="mock-check">✓</span>
-                    <span>הקלטה של השיעור האחרון</span>
-                  </div>
-                  <div className="mock-achievement">
-                    <span className="mock-badge">🥁</span>
-                    <div>
-                      <strong>הישג חדש!</strong>
-                      <span>ניגנת שיר שלם בפעם הראשונה</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
             <div className="practice-story">
               <div className="practice-step">
                 <div className="step-heading">
@@ -346,6 +325,16 @@ export default function LessonsPage() {
                 <p>
                   <strong>וכן, גם את השיעור הבא קובעים משם :)</strong>
                 </p>
+                <figure className="personal-area-shot">
+                  <img
+                    src="/marketing/personal-area/booking-example.png"
+                    alt="דוגמה אמיתית מהאזור האישי: ציטוט היום וכפתור קביעת שיעור"
+                    width="1572"
+                    height="711"
+                    loading="lazy"
+                  />
+                  <figcaption>ככה זה נראה אצלכם, לדוגמה</figcaption>
+                </figure>
               </div>
             </div>
           </div>
@@ -354,7 +343,8 @@ export default function LessonsPage() {
           <div className="wrap">
             <h2 className="reveal">שווה לנסות לפחות פעם אחת בחיים, לא?</h2>
             <a
-              className="btn"
+              id="cta3"
+              className="btn js-cta cta-c"
               href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
             >
               בא לי לנגן<span aria-hidden="true">↗</span>
@@ -449,20 +439,20 @@ export default function LessonsPage() {
         </section>
         <section className="stats section wrap">
           <h2 className="reveal">קצת נתונים</h2>
-          <div className="stats-grid">
-            <div className="stat-item stat-a reveal">
+          <div className="stats-bar reveal">
+            <div className="stat-item stat-a">
               <span className="stat-number">3</span>
               <span className="stat-label">שנות ניסיון בהוראה</span>
             </div>
-            <div className="stat-item stat-b reveal">
+            <div className="stat-item stat-b">
               <span className="stat-number">עשרות</span>
               <span className="stat-label">תלמידים ותלמידות</span>
             </div>
-            <div className="stat-item stat-c reveal">
+            <div className="stat-item stat-c">
               <span className="stat-number">מאות</span>
               <span className="stat-label">שעות של שיעורי תופים</span>
             </div>
-            <div className="stat-item stat-d reveal">
+            <div className="stat-item stat-d">
               <span className="stat-number">מאות אלפי</span>
               <span className="stat-label">מכות שהקשבתי להן :)</span>
             </div>
@@ -508,7 +498,8 @@ export default function LessonsPage() {
               בסטודיו :)
             </p>
             <a
-              className="btn"
+              id="cta4"
+              className="btn js-cta cta-d"
               href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
             >
               יאללה קובעים.ות 🥁<span aria-hidden="true">↗</span>

@@ -20,10 +20,13 @@ export default function LessonsBehavior() {
   const btn = root?.querySelector<HTMLElement>("#heroCta");
   const slot = root?.querySelector<HTMLElement>(".topbar-cta-slot");
   const anchor = root?.querySelector(".hero-action");
-  if (!btn || !slot || !anchor) return;
+  const header = root?.querySelector<HTMLElement>(".topbar-sticky");
+  const ctas = Array.from(root?.querySelectorAll<HTMLElement>(".js-cta") ?? []);
+  if (!root || !btn || !slot || !anchor || ctas.length === 0) return;
+  const colorClasses = ["cta-a", "cta-b", "cta-c", "cta-d"];
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-  const desktop = matchMedia("(min-width: 761px)");
   let docked = false;
+  let activeIndex = 0;
   let frame = 0;
 
   const snapToSlot = () => {
@@ -34,14 +37,26 @@ export default function LessonsBehavior() {
    btn.style.height = `${target.height}px`;
   };
 
+  const setColor = (idx: number) => {
+   colorClasses.forEach((c, i) => btn.classList.toggle(c, i === idx));
+  };
+
+  const replayPop = () => {
+   if (reduced.matches) return;
+   btn.classList.remove("cta-pop");
+   void btn.offsetWidth;
+   btn.classList.add("cta-pop");
+  };
+
   const dock = (animate: boolean) => {
    docked = true;
    const first = animate ? btn.getBoundingClientRect() : null;
    // .opening has isolation:isolate for the ambient-art layering, which would
    // trap this fixed-position button under the header's own stacking context.
    // Move it out to the page root so its z-index actually competes globally.
-   root?.appendChild(btn);
+   root.appendChild(btn);
    btn.classList.add("cta-docked");
+   setColor(activeIndex);
    snapToSlot();
    if (first && !reduced.matches) {
     const last = btn.getBoundingClientRect();
@@ -65,7 +80,8 @@ export default function LessonsBehavior() {
   const undock = (animate: boolean) => {
    docked = false;
    const first = animate ? btn.getBoundingClientRect() : null;
-   btn.classList.remove("cta-docked");
+   btn.classList.remove("cta-docked", "cta-pop");
+   colorClasses.forEach(c => btn.classList.remove(c));
    btn.style.top = "";
    btn.style.left = "";
    btn.style.width = "";
@@ -90,14 +106,30 @@ export default function LessonsBehavior() {
 
   const update = () => {
    frame = 0;
-   if (!desktop.matches) {
-    if (docked) undock(false);
+   const headerHeight = header?.getBoundingClientRect().height || 80;
+   let newIndex = -1;
+   ctas.forEach((cta, i) => {
+    if (cta.getBoundingClientRect().top < headerHeight) newIndex = i;
+   });
+   // The last CTA may sit close enough to the bottom of the page that it
+   // never scrolls all the way past the header (nothing left to scroll).
+   // Once we've hit the bottom, treat it as reached regardless.
+   const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
+   if (atBottom) newIndex = ctas.length - 1;
+   if (newIndex === -1) {
+    if (docked) undock(true);
     return;
    }
-   const shouldDock = anchor.getBoundingClientRect().bottom < 0;
-   if (shouldDock && !docked) dock(true);
-   else if (!shouldDock && docked) undock(true);
-   else if (docked) snapToSlot();
+   if (!docked) {
+    activeIndex = newIndex;
+    dock(true);
+   } else if (newIndex !== activeIndex) {
+    activeIndex = newIndex;
+    setColor(activeIndex);
+    replayPop();
+   } else {
+    snapToSlot();
+   }
   };
   const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
   window.addEventListener("scroll", schedule, { passive: true });
