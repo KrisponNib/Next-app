@@ -1,0 +1,146 @@
+/* Decorative layers only: preserve the live page's grid, spacing and type metrics. */
+.omri-lessons .opening,
+.omri-lessons .studio,
+.omri-lessons .practice,
+.omri-lessons .about {
+  position: relative;
+  isolation: isolate;
+}
+.omri-lessons .ambient-art {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  user-select: none;
+  transform: translate3d(0, var(--art-scroll, 0px), 0);
+}
+.omri-lessons .ambient-art img {
+  width: 100%;
+  height: auto;
+  transition: transform 650ms cubic-bezier(.2,.7,.3,1);
+  transform: translate(var(--art-x, 0px), var(--art-y, 0px)) rotate(var(--art-rotate, 0deg));
+}
+.omri-lessons .art-cymbal-illustration {
+  width: 42%;
+  right: 0;
+  bottom: 35px;
+  opacity: .09;
+  mix-blend-mode: multiply;
+}
+.omri-lessons .art-tel-aviv-note {
+  width: min(33%, 420px);
+  right: 6%;
+  top: 190px;
+  opacity: .1;
+}
+.omri-lessons .art-practice-note {
+  width: min(38%, 470px);
+  right: 2%;
+  top: 36%;
+  opacity: .075;
+  mix-blend-mode: multiply;
+}
+.omri-lessons .art-drummer-illustration {
+  width: 53%;
+  right: 0;
+  bottom: 8%;
+  opacity: .12;
+  mix-blend-mode: multiply;
+}
+/* Keep existing illustrations in their original flow slots and dimensions. */
+.omri-lessons .snare { opacity: .18; }
+.omri-lessons .kit-art { opacity: .16; }
+.omri-lessons .snare-lines { opacity: .16; }
+.omri-lessons .headphones { opacity: .18; }
+.omri-lessons .offer-badge { opacity: .72; }
+.omri-lessons .kit-art,
+.omri-lessons .snare-lines {
+  translate: 0 var(--art-scroll, 0px);
+}
+.omri-lessons .word-color { color: var(--wine); }
+.omri-lessons .studio .word-color { color: #e3b797; }
+/* Paint-only scaling keeps surrounding text, line wraps and section heights intact. */
+.omri-lessons .first h2 em,
+.omri-lessons .practice-heading h2 em {
+  display: inline-block;
+  scale: 1.035;
+  transform-origin: right center;
+}
+.omri-lessons .music strong bdi { color: var(--wine); }
+@media (hover: hover) and (pointer: fine) {
+  .omri-lessons .btn { transition: background 200ms, translate 200ms; }
+  .omri-lessons .btn:hover { translate: 0 -3px; }
+  .omri-lessons .btn span { transition: translate 200ms; }
+  .omri-lessons .btn:hover span { translate: -4px -2px; }
+  .omri-lessons .kit-art,
+  .omri-lessons .snare-lines,
+  .omri-lessons .offer-badge { transition: rotate 500ms; }
+  .omri-lessons .kit-art:hover,
+  .omri-lessons .snare-lines:hover,
+  .omri-lessons .offer-badge:hover { rotate: -3deg; }
+}
+@media (max-width: 760px) {
+  .omri-lessons .art-cymbal-illustration { width: 65%; top: 90px; bottom: auto; opacity: .065; }
+  .omri-lessons .art-tel-aviv-note { width: 62%; right: 3%; top: 80px; opacity: .065; }
+  .omri-lessons .art-practice-note { width: 70%; right: 2%; top: 35%; opacity: .055; }
+  .omri-lessons .art-drummer-illustration { width: 92%; right: 0; bottom: 22%; opacity: .065; }
+  .omri-lessons .first h2 em,
+  .omri-lessons .practice-heading h2 em { scale: 1.02; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .omri-lessons .ambient-art,
+  .omri-lessons .ambient-art img { transform: none; transition: none; }
+  .omri-lessons .kit-art,
+  .omri-lessons .snare-lines,
+  .omri-lessons .offer-badge,
+  .omri-lessons .btn,
+  .omri-lessons .btn span { translate: none; rotate: none; transition: none; }
+}
+
+/* Side compositions requested for the second illustration pass. */
+.omri-lessons { overflow: clip; }
+.omri-lessons .first { isolation: isolate; }
+.omri-lessons .snare { opacity: 1; z-index: 2; }
+.omri-lessons .personal { position: relative; isolation: isolate; }
+.omri-lessons .kit-art-slot {
+  order: 2;
+  width: min(100%, 430px);
+  aspect-ratio: 1374 / 1145;
+  margin-top: 36px;
+}
+.omri-lessons .kit-art {
+  position: absolute;
+  width: 115%;
+  max-width: none;
+  right: -32%;
+  top: -7%;
+  margin: 0;
+  z-index: -1;
+  opacity: .11;
+  transform: rotate(-17deg);
+  pointer-events: none;
+}
+.omri-lessons .art-drumsticks {
+  width: min(60vw, 800px);
+  left: -16%;
+  top: 0;
+  opacity: .12;
+  mix-blend-mode: multiply;
+}
+.omri-lessons .art-drumsticks img { rotate: -22deg; }
+.omri-lessons .practice-outro { position: relative; isolation: isolate; }
+.omri-lessons .practice-outro .snare-lines {
+  justify-self: start;
+  scale: 1.55;
+  transform: translateX(22%) rotate(18deg);
+  z-index: -1;
+  opacity: .2;
+}
+.omri-lessons .headphones { opacity: 1; scale: 1.22; }
+.omri-lessons .offer-badge { opacity: 1; }
+@media (max-width: 760px) {
+  .omri-lessons .kit-art-slot { width: 280px; margin-top: 24px; align-self: center; }
+  .omri-lessons .kit-art { width: 210%; right: -105%; top: 12%; opacity: .09; }
+  .omri-lessons .art-drumsticks { width: 115%; left: -65%; top: 15px; opacity: .085; }
+  .omri-lessons .practice-outro .snare-lines { scale: 1.35; transform: translateX(18%) rotate(18deg); }
+  .omri-lessons .headphones { scale: 1.15; transform-origin: right center; }
+}

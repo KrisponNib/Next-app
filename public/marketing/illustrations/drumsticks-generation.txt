@@ -1,0 +1,3 @@
+Tool: built-in ImageGen
+Asset: drumsticks.png
+Prompt: Create a website decorative asset: exactly two long wooden drumsticks loosely crossing at an acute angle, diagonal composition from lower left to upper right, full sticks visible with teardrop tips. Hand-drawn vintage editorial black ink contour illustration with subtle irregular ink grain and very sparse warm ivory wood detail. Restrained, airy, elegant, matches a cream paper Hebrew drum teacher website. No drum, no hands, no lettering, no symbols, no shadow, no glow. Actual transparent background, isolated drumsticks only. Output PNG.

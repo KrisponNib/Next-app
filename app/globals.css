@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* The public lessons page has its own full-width, solid-color shell. */
+body:has(.lessons-page) {
+  padding-bottom: 0;
+  background: #183f32;
+}
+
 html,
 body {
   min-height: 100%;
