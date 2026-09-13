@@ -14,10 +14,18 @@ export default function LessonsPage() {
       <a className="skip" href="#main">
         דילוג לתוכן
       </a>
-      <header className="topbar wrap">
-        <a className="logo" href="#">
-          עמרי ברגר<span>מתופף · מורה לתופים</span>
-        </a>
+      <header className="topbar-sticky">
+        <div className="topbar wrap">
+          <a className="logo" href="#">
+            עמרי ברגר<span>מתופף · מורה לתופים</span>
+          </a>
+          <a
+            className="btn topbar-cta"
+            href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
+          >
+            בא לי לנגן
+          </a>
+        </div>
       </header>
       <main id="main">
         <section className="opening wrap" aria-labelledby="hero-title">
@@ -26,7 +34,7 @@ export default function LessonsPage() {
             <h1 id="hero-title">
               תמיד רצית
               <br />
-              לנגן על תופים?
+              לנגן על <span className="circle-mark">תופים?</span>
             </h1>
             <p className="sub">בואו נתחיל מהשיר האהוב עליכם.ן!</p>
             <p className="intro">
@@ -132,12 +140,21 @@ export default function LessonsPage() {
             <p>מה כבר הצלחתם, על מה עובדים עכשיו ומה הדבר הבא - מחכה לכם באזור האישי</p>
           </div>
         </section>
+        <section className="audience section wrap">
+          <h2 className="reveal">למי זה מתאים?</h2>
+          <div className="audience-grid">
+            <div className="audience-tag tag-a reveal">מתחילים.ות מוחלטים</div>
+            <div className="audience-tag tag-b reveal">מתקדמים.ות</div>
+            <div className="audience-tag tag-c reveal">ילדים ובני נוער</div>
+            <div className="audience-tag tag-d reveal">מבוגרים.ות</div>
+          </div>
+        </section>
         <aside className="conversion">
           <div className="wrap">
             <h2 className="reveal">
               אם הגעת עד לכאן, כנראה שיש לך חוש קצב
               <br />
-              בוא.י לשיעור ניסיון!
+              בוא.י ל<span className="circle-mark">שיעור ניסיון</span>!
             </h2>
             <a
               className="btn"
@@ -387,6 +404,59 @@ export default function LessonsPage() {
                 האלה אני ממשיך לקחת איתי גם לשיעורים שאני מעביר
               </p>
             </div>
+          </div>
+        </section>
+        <section className="stats section wrap">
+          <h2 className="reveal">קצת נתונים</h2>
+          <div className="stats-grid">
+            <div className="stat-item reveal">
+              <span className="stat-number">3</span>
+              <span className="stat-label">שנות ניסיון בהוראה</span>
+            </div>
+            <div className="stat-item reveal">
+              <span className="stat-number">עשרות</span>
+              <span className="stat-label">תלמידים ותלמידות</span>
+            </div>
+            <div className="stat-item reveal">
+              <span className="stat-number">מאות</span>
+              <span className="stat-label">שעות של שיעורי תופים</span>
+            </div>
+            <div className="stat-item reveal">
+              <span className="stat-number">מאות אלפי</span>
+              <span className="stat-label">מכות שהקשבתי להן :)</span>
+            </div>
+          </div>
+        </section>
+        <section className="testimonials section wrap">
+          <h2 className="reveal">מה התלמידים אומרים</h2>
+          <div className="testimonial-grid">
+            <blockquote className="testimonial-card reveal">
+              <p>
+                עמרי הוא מורה מדהים. הגעתי אליו בלי ניסיון בכלל, רק רציתי לדעת לתופף.
+                התחלנו ממש מההתחלה - הוא לימד אותי לקרוא תווים, איך להחזיק את המקלות
+                ואיך לשבת נכון על התופים. עמרי תמיד מאוד סבלני ומצחיק, ממש כיף איתו
+                בשיעור. היום אני כבר מנגן את כל השירים שאני אוהב, מנגן עם חברים,
+                ומתכונן עם עמרי למבחני קבלה ללהקה צבאית! ממליץ מאוד על שיעורי התופים
+                של עמרי!
+              </p>
+              <footer>
+                יואב, 16<span>לומד שנה וחצי</span>
+              </footer>
+            </blockquote>
+            <blockquote className="testimonial-card reveal">
+              <p>
+                אני לומדת עם עמרי כבר חצי שנה, וממש ממש אוהבת את השיעורים שלנו :)
+                רציתי לבוא לשיעור תופים כי תמיד היה לי את החלום הזה לדעת לנגן על משהו,
+                והתופים תמיד היו נראים הכי כיפיים. השעה הזאת בשבוע עוזרת לי מאוד לפרוק
+                ולהשתחרר מכל השגרה, והכניסה לי תחביב מדהים לחיים! עמרי ממש מצחיק
+                ונחמד, מאוד מקצועי ונעים גם. אני מאזינה להמון מוזיקה מאז, וכל שיר
+                שאני אוהבת, אנחנו לומדים ביחד לנגן בשיעור. ממליצה מאוד מאוד לבוא
+                לשיעור אצל עמרי :)
+              </p>
+              <footer>
+                יובל, 23<span>לומדת חצי שנה</span>
+              </footer>
+            </blockquote>
           </div>
         </section>
         <section className="final section wrap" id="start">
