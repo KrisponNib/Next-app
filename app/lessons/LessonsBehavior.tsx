@@ -3,20 +3,6 @@ import { useEffect } from "react";
 export default function LessonsBehavior() {
  useEffect(() => {
   const root = document.querySelector(".omri-lessons");
-  const anchor = root?.querySelector(".hero-action");
-  const sticky = root?.querySelector<HTMLElement>(".sticky");
-  const finalSection = root?.querySelector(".final");
-  if (!anchor || !sticky || !finalSection) return;
-  let frame = 0;
-  const update = () => {
-   sticky.hidden = anchor.getBoundingClientRect().bottom > 0 || finalSection.getBoundingClientRect().top < window.innerHeight;
-   frame = 0;
-  };
-  const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
-  window.addEventListener("scroll", schedule, { passive: true });
-  window.addEventListener("resize", schedule);
-  window.addEventListener("pageshow", update);
-  update();
   let observer: IntersectionObserver | undefined;
   if ("IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
    observer = new IntersectionObserver(entries => entries.forEach(entry => {
@@ -27,13 +13,116 @@ export default function LessonsBehavior() {
     observer?.observe(el);
    });
   }
+  return () => observer?.disconnect();
+ }, []);
+ useEffect(() => {
+  const root = document.querySelector(".omri-lessons");
+  const btn = root?.querySelector<HTMLElement>("#heroCta");
+  const slot = root?.querySelector<HTMLElement>(".topbar-cta-slot");
+  const anchor = root?.querySelector(".hero-action");
+  if (!btn || !slot || !anchor) return;
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+  const desktop = matchMedia("(min-width: 761px)");
+  let docked = false;
+  let frame = 0;
+
+  const snapToSlot = () => {
+   const target = slot.getBoundingClientRect();
+   btn.style.top = `${target.top}px`;
+   btn.style.left = `${target.left}px`;
+   btn.style.width = `${target.width}px`;
+   btn.style.height = `${target.height}px`;
+  };
+
+  const dock = (animate: boolean) => {
+   docked = true;
+   const first = animate ? btn.getBoundingClientRect() : null;
+   // .opening has isolation:isolate for the ambient-art layering, which would
+   // trap this fixed-position button under the header's own stacking context.
+   // Move it out to the page root so its z-index actually competes globally.
+   root?.appendChild(btn);
+   btn.classList.add("cta-docked");
+   snapToSlot();
+   if (first && !reduced.matches) {
+    const last = btn.getBoundingClientRect();
+    const dx = first.left - last.left;
+    const dy = first.top - last.top;
+    const sx = first.width / last.width;
+    const sy = first.height / last.height;
+    btn.style.transition = "none";
+    btn.style.transform = `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})`;
+    btn.getBoundingClientRect();
+    requestAnimationFrame(() => {
+     btn.style.transition = "transform 480ms cubic-bezier(.2,.7,.3,1)";
+     btn.style.transform = "none";
+    });
+   } else {
+    btn.style.transition = "none";
+    btn.style.transform = "none";
+   }
+  };
+
+  const undock = (animate: boolean) => {
+   docked = false;
+   const first = animate ? btn.getBoundingClientRect() : null;
+   btn.classList.remove("cta-docked");
+   btn.style.top = "";
+   btn.style.left = "";
+   btn.style.width = "";
+   btn.style.height = "";
+   anchor.appendChild(btn);
+   if (first && !reduced.matches) {
+    const last = btn.getBoundingClientRect();
+    const dx = first.left - last.left;
+    const dy = first.top - last.top;
+    btn.style.transition = "none";
+    btn.style.transform = `translate(${dx}px, ${dy}px)`;
+    btn.getBoundingClientRect();
+    requestAnimationFrame(() => {
+     btn.style.transition = "transform 420ms cubic-bezier(.2,.7,.3,1)";
+     btn.style.transform = "none";
+    });
+   } else {
+    btn.style.transition = "none";
+    btn.style.transform = "none";
+   }
+  };
+
+  const update = () => {
+   frame = 0;
+   if (!desktop.matches) {
+    if (docked) undock(false);
+    return;
+   }
+   const shouldDock = anchor.getBoundingClientRect().bottom < 0;
+   if (shouldDock && !docked) dock(true);
+   else if (!shouldDock && docked) undock(true);
+   else if (docked) snapToSlot();
+  };
+  const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", schedule);
+  update();
   return () => {
    window.removeEventListener("scroll", schedule);
    window.removeEventListener("resize", schedule);
-   window.removeEventListener("pageshow", update);
    if (frame) cancelAnimationFrame(frame);
-   observer?.disconnect();
   };
+ }, []);
+ useEffect(() => {
+  const root = document.querySelector(".omri-lessons");
+  if (!root || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const decorativeClasses = ["snare", "kit-art", "snare-lines", "offer-badge", "headphones-bg", "line-art"];
+  const imgs = Array.from(root.querySelectorAll<HTMLImageElement>("img")).filter(img => !img.closest(".ambient-art"));
+  imgs.forEach(img => {
+   const decorative = decorativeClasses.some(c => img.classList.contains(c));
+   img.classList.add(decorative ? "img-fade-motion" : "img-fade-full");
+  });
+  const observer = new IntersectionObserver(entries => {
+   entries.forEach(entry => entry.target.classList.toggle("in-view", entry.isIntersecting));
+  }, { threshold: 0.12 });
+  imgs.forEach(img => observer.observe(img));
+  return () => observer.disconnect();
  }, []);
  useEffect(() => {
   const root = document.querySelector(".omri-lessons");

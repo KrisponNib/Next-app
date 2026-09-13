@@ -17,14 +17,15 @@ export default function LessonsPage() {
       <header className="topbar-sticky">
         <div className="topbar wrap">
           <a className="logo" href="#">
-            עמרי ברגר<span>מתופף · מורה לתופים</span>
+            עמרי ברגר - מורה לתופים
           </a>
-          <a
-            className="btn topbar-cta"
-            href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
-          >
-            בא לי לנגן
-          </a>
+          <nav className="topbar-mid">
+            <a href="https://www.instagram.com/omri_berger/" target="_blank" rel="noopener noreferrer">
+              אינסטגרם
+            </a>
+            <a href="/students/login">כניסה לאיזור האישי</a>
+          </nav>
+          <span className="topbar-cta-slot" aria-hidden="true" />
         </div>
       </header>
       <main id="main">
@@ -34,7 +35,7 @@ export default function LessonsPage() {
             <h1 id="hero-title">
               תמיד רצית
               <br />
-              לנגן על <span className="circle-mark">תופים?</span>
+              לנגן על תופים?
             </h1>
             <p className="sub">בואו נתחיל מהשיר האהוב עליכם.ן!</p>
             <p className="intro">
@@ -60,6 +61,7 @@ export default function LessonsPage() {
           </figure>
           <div className="hero-action">
             <a
+              id="heroCta"
               className="btn"
               href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
             >
@@ -143,10 +145,18 @@ export default function LessonsPage() {
         <section className="audience section wrap">
           <h2 className="reveal">למי זה מתאים?</h2>
           <div className="audience-grid">
-            <div className="audience-tag tag-a reveal">מתחילים.ות מוחלטים</div>
-            <div className="audience-tag tag-b reveal">מתקדמים.ות</div>
-            <div className="audience-tag tag-c reveal">ילדים ובני נוער</div>
-            <div className="audience-tag tag-d reveal">מבוגרים.ות</div>
+            <div className="audience-tag tag-a reveal">
+              <span>מתחילים.ות מוחלטים</span>
+            </div>
+            <div className="audience-tag tag-b reveal">
+              <span>מתקדמים.ות</span>
+            </div>
+            <div className="audience-tag tag-c reveal">
+              <span>ילדים ובני נוער</span>
+            </div>
+            <div className="audience-tag tag-d reveal">
+              <span>מבוגרים.ות</span>
+            </div>
           </div>
         </section>
         <aside className="conversion">
@@ -154,7 +164,7 @@ export default function LessonsPage() {
             <h2 className="reveal">
               אם הגעת עד לכאן, כנראה שיש לך חוש קצב
               <br />
-              בוא.י ל<span className="circle-mark">שיעור ניסיון</span>!
+              בוא.י לשיעור ניסיון!
             </h2>
             <a
               className="btn"
@@ -194,14 +204,14 @@ export default function LessonsPage() {
             <div className="studio-photos">
               <img
                 src="/marketing/lessons/studio.jpg"
-                alt="מערכת התופים והציוד בסטודיו"
+                alt="מערכת התופים בסטודיו, על רקע קיר ירוק עם תמונות ותאורה חמה"
                 width="1050"
                 height="1400"
                 loading="lazy"
               />
               <img
                 src="/marketing/lessons/studio-detail.jpg"
-                alt="מבט מקרוב על ציוד התופים בסטודיו"
+                alt="זווית נוספת של מערכת התופים בסטודיו"
                 width="1050"
                 height="1400"
                 loading="lazy"
@@ -223,6 +233,38 @@ export default function LessonsPage() {
               <p className="practice-lead">אתם לא נשארים לבד עד לשבוע הבא</p>
               <p>לכל מי שלומד אצלי יש אזור אישי שממשיך איתנו משיעור לשיעור</p>
             </header>
+            <div className="personal-area-mock">
+              <p className="mock-caption">ככה זה נראה אצלכם, לדוגמה:</p>
+              <div className="mock-window">
+                <div className="mock-titlebar">
+                  <span className="mock-dot" />
+                  <span className="mock-dot" />
+                  <span className="mock-dot" />
+                  <span className="mock-title">האזור האישי שלי</span>
+                </div>
+                <div className="mock-body">
+                  <div className="mock-row mock-row-done">
+                    <span className="mock-check">✓</span>
+                    <span>תרגול פראדידלים - 10 דקות</span>
+                  </div>
+                  <div className="mock-row">
+                    <span className="mock-check" />
+                    <span>השיר הבא: &quot;עוד תעלה&quot;</span>
+                  </div>
+                  <div className="mock-row mock-row-done">
+                    <span className="mock-check">✓</span>
+                    <span>הקלטה של השיעור האחרון</span>
+                  </div>
+                  <div className="mock-achievement">
+                    <span className="mock-badge">🥁</span>
+                    <div>
+                      <strong>הישג חדש!</strong>
+                      <span>ניגנת שיר שלם בפעם הראשונה</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className="practice-story">
               <div className="practice-step">
                 <div className="step-heading">
@@ -320,30 +362,29 @@ export default function LessonsPage() {
           </div>
         </aside>
         <section className="music section wrap">
-          <div className="section-grid">
-            <div>
-              <h2 className="reveal">בסוף, מנגנים מוזיקה</h2>
-              <p>המטרה היא לא להיות אלופות בלנגן תרגילים בחדר לבד</p>
-              <p>
-                המטרה היא לשים שיר באוזניות ולהרגיש שאתן יושבות עליו בול לעלות לנגן עם
-                חברות ולא ללכת לאיבוד לשמוע שיר שאתן אוהבות ופתאום להבין מה המתופפת עושה
-                שם
-              </p>
-              <p>ואולי יום אחד גם לעלות על במה ולספור לכולן:</p>
-              <p>
-                <strong>
-                  <bdi>ONE, TWO, THREE, FOUR!</bdi>
-                </strong>
-              </p>
-            </div>
+          <div className="music-copy">
             <img
-              className="drawing headphones"
+              className="headphones-bg"
               src="/marketing/lessons/headphones.png"
               alt=""
+              aria-hidden="true"
               width="1536"
               height="1024"
               loading="lazy"
             />
+            <h2 className="reveal">בסוף, מנגנים מוזיקה</h2>
+            <p>המטרה היא לא להיות אלופות בלנגן תרגילים בחדר לבד</p>
+            <p>
+              המטרה היא לשים שיר באוזניות ולהרגיש שאתן יושבות עליו בול לעלות לנגן עם
+              חברות ולא ללכת לאיבוד לשמוע שיר שאתן אוהבות ופתאום להבין מה המתופפת עושה
+              שם
+            </p>
+            <p>ואולי יום אחד גם לעלות על במה ולספור לכולן:</p>
+            <p>
+              <strong>
+                <bdi>ONE, TWO, THREE, FOUR!</bdi>
+              </strong>
+            </p>
           </div>
           <figure className="live">
             <img
@@ -409,19 +450,19 @@ export default function LessonsPage() {
         <section className="stats section wrap">
           <h2 className="reveal">קצת נתונים</h2>
           <div className="stats-grid">
-            <div className="stat-item reveal">
+            <div className="stat-item stat-a reveal">
               <span className="stat-number">3</span>
               <span className="stat-label">שנות ניסיון בהוראה</span>
             </div>
-            <div className="stat-item reveal">
+            <div className="stat-item stat-b reveal">
               <span className="stat-number">עשרות</span>
               <span className="stat-label">תלמידים ותלמידות</span>
             </div>
-            <div className="stat-item reveal">
+            <div className="stat-item stat-c reveal">
               <span className="stat-number">מאות</span>
               <span className="stat-label">שעות של שיעורי תופים</span>
             </div>
-            <div className="stat-item reveal">
+            <div className="stat-item stat-d reveal">
               <span className="stat-number">מאות אלפי</span>
               <span className="stat-label">מכות שהקשבתי להן :)</span>
             </div>
@@ -487,19 +528,6 @@ export default function LessonsPage() {
         <span>עמרי ברגר · שיעורי תופים בתל אביב</span>
         <a href="/students/login">כניסה לתלמידים</a>
       </footer>
-      <div className="sticky" id="stickyCta" hidden>
-        <div className="wrap">
-          <span>
-            בואו נתחיל מהשיר האהוב עליכם.ן!<small>שיעורי תופים בתל אביב</small>
-          </span>
-          <a
-            className="btn"
-            href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
-          >
-            יאללה קובעים.ות 🥁<span aria-hidden="true">↗</span>
-          </a>
-        </div>
-      </div>
       <LessonsBehavior />
     </div>
   );

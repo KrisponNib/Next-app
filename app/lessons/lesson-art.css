@@ -263,42 +263,82 @@
   }
 }
 
-/* Reference-inspired pass: sticky header CTA, real-numbers proof, testimonials,
-   an audience grid, hand-drawn circle marks, and a whisper of paper texture. */
+/* Reference-inspired pass: a wine header with a docking CTA, real-numbers
+   proof, testimonials, an audience grid, and a whisper of paper texture. */
 
 .omri-lessons .topbar-sticky {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: var(--cream);
+  background: var(--wine);
 }
 .omri-lessons .topbar-sticky .topbar {
-  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  column-gap: 28px;
+  border-bottom: none;
 }
-.omri-lessons .topbar-cta {
-  padding: 9px 18px;
+.omri-lessons .topbar-sticky .logo {
+  color: var(--cream);
+  font-size: 18px;
+  justify-self: end;
+}
+.omri-lessons .topbar-mid {
+  display: flex;
+  gap: 22px;
+  justify-self: center;
+}
+.omri-lessons .topbar-mid a {
+  color: var(--cream);
+  font-size: 14px;
+  opacity: 0.88;
+  transition: opacity 200ms;
+}
+.omri-lessons .topbar-mid a:hover {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.omri-lessons .topbar-cta-slot {
+  display: inline-block;
+  width: 128px;
+  height: 38px;
+  justify-self: start;
+}
+#heroCta.cta-docked {
+  position: fixed;
+  z-index: 21;
+  margin: 0;
+  padding: 9px 16px;
   font-size: 14px;
   min-height: 38px;
   gap: 10px;
+  background: var(--cream);
+  color: var(--wine);
+  will-change: transform;
+}
+#heroCta.cta-docked:hover {
+  background: var(--green);
+  color: var(--cream);
 }
 @media (max-width: 760px) {
-  .omri-lessons .topbar-cta {
+  .omri-lessons .topbar-sticky .topbar {
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+  }
+  .omri-lessons .topbar-cta-slot {
     display: none;
   }
-}
-
-.omri-lessons .circle-mark {
-  position: relative;
-  display: inline-block;
-}
-.omri-lessons .circle-mark::after {
-  content: "";
-  position: absolute;
-  inset: -0.32em -0.4em -0.24em -0.4em;
-  z-index: -1;
-  pointer-events: none;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 90'%3E%3Cpath d='M14 46C10 24 34 9 96 6C150 4 196 14 208 34C218 52 196 74 132 82C70 89 20 78 12 58C9 52 12 50 14 46Z' fill='none' stroke='%23934B3D' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E")
-    no-repeat center / 100% 100%;
+  .omri-lessons .topbar-sticky .logo {
+    font-size: 15px;
+  }
+  .omri-lessons .topbar-mid {
+    gap: 14px;
+  }
+  .omri-lessons .topbar-mid a {
+    font-size: 12.5px;
+  }
 }
 
 .omri-lessons .stats-grid {
@@ -308,13 +348,25 @@
   margin-top: 40px;
 }
 .omri-lessons .stat-item {
-  background: var(--green);
   color: var(--cream);
   padding: 28px 18px;
   text-align: center;
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+.omri-lessons .stat-item.stat-a {
+  background: var(--wine);
+}
+.omri-lessons .stat-item.stat-b {
+  background: var(--teal);
+}
+.omri-lessons .stat-item.stat-c {
+  background: var(--ochre);
+  color: var(--ink);
+}
+.omri-lessons .stat-item.stat-d {
+  background: var(--green);
 }
 .omri-lessons .stat-number {
   font-family: "Suez One", serif;
@@ -399,9 +451,17 @@
   border: 2px solid var(--line);
   padding: 22px 14px;
   text-align: center;
-  font-family: "Suez One", serif;
-  font-size: 18px;
   line-height: 1.3;
+}
+.omri-lessons .audience-tag > span {
+  display: inline-block;
+  font-family: "Heebo", sans-serif;
+  font-weight: 500;
+  font-size: 19px;
+  transform: skewX(-8deg) rotate(-1.5deg);
+}
+.omri-lessons .audience-tag:nth-child(even) > span {
+  transform: skewX(-8deg) rotate(1.5deg);
 }
 .omri-lessons .audience-tag.tag-a {
   border-color: var(--wine);
@@ -449,4 +509,129 @@
   mix-blend-mode: multiply;
   pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Personal-area example widget: an illustrative mock UI, not a screenshot. */
+.omri-lessons .personal-area-mock {
+  max-width: 420px;
+  margin: 40px auto 0;
+}
+.omri-lessons .mock-caption {
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.omri-lessons .mock-window {
+  background: var(--light);
+  border: 1px solid var(--line);
+  box-shadow: 6px 8px 0 rgba(37, 41, 34, 0.1);
+  transform: rotate(-0.6deg);
+  overflow: hidden;
+}
+.omri-lessons .mock-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 14px;
+  background: var(--green);
+}
+.omri-lessons .mock-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(246, 241, 231, 0.5);
+}
+.omri-lessons .mock-title {
+  margin-inline-start: 8px;
+  font-family: "Suez One", serif;
+  font-size: 13px;
+  color: var(--cream);
+}
+.omri-lessons .mock-body {
+  padding: 18px 20px 22px;
+}
+.omri-lessons .mock-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-block: 10px;
+  border-bottom: 1px solid var(--line);
+  font-size: 15px;
+}
+.omri-lessons .mock-row .mock-check {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  border: 1.5px solid var(--line);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--cream);
+}
+.omri-lessons .mock-row-done .mock-check {
+  background: var(--wine);
+  border-color: var(--wine);
+}
+.omri-lessons .mock-row-done span:last-child {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--line);
+}
+.omri-lessons .mock-achievement {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--ochre);
+}
+.omri-lessons .mock-badge {
+  font-size: 26px;
+}
+.omri-lessons .mock-achievement div {
+  display: flex;
+  flex-direction: column;
+  font-size: 13.5px;
+}
+.omri-lessons .mock-achievement strong {
+  font-family: "Suez One", serif;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+/* Headphones illustration sits faintly behind the "music" section copy. */
+.omri-lessons .music-copy {
+  position: relative;
+  isolation: isolate;
+}
+.omri-lessons .headphones-bg {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  z-index: -1;
+  width: min(65%, 460px);
+  height: auto;
+  opacity: 0.1;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* Scroll enter/exit for real content photos vs. decorative line-art. */
+.omri-lessons img.img-fade-full,
+.omri-lessons img.img-fade-motion {
+  transition: opacity 650ms ease, transform 650ms cubic-bezier(0.2, 0.7, 0.3, 1);
+  transform: translateY(26px) scale(0.97);
+}
+.omri-lessons img.img-fade-full {
+  opacity: 0;
+}
+.omri-lessons img.img-fade-full.in-view {
+  opacity: 1;
+  transform: none;
+}
+.omri-lessons img.img-fade-motion.in-view {
+  transform: none;
 }
