@@ -163,9 +163,8 @@ html:has(.omri-lessons) {
   background: var(--green);
 }
 .omri-lessons .btn span {
-  font:
-    24px Arial,
-    sans-serif;
+  font-family: "Suez One", serif;
+  font-size: 24px;
 }
 .omri-lessons .hero-action .btn {
   width: 100%;
