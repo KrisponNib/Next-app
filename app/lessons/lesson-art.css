@@ -46,6 +46,47 @@
   opacity: .12;
   mix-blend-mode: multiply;
 }
+.omri-lessons .hero-copy {
+  position: relative;
+}
+/* A heavier, more dominant weight for the hero headline specifically —
+   the rest of the site's headings stay on Suez One. */
+.omri-lessons #hero-title {
+  font-family: Heebo, Arial, sans-serif;
+  font-weight: 900;
+}
+.omri-lessons .art-drumsticks-hero {
+  width: 72%;
+  right: 14%;
+  top: 6%;
+  opacity: .12;
+  mix-blend-mode: multiply;
+  transform: translate3d(0, var(--art-scroll, 0px), 0) rotate(-16deg);
+}
+@media (max-width: 760px) {
+  .omri-lessons .art-drumsticks-hero {
+    width: 82%;
+    right: 9%;
+    top: 4%;
+  }
+}
+.omri-lessons .first .section-grid {
+  position: relative;
+}
+.omri-lessons .art-snare-behind {
+  width: 100%;
+  right: -8%;
+  top: 16%;
+  opacity: .11;
+  mix-blend-mode: multiply;
+}
+@media (max-width: 760px) {
+  .omri-lessons .art-snare-behind {
+    width: 130%;
+    right: -20%;
+    top: 20%;
+  }
+}
 /* Keep existing illustrations in their original flow slots and dimensions. */
 .omri-lessons .snare { opacity: .18; }
 .omri-lessons .kit-art { opacity: .16; }
@@ -59,13 +100,20 @@
 .omri-lessons .word-color { color: var(--wine); }
 .omri-lessons .studio .word-color { color: #e3b797; }
 /* Paint-only scaling keeps surrounding text, line wraps and section heights intact. */
-.omri-lessons .first h2 em,
-.omri-lessons .practice-heading h2 em {
-  display: inline-block;
-  scale: 1.035;
-  transform-origin: right center;
-}
 .omri-lessons .music strong bdi { color: var(--wine); }
+/* "קובעים / מגיעים / מנגנים" as a staircase: each word on its own line,
+   stepping from right to center to left. */
+.omri-lessons h2.staircase {
+  display: flex;
+  flex-direction: column;
+}
+.omri-lessons .stair {
+  display: block;
+  scale: 1.035;
+}
+.omri-lessons .stair-1 { text-align: right; scale: 1; }
+.omri-lessons .stair-2 { text-align: center; color: var(--teal); }
+.omri-lessons .stair-3 { text-align: left; }
 @media (hover: hover) and (pointer: fine) {
   .omri-lessons .btn { transition: background 200ms, translate 200ms; }
   .omri-lessons .btn:hover { translate: 0 -3px; }
@@ -79,12 +127,11 @@
   .omri-lessons .offer-badge:hover { rotate: -3deg; }
 }
 @media (max-width: 760px) {
-  .omri-lessons .art-cymbal-illustration { width: 65%; top: 90px; bottom: auto; opacity: .065; }
+  .omri-lessons .art-cymbal-illustration { width: 60%; top: 340px; right: 20%; bottom: auto; opacity: .08; }
   .omri-lessons .art-tel-aviv-note { width: 62%; right: 3%; top: 80px; opacity: .065; }
   .omri-lessons .art-practice-note { width: 70%; right: 2%; top: 35%; opacity: .055; }
   .omri-lessons .art-drummer-illustration { width: 92%; right: 0; bottom: 22%; opacity: .065; }
-  .omri-lessons .first h2 em,
-  .omri-lessons .practice-heading h2 em { scale: 1.02; }
+  .omri-lessons .stair-3 { scale: 1.02; }
 }
 @media (prefers-reduced-motion: reduce) {
   .omri-lessons .ambient-art,
@@ -112,7 +159,7 @@
   width: 115%;
   max-width: none;
   right: -32%;
-  top: -7%;
+  top: -16%;
   margin: 0;
   z-index: -1;
   opacity: .11;
@@ -137,9 +184,38 @@
 }
 .omri-lessons .headphones { opacity: 1; scale: 1.22; }
 .omri-lessons .offer-badge { opacity: 1; }
+
+/* Final CTA: the price badge sits "stuck on" the button's top-left corner,
+   slightly tilted, like a sticker slapped on at an angle. */
+.omri-lessons .final-cta {
+  position: relative;
+  width: fit-content;
+  margin-inline: auto;
+}
+.omri-lessons .final-cta .offer-badge {
+  position: absolute;
+  top: -26px;
+  left: -30px;
+  width: 118px;
+  rotate: -14deg;
+  z-index: 2;
+  pointer-events: none;
+}
 @media (max-width: 760px) {
-  .omri-lessons .kit-art-slot { width: 280px; margin-top: 24px; align-self: center; }
-  .omri-lessons .kit-art { width: 210%; right: -105%; top: 12%; opacity: .09; }
+  .omri-lessons .final-cta .offer-badge {
+    width: 92px;
+    top: -20px;
+    left: -18px;
+  }
+}
+@media (max-width: 760px) {
+  /* The slot only ever existed to reserve layout space next to the heading
+     that used to sit here; the heading is gone and .kit-art itself is
+     absolutely positioned, so the slot can collapse to zero height without
+     affecting the (still-visible) bleeding illustration. */
+  .omri-lessons .kit-art-slot { width: 280px; height: 0; margin-top: 0; align-self: center; }
+  .omri-lessons .personal .section-grid { gap: 0; }
+  .omri-lessons .kit-art { width: 210%; right: -105%; top: -14%; opacity: .09; }
   .omri-lessons .art-drumsticks { width: 115%; left: -65%; top: 15px; opacity: .085; }
   .omri-lessons .practice-outro .snare-lines { scale: 1.35; transform: translateX(18%) rotate(18deg); }
   .omri-lessons .headphones { scale: 1.15; transform-origin: right center; }
@@ -177,10 +253,6 @@
 .omri-lessons .section-label {
   color: var(--wine);
 }
-.omri-lessons .hero-photo figcaption span:first-child {
-  color: var(--wine);
-  font-weight: 600;
-}
 .omri-lessons .quote figcaption span {
   color: #e3b797;
 }
@@ -199,12 +271,6 @@
     color-mix(in srgb, #e3b797 0%, transparent) 62%,
     color-mix(in srgb, #e3b797 24%, transparent) 62%
   );
-}
-.omri-lessons footer a {
-  transition: color 200ms;
-}
-.omri-lessons footer a:hover {
-  color: var(--wine);
 }
 @media (hover: hover) and (pointer: fine) {
   .omri-lessons .topics li {
@@ -279,18 +345,55 @@
   z-index: 20;
   background: var(--wine);
   border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  overflow: hidden;
+}
+/* Vintage-ticket radiating lines, fanning out from behind the centered
+   logo lockup. */
+.omri-lessons .topbar-sticky::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-conic-gradient(
+    from 0deg at 50% 50%,
+    rgba(246, 241, 231, 0.16) 0deg 2deg,
+    transparent 2deg 12deg
+  );
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 0%, transparent 26%, black 62%);
+  mask-image: radial-gradient(circle at 50% 50%, transparent 0%, transparent 26%, black 62%);
+  pointer-events: none;
 }
 .omri-lessons .topbar-sticky .topbar {
-  display: flex;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
-  gap: 18px;
+  gap: 12px;
   padding-block: 14px;
   border-bottom: none;
+}
+.omri-lessons .topbar-sticky .logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-self: center;
+  line-height: 1.25;
+}
+.omri-lessons .logo-line1 {
+  color: var(--cream);
+  font-size: 16px;
+}
+.omri-lessons .logo-line2 {
+  color: var(--cream);
+  font-family: Heebo, Arial, sans-serif;
+  font-weight: 500;
+  font-size: 10.5px;
+  opacity: 0.85;
+  letter-spacing: 0.01em;
 }
 .omri-lessons .topbar-icon {
   color: var(--cream);
   display: inline-flex;
+  justify-self: end;
   opacity: 0.9;
   transition: opacity 200ms, transform 200ms;
 }
@@ -301,8 +404,9 @@
 .omri-lessons .topbar-login {
   color: var(--cream);
   font-family: "Suez One", serif;
-  font-size: 15px;
+  font-size: 16px;
   opacity: 0.92;
+  justify-self: start;
   flex-shrink: 0;
   transition: opacity 200ms;
 }
@@ -310,6 +414,15 @@
   opacity: 1;
   text-decoration: underline;
   text-underline-offset: 4px;
+}
+@media (max-width: 760px) {
+  .omri-lessons .logo-line1,
+  .omri-lessons .topbar-login {
+    font-size: 12px;
+  }
+  .omri-lessons .logo-line2 {
+    font-size: 9px;
+  }
 }
 
 /* Persistent WhatsApp shortcut, fixed at the bottom-left corner for the
@@ -445,7 +558,8 @@
 .omri-lessons .testimonial-card footer {
   margin-top: 18px;
   display: flex;
-  gap: 8px;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: baseline;
   font-family: "Suez One", serif;
   color: var(--green);
@@ -459,11 +573,22 @@
 @media (max-width: 760px) {
   .omri-lessons .testimonial-grid {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 16px;
   }
   .omri-lessons .testimonial-card:nth-child(1),
   .omri-lessons .testimonial-card:nth-child(2) {
     transform: none;
+  }
+  .omri-lessons .testimonial-card {
+    padding: 18px;
+  }
+  .omri-lessons .testimonial-card::before {
+    font-size: 36px;
+    margin-bottom: 0;
+  }
+  .omri-lessons .testimonial-card p {
+    font-size: 14.5px;
+    line-height: 1.6;
   }
 }
 
@@ -594,9 +719,21 @@
 }
 .omri-lessons .photo-credit {
   margin-top: 4px;
+  font-family: Heebo, Arial, sans-serif;
+  font-weight: 500;
   font-size: 12px;
   color: var(--muted);
-  opacity: 0.8;
+  opacity: 0.9;
+}
+.omri-lessons .photo-credit bdi {
+  font-family: "Caveat", cursive;
+  font-weight: 700;
+  font-size: 1.4em;
+}
+.omri-lessons .hero-photo figcaption .photo-credit {
+  margin-top: 0;
+  color: #fff;
+  opacity: 1;
 }
 
 /* Rounded corners on every "rectangle" element: buttons and real photos.
@@ -609,4 +746,27 @@
 .omri-lessons .studio-photos img,
 .omri-lessons .live img {
   border-radius: var(--radius-md);
+}
+
+/* General preference: centered reading text instead of right-aligned. */
+.omri-lessons h1,
+.omri-lessons h2,
+.omri-lessons h3,
+.omri-lessons .sub,
+.omri-lessons p,
+.omri-lessons .cta-meta,
+.omri-lessons .topics span,
+.omri-lessons .topics small {
+  text-align: center;
+}
+.omri-lessons .hero-copy,
+.omri-lessons .body-copy,
+.omri-lessons .music-copy {
+  margin-inline: auto;
+}
+.omri-lessons .topics li {
+  text-align: center;
+}
+.omri-lessons p.photo-credit {
+  text-align: right;
 }

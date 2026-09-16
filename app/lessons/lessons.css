@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Suez+One&family=Heebo:wght@400;500;700&family=Archivo:wght@800&family=Caveat:wght@600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Suez+One&family=Heebo:wght@400;500;700;900&family=Archivo:wght@800&family=Caveat:wght@600;700&display=swap");
 .omri-lessons {
   --cream: #f2e2bd;
   --light: #fbf2dc;
@@ -22,7 +22,7 @@ html:has(.omri-lessons) {
   background: var(--cream);
   color: var(--ink);
   font:
-    17px/1.7 Heebo,
+    500 18px/1.7 Heebo,
     Arial,
     sans-serif;
   padding-bottom: 90px;
@@ -87,18 +87,6 @@ html:has(.omri-lessons) {
   padding-block: 26px;
   border-bottom: 1px solid var(--line);
 }
-.omri-lessons .logo {
-  font-size: 23px;
-  line-height: 1.3;
-}
-.omri-lessons .logo span {
-  display: block;
-  font:
-    13px/1.6 Heebo,
-    sans-serif;
-  color: var(--muted);
-  margin-top: 5px;
-}
 .omri-lessons .status {
   font-size: 14px;
   color: var(--muted);
@@ -130,6 +118,9 @@ html:has(.omri-lessons) {
   grid-column: 2;
   grid-row: 1/3;
 }
+.omri-lessons .hero-photo-frame {
+  position: relative;
+}
 .omri-lessons .hero-photo img {
   width: 100%;
   aspect-ratio: 4/5;
@@ -137,11 +128,15 @@ html:has(.omri-lessons) {
   object-position: center 72%;
 }
 .omri-lessons .hero-photo figcaption {
+  position: absolute;
+  inset-inline: 16px;
+  bottom: 14px;
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
   font-size: 13px;
-  color: var(--muted);
-  padding-top: 9px;
+  color: #fff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 .omri-lessons .hero-action {
   margin-top: 30px;
@@ -320,16 +315,22 @@ html:has(.omri-lessons) {
 .omri-lessons .live {
   margin-top: 55px;
 }
+.omri-lessons .live-photo-frame {
+  position: relative;
+}
 .omri-lessons .live img {
   width: 100%;
   max-height: 560px;
   object-fit: cover;
   object-position: center 55%;
 }
-.omri-lessons .live figcaption {
-  margin-top: 10px;
-  font-size: 14px;
-  color: var(--muted);
+.omri-lessons .live-photo-frame .photo-credit {
+  position: absolute;
+  bottom: 14px;
+  right: 16px;
+  margin-top: 0;
+  color: #fff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 .omri-lessons .quote {
   background: var(--ink);
@@ -378,19 +379,6 @@ html:has(.omri-lessons) {
 }
 .omri-lessons .final p {
   margin-block: 25px;
-}
-.omri-lessons footer {
-  display: flex;
-  gap: 20px;
-  justify-content: space-between;
-  border-top: 1px solid var(--line);
-  padding-block: 25px;
-  font-size: 14px;
-  color: var(--muted);
-}
-.omri-lessons footer a {
-  text-decoration: underline;
-  text-underline-offset: 4px;
 }
 .omri-lessons .sticky {
   position: fixed;
@@ -461,30 +449,25 @@ html:has(.omri-lessons) {
   .omri-lessons .topbar {
     padding-block: 18px;
   }
-  .omri-lessons .logo {
-    font-size: 20px;
-  }
-  .omri-lessons .logo span {
-    font-size: 12px;
-  }
   .omri-lessons .status {
     font-size: 12px;
   }
   .omri-lessons .opening {
     display: flex;
     flex-direction: column;
-    padding-block: 26px 64px;
+    padding-block: 20px 40px;
     gap: 0;
   }
   .omri-lessons .hero-copy {
     padding-top: 0;
   }
   .omri-lessons .opening h1 {
-    font-size: clamp(36px, 10.8vw, 60px);
+    font-size: clamp(44px, 13.5vw, 76px);
   }
   .omri-lessons .sub {
-    font-size: 29px;
+    font-size: 36px;
     margin-top: 16px;
+    margin-bottom: 28px;
   }
   .omri-lessons .intro {
     font-size: 16.5px;
@@ -507,7 +490,7 @@ html:has(.omri-lessons) {
     font-size: 13px;
   }
   .omri-lessons .section {
-    padding-block: 65px;
+    padding-block: 44px;
   }
   .omri-lessons .section-grid {
     grid-template-columns: 1fr;
@@ -527,13 +510,31 @@ html:has(.omri-lessons) {
   .omri-lessons .topics span {
     font-size: 25px;
   }
+  .omri-lessons .conversion {
+    padding-block: 28px;
+  }
   .omri-lessons .conversion .wrap {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
+    align-items: center;
+    gap: 18px;
   }
   .omri-lessons .conversion h2 {
-    font-size: 30px;
+    font-size: 17px;
+    line-height: 1.4;
+    max-width: 26ch;
+  }
+  .omri-lessons .conversion.conversion-intro h2 {
+    font-size: 19px;
+    max-width: none;
+  }
+  .omri-lessons .conversion .btn {
+    padding: 12px 20px;
+    font-size: 16px;
+    min-height: 0;
+    gap: 12px;
+  }
+  .omri-lessons .conversion .btn img.btn-icon {
+    width: 26px;
   }
   .omri-lessons .studio-photos {
     gap: 12px;
@@ -587,10 +588,6 @@ html:has(.omri-lessons) {
   }
   .omri-lessons .final h2 {
     font-size: 59px;
-  }
-  .omri-lessons footer {
-    flex-direction: column;
-    gap: 12px;
   }
   .omri-lessons .sticky .wrap > span {
     font-size: 15px;
@@ -875,13 +872,14 @@ body:has(.omri-lessons) {
     top: -58px;
   }
   .omri-lessons .first {
-    padding-top: 90px;
+    padding-top: 56px;
+    padding-bottom: 16px;
   }
   .omri-lessons .first h2 {
     font-size: 48px;
   }
   .omri-lessons .personal {
-    padding-top: 35px;
+    padding-top: 10px;
   }
   .omri-lessons .kit-art {
     width: 280px;
@@ -893,9 +891,9 @@ body:has(.omri-lessons) {
     padding-top: 35px;
   }
   .omri-lessons .studio-photos {
-    grid-template-columns: 1fr;
-    gap: 22px;
-    margin-top: 32px;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 22px;
   }
   .omri-lessons .practice-heading {
     text-align: right;

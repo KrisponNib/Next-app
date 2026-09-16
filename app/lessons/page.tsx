@@ -17,6 +17,18 @@ export default function LessonsPage() {
       <header className="topbar-sticky">
         <div className="topbar wrap">
           <a
+            className="topbar-login"
+            href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            קביעת שיעור תופים
+          </a>
+          <span className="logo">
+            <span className="logo-line1">עמרי ברגר</span>
+            <span className="logo-line2">מורה לתופים</span>
+          </span>
+          <a
             className="topbar-icon"
             href="https://www.instagram.com/omri_berger/"
             target="_blank"
@@ -28,9 +40,6 @@ export default function LessonsPage() {
               <circle cx="12" cy="12" r="4.6" stroke="currentColor" strokeWidth="1.8" />
               <circle cx="17.4" cy="6.6" r="1.15" fill="currentColor" />
             </svg>
-          </a>
-          <a className="topbar-login" href="/students/login">
-            כניסה לאיזור האישי
           </a>
         </div>
       </header>
@@ -52,43 +61,31 @@ export default function LessonsPage() {
         <section className="opening wrap" aria-labelledby="hero-title">
           <div className="ambient-art art-cymbal-illustration" aria-hidden="true"><img src="/marketing/illustrations/cymbal-illustration.png" alt="" loading="lazy" decoding="async" /></div>
           <div className="hero-copy">
+            <div className="ambient-art art-drumsticks-hero" aria-hidden="true"><img src="/marketing/illustrations/drumsticks.png" alt="" loading="lazy" decoding="async" /></div>
             <h1 id="hero-title">
-              תמיד רצית
+              תמיד חלמת
               <br />
               לנגן על תופים?
             </h1>
-            <p className="sub">בואו נתחיל מהשיר האהוב עליכם.ן!</p>
-            <p className="intro">
-              אפשר לנגן בשביל הכיף
-              <br />
-              אפשר לחלום על הבמות הגדולות
-              <br />
-              בשני המקרים - מתחילים משיעור ניסיון אצלי :)
-            </p>
           </div>
           <figure className="hero-photo">
-            <img
-              src="/marketing/lessons/stage.jpg"
-              alt="עמרי על הבמה, מאחורי מערכת התופים עם מקלות מורמים"
-              width="1280"
-              height="1920"
-              fetchPriority="high"
-            />
-            <figcaption>
-              <span>על הבמה</span>
-              <bdi>Arctic Kartiv</bdi>
-            </figcaption>
-            <p className="photo-credit">צילום: EilonBphoto</p>
+            <div className="hero-photo-frame">
+              <img
+                src="/marketing/lessons/stage.jpg"
+                alt="עמרי על הבמה, מאחורי מערכת התופים עם מקלות מורמים"
+                width="1280"
+                height="1920"
+                fetchPriority="high"
+              />
+              <figcaption>
+                <span className="photo-credit">
+                  <bdi>EilonBphoto</bdi>
+                </span>
+                <bdi>Arctic Kartiv</bdi>
+              </figcaption>
+            </div>
+            <p className="sub">עכשיו זה הזמן להתחיל!</p>
           </figure>
-          <div className="hero-action">
-            <a
-              className="btn"
-              href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
-            >
-              <span className="btn-label">בא לי לנגן</span>
-              <img className="btn-icon" src="/marketing/illustrations/btn-drumsticks.png" alt="" aria-hidden="true" width="96" height="65" />
-            </a>
-          </div>
         </section>
         <section className="first wrap section">
           <img
@@ -100,18 +97,17 @@ export default function LessonsPage() {
             loading="lazy"
           />
           <div className="section-grid">
-            <h2 className="reveal">
-              קובעים
-              <br />
-              מגיעים
-              <br />
-              <em>מנגנים</em>
+            <div className="ambient-art art-snare-behind" aria-hidden="true"><img src="/marketing/lessons/snare.png" alt="" loading="lazy" decoding="async" /></div>
+            <h2 className="reveal staircase">
+              <span className="stair stair-1">קובעים</span>
+              <span className="stair stair-2">מגיעים</span>
+              <em className="stair stair-3">מנגנים</em>
             </h2>
             <div className="body-copy">
               <p>לא צריך לדעת כלום על מוזיקה לפני שמגיעים לשיעור הראשון!</p>
               <p>תבואו, נכיר קצת, תתיישבו על התופים - ותתחילו לנגן!</p>
               <p>ולפני שתשימו לב, כבר נקליט <span className="word-color">שיר ראשון</span> להשמיע למשפחה ולחברים :)</p>
-              <p className="first-personal-note">והכל יהיה שמור באיזור האישי שלכם</p>
+              <p className="first-personal-note">ומה נלמד בשיעורים?</p>
             </div>
           </div>
         </section>
@@ -119,7 +115,6 @@ export default function LessonsPage() {
         <section className="personal wrap section">
           <div className="section-grid">
             <div>
-              <h2 className="reveal">אז מה בא לך לדעת לנגן?</h2>
               <div className="kit-art-slot" aria-hidden="true">
                 <img
                   className="line-art kit-art"
@@ -130,10 +125,6 @@ export default function LessonsPage() {
                   loading="lazy"
                 />
               </div>
-              <p>
-                אין תכנית אחת שכולם צריכים לעבור נבין מה בא לך להשיג - ונלמד את הדברים
-                שיעזרו לך להגיע לשם
-              </p>
             </div>
             <ul className="topics">
               <li>
@@ -157,20 +148,6 @@ export default function LessonsPage() {
                 </small>
               </li>
             </ul>
-          </div>
-          <div className="personal-callout">
-            <h3>ובינתיים, הכול נשמר</h3>
-            <p>מה כבר הצלחתם, על מה עובדים עכשיו ומה הדבר הבא - מחכה לכם באזור האישי</p>
-            <figure className="personal-area-shot">
-              <img
-                src="/marketing/personal-area/schedule-example.png"
-                alt="דוגמה אמיתית מהאזור האישי: השיעור הבא בלוז ופירוט שיעורי הבית"
-                width="1514"
-                height="1222"
-                loading="lazy"
-              />
-              <figcaption>ככה זה נראה אצלכם, לדוגמה</figcaption>
-            </figure>
           </div>
         </section>
         <section className="audience section wrap">
@@ -202,18 +179,13 @@ export default function LessonsPage() {
                 </h2>
               </div>
               <div className="body-copy">
-                <p>הסטודיו נמצא במרכז תל אביב ברחוב דרויאנוב 5</p>
                 <p>
-                  מגיעים, שמים את הדברים בצד, מתיישבים על התופים ובוחרים מה בא לנגן היום
-                  יש מערכת תופים מקצועית, אוזניות וכל מה שצריך - לא צריך להביא כלום
+                  הסטודיו נמצא במרכז תל אביב, ברחוב דרויאנוב 5 - מגיעים, מתיישבים על
+                  התופים ומתחילים. יש הכל: מערכת מקצועית, אוזניות וכל מה שצריך.
                 </p>
                 <p>
-                  ו<span className="word-color">הכי כיף</span> - הכול מחובר ומוכן להקלטה מסיימים לעבוד על שיר, מקליטים אתכם,
-                  ובדרך הביתה כבר שולחים לאמא סרטון שלכם מתופפים :)
-                </p>
-                <p>
-                  והתווים, שיעורי הבית וכל מה שצריך כדי להמשיך בבית? כבר מחכים לכם באזור
-                  האישי
+                  ו<span className="word-color">הכי כיף</span> - הכול מוקלט, אז בדרך
+                  הביתה כבר שולחים לאמא סרטון שלכם מתופפים :)
                 </p>
               </div>
             </div>
@@ -235,7 +207,7 @@ export default function LessonsPage() {
             </div>
           </div>
         </section>
-        <aside className="conversion">
+        <aside className="conversion conversion-intro">
           <div className="wrap">
             <h2 className="reveal">
               אם הגעת עד לכאן, כנראה שיש לך חוש קצב
@@ -256,14 +228,10 @@ export default function LessonsPage() {
           <div className="wrap">
             <div className="ambient-art art-drumsticks" aria-hidden="true"><img src="/marketing/illustrations/drumsticks.png" alt="" loading="lazy" decoding="async" /></div>
             <header className="practice-heading">
-              <span className="section-label">האזור האישי שלכם</span>
-              <h2 className="reveal">
-                השיעור נגמר
-                <br />
-                <em>הדרך ממשיכה</em>
-              </h2>
-              <p className="practice-lead">אתם לא נשארים לבד עד לשבוע הבא</p>
-              <p>לכל מי שלומד אצלי יש אזור אישי שממשיך איתנו משיעור לשיעור</p>
+              <h2 className="reveal">והחלק המטורף, אתן לא נשארות לבד עד לשבוע הבא</h2>
+              <p className="practice-lead">
+                לכל מי שלומד אצלי יש אזור אישי שמלווה אותו לאורך השיעורים!
+              </p>
             </header>
             <div className="practice-story">
               <div className="practice-step">
@@ -297,11 +265,7 @@ export default function LessonsPage() {
               <div className="practice-step">
                 <div className="step-heading">
                   <span aria-hidden="true">02</span>
-                  <h3>
-                    נתקעתם?
-                    <br />
-                    אני כאן
-                  </h3>
+                  <h3>נתקעתם? אני כאן</h3>
                 </div>
                 <div>
                   <p>
@@ -322,24 +286,15 @@ export default function LessonsPage() {
               <div className="practice-step achievements">
                 <div className="step-heading">
                   <span aria-hidden="true">03</span>
-                  <h3>
-                    רואים את
-                    <br />
-                    ההתקדמות
-                  </h3>
+                  <h3>רואים את ההתקדמות</h3>
                 </div>
                 <div>
-                  <p className="achievement-lead">והחלק שאני הכי אוהב - ההישגים שלכם.ן</p>
                   <p>
-                    הצלחתם לנגן שיר שלם בפעם הראשונה? עברתם קצב שעבדנו עליו כבר חודש?
-                    ניגנתן עם עוד מוזיקאים בפעם הראשונה?
-                  </p>
-                  <p>
+                    הצלחתם לנגן שיר שלם בפעם הראשונה? עברתם קצב שעבדנו עליו כבר חודש?{" "}
                     <strong>זה נכנס לאזור ההישגים שלכם.ן</strong>
                   </p>
                   <p>
-                    ככה לאורך הזמן לא רק מרגישים שמתקדמים - אפשר לפתוח את האזור האישי
-                    ולראות את כל הדברים שפעם לא ידעתם לעשות והיום כבר כן
+                    ככה רואים לאורך הזמן את כל הדברים שפעם לא ידעתם לעשות והיום כבר כן
                   </p>
                   <figure className="personal-area-shot">
                     <img
@@ -351,38 +306,6 @@ export default function LessonsPage() {
                     />
                   </figure>
                 </div>
-              </div>
-            </div>
-            <div className="practice-outro">
-              <img
-                className="line-art snare-lines"
-                src="/marketing/lessons/snare-lines.png"
-                alt=""
-                width="1024"
-                height="1024"
-                loading="lazy"
-              />
-              <div>
-                <h3>וממשיכים משם</h3>
-                <p>
-                  וכשמגיעים לשיעור הבא, לא מתחילים מחדש
-                  <br />
-                  אני כבר יודע מה תרגלתם, איפה היה קשה ומה הצלחנו לעשות בפעם הקודמת -
-                  וממשיכים משם
-                </p>
-                <p>
-                  <strong>וכן, גם את השיעור הבא קובעים משם :)</strong>
-                </p>
-                <figure className="personal-area-shot">
-                  <img
-                    src="/marketing/personal-area/booking-example.png"
-                    alt="דוגמה אמיתית מהאזור האישי: ציטוט היום וכפתור קביעת שיעור"
-                    width="1572"
-                    height="711"
-                    loading="lazy"
-                  />
-                  <figcaption>ככה זה נראה אצלכם, לדוגמה</figcaption>
-                </figure>
               </div>
             </div>
           </div>
@@ -401,9 +324,11 @@ export default function LessonsPage() {
             <h2 className="reveal">בסוף, מנגנים מוזיקה</h2>
             <p>המטרה היא לא להיות אלופות בלנגן תרגילים בחדר לבד</p>
             <p>
-              המטרה היא לשים שיר באוזניות ולהרגיש שאתן יושבות עליו בול לעלות לנגן עם
-              חברות ולא ללכת לאיבוד לשמוע שיר שאתן אוהבות ופתאום להבין מה המתופפת עושה
-              שם
+              המטרה היא לשים שיר באוזניות ולהרגיש שאתן יושבות עליו <strong>בול</strong>
+              <br />
+              לעלות לנגן עם חברות <strong>ולא ללכת לאיבוד!</strong>
+              <br />
+              לשמוע שיר שאתן אוהבות ופתאום <strong>להבין מה המתופפת עושה שם!</strong>
             </p>
             <p>ואולי יום אחד גם לעלות על במה ולספור לכולן:</p>
             <p>
@@ -413,27 +338,20 @@ export default function LessonsPage() {
             </p>
           </div>
           <figure className="live">
-            <img
-              src="/marketing/lessons/live.jpg"
-              alt="עמרי מנגן עם ההרכב מול קהל בהופעה"
-              width="1920"
-              height="1505"
-              loading="lazy"
-            />
-            <figcaption>מהסטודיו אל המוזיקה שבחוץ</figcaption>
-            <p className="photo-credit">צילום: EilonBphoto</p>
+            <div className="live-photo-frame">
+              <img
+                src="/marketing/lessons/live.jpg"
+                alt="עמרי מנגן עם ההרכב מול קהל בהופעה"
+                width="1920"
+                height="1505"
+                loading="lazy"
+              />
+              <p className="photo-credit">
+                <bdi>EilonBphoto</bdi>
+              </p>
+            </div>
           </figure>
         </section>
-        <figure className="quote">
-          <blockquote dir="ltr">
-            YOU HAVE TO PLAY
-            <br />
-            <em>FOR THE MUSIC</em>
-          </blockquote>
-          <figcaption>
-            צריך לנגן בשביל המוזיקה<span dir="ltr">— Steve Gadd</span>
-          </figcaption>
-        </figure>
         <section className="about section wrap">
           <div className="ambient-art art-drummer-illustration" aria-hidden="true"><img src="/marketing/illustrations/drummer-illustration.png" alt="" loading="lazy" decoding="async" /></div>
           <div className="section-grid">
@@ -512,12 +430,10 @@ export default function LessonsPage() {
           <div className="testimonial-grid">
             <blockquote className="testimonial-card reveal">
               <p>
-                עמרי הוא מורה מדהים. הגעתי אליו בלי ניסיון בכלל, רק רציתי לדעת לתופף.
-                התחלנו ממש מההתחלה - הוא לימד אותי לקרוא תווים, איך להחזיק את המקלות
-                ואיך לשבת נכון על התופים. עמרי תמיד מאוד סבלני ומצחיק, ממש כיף איתו
-                בשיעור. היום אני כבר מנגן את כל השירים שאני אוהב, מנגן עם חברים,
-                ומתכונן עם עמרי למבחני קבלה ללהקה צבאית! ממליץ מאוד על שיעורי התופים
-                של עמרי!
+                עמרי הוא מורה מדהים. הגעתי בלי שום ניסיון, והתחלנו ממש מההתחלה - איך
+                להחזיק מקלות, לשבת נכון ולקרוא תווים. הוא תמיד סבלני ומצחיק, וממש כיף
+                בשיעורים. היום אני כבר מנגן שירים שאני אוהב, מנגן עם חברים, ואפילו
+                מתכונן איתו למבחני קבלה ללהקה צבאית! ממליץ בחום.
               </p>
               <footer>
                 יואב, 16<span>לומד שנה וחצי</span>
@@ -525,13 +441,10 @@ export default function LessonsPage() {
             </blockquote>
             <blockquote className="testimonial-card reveal">
               <p>
-                אני לומדת עם עמרי כבר חצי שנה, וממש ממש אוהבת את השיעורים שלנו :)
-                רציתי לבוא לשיעור תופים כי תמיד היה לי את החלום הזה לדעת לנגן על משהו,
-                והתופים תמיד היו נראים הכי כיפיים. השעה הזאת בשבוע עוזרת לי מאוד לפרוק
-                ולהשתחרר מכל השגרה, והכניסה לי תחביב מדהים לחיים! עמרי ממש מצחיק
-                ונחמד, מאוד מקצועי ונעים גם. אני מאזינה להמון מוזיקה מאז, וכל שיר
-                שאני אוהבת, אנחנו לומדים ביחד לנגן בשיעור. ממליצה מאוד מאוד לבוא
-                לשיעור אצל עמרי :)
+                אני לומדת עם עמרי כבר חצי שנה, וממש אוהבת את השיעורים שלנו :) תמיד
+                חלמתי לדעת לנגן על משהו, והתופים תמיד נראו לי הכי כיפיים. השעה הזאת
+                בשבוע עוזרת לי לפרוק מהשגרה, ועמרי מקצועי, נחמד ומצחיק. כל שיר שאני
+                אוהבת - לומדים אותו ביחד בשיעור. ממליצה בחום לבוא לשיעור אצלו :)
               </p>
               <footer>
                 יובל, 23<span>לומדת חצי שנה</span>
@@ -546,28 +459,26 @@ export default function LessonsPage() {
               לוחצים על הכפתור, שולחים לי הודעה בוואטסאפ, מוצאים זמן שמתאים - ונפגשים
               בסטודיו :)
             </p>
-            <a
-              className="btn"
-              href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
-            >
-              יאללה קובעים.ות
-              <img className="btn-icon" src="/marketing/illustrations/btn-drumsticks.png" alt="" aria-hidden="true" width="96" height="65" />
-            </a>
+            <div className="final-cta">
+              <a
+                className="btn"
+                href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
+              >
+                יאללה קובעים.ות
+                <img className="btn-icon" src="/marketing/illustrations/btn-drumsticks.png" alt="" aria-hidden="true" width="96" height="65" />
+              </a>
+              <img
+                className="offer-badge"
+                src="/marketing/lessons/lesson-badge-v2.png"
+                alt="שיעור ראשון - 199 שקלים, 40 דקות"
+                width="1024"
+                height="1024"
+                loading="lazy"
+              />
+            </div>
           </div>
-          <img
-            className="offer-badge"
-            src="/marketing/lessons/lesson-badge-v2.png"
-            alt="שיעור ראשון - 199 שקלים, 40 דקות"
-            width="1024"
-            height="1024"
-            loading="lazy"
-          />
         </section>
       </main>
-      <footer className="wrap">
-        <span>עמרי ברגר · שיעורי תופים בתל אביב</span>
-        <a href="/students/login">כניסה לתלמידים</a>
-      </footer>
       <LessonsBehavior />
     </div>
   );
