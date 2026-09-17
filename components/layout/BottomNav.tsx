@@ -20,7 +20,7 @@ export function BottomNav() {
   useEffect(() => setMoreOpen(false), [pathname]);
   if (pathname?.startsWith("/student/")) return null;
 
-  const dashboardActive = pathname === "/";
+  const dashboardActive = pathname === "/dashboard";
   const studentsActive = pathname?.startsWith("/students");
   const legacyActive = LEGACY_ITEMS.some((item) => pathname?.startsWith(item.href));
 
@@ -46,7 +46,7 @@ export function BottomNav() {
 
       <nav className="fixed inset-x-0 bottom-0 bg-bg/[.9] backdrop-blur-2xl border-t border-line py-2 px-3 pb-5 z-40">
         <div className="max-w-[760px] mx-auto grid grid-cols-3 gap-2">
-          <Link href="/" className={`rounded-nav py-2.5 text-xs font-extrabold text-center ${dashboardActive ? "bg-surface text-text shadow-navActive" : "text-muted"}`}>
+          <Link href="/dashboard" className={`rounded-nav py-2.5 text-xs font-extrabold text-center ${dashboardActive ? "bg-surface text-text shadow-navActive" : "text-muted"}`}>
             <span className="block text-lg leading-none mb-1">{dashboardActive ? "●" : "○"}</span>
             דשבורד
           </Link>
