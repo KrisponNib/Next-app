@@ -7,7 +7,7 @@ import { PracticeAtmosphere } from "./PracticeAtmosphere";
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
-  if (pathname === "/") {
+  if (pathname === "/" || pathname === "/thank-you") {
     return <>{children}</>;
   }
 

@@ -1,0 +1,61 @@
+.omri-lessons.thank-you-page {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  padding-bottom: 32px;
+}
+
+.thank-you-page .thank-you-card {
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.thank-you-page .thank-you-art {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  border-radius: 18px;
+  box-shadow: 0 12px 32px rgba(23, 23, 20, 0.22);
+}
+
+.thank-you-page h1 {
+  font-size: clamp(24px, 5vw, 30px);
+  line-height: 1.35;
+}
+
+.thank-you-page .thank-you-note {
+  margin: -6px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+  max-width: none;
+}
+
+.thank-you-page .thank-you-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--wine);
+  color: var(--cream);
+  font-family: "Suez One", serif;
+  font-size: 18px;
+  padding: 13px 28px;
+  border-radius: 999px;
+  transition: background 0.2s;
+}
+
+.thank-you-page .thank-you-btn:hover {
+  background: var(--green);
+}
+
+@media (max-width: 420px) {
+  .thank-you-page .thank-you-art {
+    max-width: 280px;
+  }
+}

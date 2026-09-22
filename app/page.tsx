@@ -16,12 +16,7 @@ export default function LessonsPage() {
       </a>
       <header className="topbar-sticky">
         <div className="topbar wrap">
-          <a
-            className="topbar-login"
-            href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a className="topbar-login" href="/thank-you">
             <span className="topbar-cta-pill">בואו לשיעור נסיון!</span>
           </a>
           <span className="logo">
@@ -45,9 +40,7 @@ export default function LessonsPage() {
       </header>
       <a
         className="whatsapp-fab"
-        href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
-        target="_blank"
-        rel="noopener noreferrer"
+        href="/thank-you"
         aria-label="שלחו לי הודעת וואטסאפ"
       >
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -217,7 +210,7 @@ export default function LessonsPage() {
             </h2>
             <a
               className="btn"
-              href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
+              href="/thank-you"
             >
               בא לי לנגן
               <img className="btn-icon" src="/marketing/illustrations/btn-drumsticks.png" alt="" aria-hidden="true" width="96" height="65" />
@@ -398,7 +391,7 @@ export default function LessonsPage() {
             <h2 className="reveal">שווה לנסות לפחות פעם אחת בחיים, לא?</h2>
             <a
               className="btn"
-              href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
+              href="/thank-you"
             >
               בא לי לנגן
               <img className="btn-icon" src="/marketing/illustrations/btn-drumsticks.png" alt="" aria-hidden="true" width="96" height="65" />
@@ -463,7 +456,7 @@ export default function LessonsPage() {
             <div className="final-cta">
               <a
                 className="btn"
-                href="https://wa.me/972545379987?text=%D7%94%D7%99%D7%99%20%D7%A2%D7%9E%D7%A8%D7%99%21%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%91%D7%90%20%D7%9C%D7%99%20%D7%9C%D7%A0%D7%A1%D7%95%D7%AA%20%D7%9C%D7%A0%D7%92%D7%9F%20%F0%9F%A5%81"
+                href="/thank-you"
               >
                 יאללה קובעים.ות
                 <img className="btn-icon" src="/marketing/illustrations/btn-drumsticks.png" alt="" aria-hidden="true" width="96" height="65" />
