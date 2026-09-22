@@ -18,7 +18,7 @@ export default function ThankYouPage() {
           width={1680}
           height={945}
         />
-        <h1>תודה שכתבתם.ן לי! ניפגש בקרוב :)</h1>
+        <h1>תודה שכתבתם.ן לי! ניפגש בקרוב{" "}:)</h1>
         <ThankYouRedirect />
       </div>
     </div>
