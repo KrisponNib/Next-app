@@ -7,10 +7,41 @@ export const metadata: Metadata = {
   title: "עמרי ברגר - שיעורי תופים בתל אביב",
   description:
     "שיעורי תופים אישיים עם עמרי ברגר בסטודיו פרטי במרכז תל אביב. מתחילים משיר, ומתקדמים בקצב שלך.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "he_IL",
+    url: "/",
+    siteName: "עמרי ברגר - מורה לתופים",
+    title: "עמרי ברגר - שיעורי תופים בתל אביב",
+    description:
+      "שיעורי תופים אישיים עם עמרי ברגר בסטודיו פרטי במרכז תל אביב. מתחילים משיר, ומתקדמים בקצב שלך.",
+    images: ["/marketing/lessons/stage.jpg"],
+  },
+};
+const schoolJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "MusicSchool",
+  name: "עמרי ברגר - שיעורי תופים",
+  description: "שיעורי תופים אישיים בסטודיו פרטי במרכז תל אביב, לילדים, לנוער ולמבוגרים.",
+  url: "https://www.omriberger.com/",
+  image: "https://www.omriberger.com/marketing/lessons/stage.jpg",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "דרויאנוב 5",
+    addressLocality: "תל אביב-יפו",
+    addressCountry: "IL",
+  },
+  founder: { "@type": "Person", name: "עמרי ברגר" },
+  sameAs: ["https://www.instagram.com/omri_berger/"],
 };
 export default function LessonsPage() {
   return (
     <div className="omri-lessons">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schoolJsonLd) }}
+      />
       <a className="skip" href="#main">
         דילוג לתוכן
       </a>
