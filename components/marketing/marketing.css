@@ -1,0 +1,240 @@
+.omri-lessons.mk-page .mk-crumbs {
+  padding-top: 20px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.omri-lessons.mk-page .mk-crumbs a {
+  color: inherit;
+}
+.omri-lessons.mk-page .mk-hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  align-items: center;
+  padding-block: 28px 40px;
+  border-bottom: 1px solid var(--ink);
+}
+.omri-lessons.mk-page .mk-hero.has-image {
+  grid-template-columns: 1.1fr 1fr;
+}
+.omri-lessons.mk-page .mk-hero h1 {
+  font-size: clamp(40px, 5.4vw, 76px);
+}
+.omri-lessons.mk-page .mk-lead {
+  margin-top: 18px;
+  font-size: clamp(19px, 2vw, 23px);
+  line-height: 1.55;
+  max-width: 40ch;
+}
+.omri-lessons.mk-page .mk-byline {
+  margin-top: 14px;
+  font-size: 15px;
+  color: var(--muted);
+}
+.omri-lessons.mk-page .mk-hero-photo img {
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  object-fit: cover;
+  border-radius: 22px;
+  display: block;
+}
+.omri-lessons.mk-page .mk-body {
+  padding-block: 40px 48px;
+}
+.omri-lessons.mk-page .mk-block {
+  max-width: 760px;
+}
+.omri-lessons.mk-page .mk-block + .mk-block {
+  margin-top: 40px;
+}
+.omri-lessons.mk-page .mk-block h2 {
+  font-size: clamp(28px, 3vw, 40px);
+  margin-bottom: 14px;
+}
+.omri-lessons.mk-page .mk-block p {
+  max-width: 64ch;
+}
+.omri-lessons.mk-page .mk-list {
+  margin: 14px 0 0;
+  padding-inline-start: 22px;
+  max-width: 64ch;
+}
+.omri-lessons.mk-page .mk-list li + li {
+  margin-top: 8px;
+}
+.omri-lessons.mk-page .mk-faq {
+  padding-block: 48px 16px;
+}
+.omri-lessons.mk-page .mk-faq > h2 {
+  margin-bottom: 18px;
+}
+.omri-lessons.mk-page .mk-faq h3,
+.omri-lessons.kids-page .topics h3 {
+  font: inherit;
+  margin: 0;
+}
+.omri-lessons.mk-page .mk-related {
+  padding-block: 32px 8px;
+}
+.omri-lessons.mk-page .mk-related h2 {
+  font-size: clamp(26px, 2.6vw, 34px);
+  margin-bottom: 14px;
+}
+.omri-lessons .mk-related ul,
+.omri-lessons .mk-cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+.omri-lessons .mk-related a,
+.omri-lessons .mk-cards a {
+  display: block;
+  height: 100%;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--light);
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 700;
+}
+.omri-lessons .mk-cards small {
+  display: block;
+  margin-top: 6px;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.omri-lessons .mk-related a:hover,
+.omri-lessons .mk-cards a:hover {
+  border-color: var(--wine);
+}
+.omri-lessons.mk-page .mk-final {
+  padding-block: 56px 40px;
+}
+.omri-lessons.mk-page .mk-index {
+  padding-block: 32px 48px;
+}
+.omri-lessons.mk-page .mk-index h2 {
+  font-size: clamp(28px, 3vw, 40px);
+  margin: 32px 0 16px;
+}
+.omri-lessons .mk-footer {
+  background: var(--green);
+  color: var(--cream);
+  padding-block: 48px 32px;
+  margin-top: 24px;
+}
+.omri-lessons .mk-footer a {
+  color: var(--cream);
+}
+.omri-lessons .mk-footer-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+.omri-lessons .mk-footer-title {
+  font-size: 26px;
+  margin-bottom: 12px;
+}
+.omri-lessons .mk-footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  columns: 2;
+  column-gap: 24px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.omri-lessons .mk-footer li {
+  break-inside: avoid;
+  padding-block: 4px;
+}
+.omri-lessons .mk-footer-note {
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(242, 226, 189, 0.3);
+  font-size: 14px;
+  max-width: none;
+}
+@media (max-width: 760px) {
+  .omri-lessons.mk-page .mk-hero,
+  .omri-lessons.mk-page .mk-hero.has-image {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding-block: 16px 32px;
+  }
+  .omri-lessons.mk-page .mk-body {
+    padding-block: 28px 32px;
+  }
+  .omri-lessons.mk-page .mk-block + .mk-block {
+    margin-top: 28px;
+  }
+  .omri-lessons.mk-page .mk-faq {
+    padding-block: 32px 8px;
+  }
+  .omri-lessons.mk-page .mk-final {
+    padding-block: 32px 24px;
+  }
+  .omri-lessons .mk-footer-cols {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .omri-lessons .mk-footer ul {
+    columns: 1;
+  }
+}
+.omri-lessons.mk-page .mk-body h2,
+.omri-lessons.mk-page .mk-body p,
+.omri-lessons.mk-page .mk-body li,
+.omri-lessons.mk-page .mk-index p,
+.omri-lessons.mk-page .mk-crumbs {
+  text-align: start;
+}
+.omri-lessons.mk-page .mk-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.omri-lessons.mk-page .mk-block {
+  width: 100%;
+}
+.omri-lessons.mk-page .mk-list {
+  list-style: disc;
+}
+.omri-lessons:has(.mk-footer) {
+  padding-bottom: 0;
+}
+.omri-lessons .mk-footer {
+  padding-bottom: 112px;
+}
+.omri-lessons .mk-footer h2,
+.omri-lessons .mk-footer p {
+  text-align: start;
+}
+.omri-lessons .mk-footer-more {
+  margin-top: 8px;
+  font-weight: 700;
+}
+@media (max-width: 760px) {
+  .omri-lessons .mk-footer ul {
+    columns: 2;
+    column-gap: 16px;
+    font-size: 14px;
+  }
+  .omri-lessons .mk-footer {
+    padding-bottom: 104px;
+  }
+}
+.omri-lessons.mk-page .mk-hero-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.omri-lessons.mk-page .mk-hero.has-image .mk-hero-copy {
+  align-items: stretch;
+}

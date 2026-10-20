@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
+import { MarketingFooter } from "@/components/marketing/MarketingShell";
 import LessonsBehavior from "./LessonsBehavior";
 import "./lessons.css";
 import "./lesson-art.css";
@@ -504,6 +505,7 @@ export default function LessonsPage() {
           </div>
         </section>
       </main>
+      <MarketingFooter />
       <LessonsBehavior />
     </div>
   );
