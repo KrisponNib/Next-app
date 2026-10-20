@@ -944,3 +944,12 @@ body:has(.omri-lessons) {
     width: min(100%, 330px);
   }
 }
+.omri-lessons .hero-kicker {
+  position: relative;
+  font-family: Heebo, Arial, sans-serif;
+  font-weight: 700;
+  font-size: clamp(17px, 1.6vw, 21px);
+  letter-spacing: 0.02em;
+  color: var(--wine);
+  margin-bottom: 10px;
+}

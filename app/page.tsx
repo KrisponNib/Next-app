@@ -85,9 +85,10 @@ export default function LessonsPage() {
       </a>
       <main id="main">
         <section className="opening wrap" aria-labelledby="hero-title">
-          <div className="ambient-art art-cymbal-illustration" aria-hidden="true"><img src="/marketing/illustrations/cymbal-illustration.png" alt="" loading="lazy" decoding="async" /></div>
+          <div className="ambient-art art-cymbal-illustration" aria-hidden="true"><img src="/marketing/illustrations/cymbal-illustration.webp" alt="" loading="lazy" decoding="async" /></div>
           <div className="hero-copy">
-            <div className="ambient-art art-drumsticks-hero" aria-hidden="true"><img src="/marketing/illustrations/drumsticks.png" alt="" loading="lazy" decoding="async" /></div>
+            <div className="ambient-art art-drumsticks-hero" aria-hidden="true"><img src="/marketing/illustrations/drumsticks.webp" alt="" loading="lazy" decoding="async" /></div>
+            <p className="hero-kicker">שיעורי תופים בתל אביב</p>
             <h1 id="hero-title">
               תמיד חלמת
               <br />
@@ -116,14 +117,14 @@ export default function LessonsPage() {
         <section className="first wrap section">
           <img
             className="drawing snare"
-            src="/marketing/lessons/snare.png"
+            src="/marketing/lessons/snare.webp"
             alt=""
             width="1536"
             height="1024"
             loading="lazy"
           />
           <div className="section-grid">
-            <div className="ambient-art art-snare-behind" aria-hidden="true"><img src="/marketing/lessons/snare.png" alt="" loading="lazy" decoding="async" /></div>
+            <div className="ambient-art art-snare-behind" aria-hidden="true"><img src="/marketing/lessons/snare.webp" alt="" loading="lazy" decoding="async" /></div>
             <h2 className="reveal staircase">
               <span className="stair stair-1">קובעים</span>
               <span className="stair stair-2">מגיעים</span>
@@ -144,7 +145,7 @@ export default function LessonsPage() {
               <div className="kit-art-slot" aria-hidden="true">
                 <img
                   className="line-art kit-art"
-                  src="/marketing/lessons/drum-kit-lines.png"
+                  src="/marketing/lessons/drum-kit-lines.webp"
                   alt=""
                   width="1024"
                   height="1024"
@@ -194,7 +195,7 @@ export default function LessonsPage() {
           </div>
         </section>
         <section className="studio section">
-          <div className="ambient-art art-tel-aviv-note" aria-hidden="true"><img src="/marketing/illustrations/tel-aviv-note.png" alt="" loading="lazy" decoding="async" /></div>
+          <div className="ambient-art art-tel-aviv-note" aria-hidden="true"><img src="/marketing/illustrations/tel-aviv-note.webp" alt="" loading="lazy" decoding="async" /></div>
           <div className="wrap">
             <div className="section-grid">
               <div>
@@ -250,9 +251,9 @@ export default function LessonsPage() {
           </div>
         </aside>
         <section className="practice section">
-          <div className="ambient-art art-practice-note" aria-hidden="true"><img src="/marketing/illustrations/practice-note.png" alt="" loading="lazy" decoding="async" /></div>
+          <div className="ambient-art art-practice-note" aria-hidden="true"><img src="/marketing/illustrations/practice-note.webp" alt="" loading="lazy" decoding="async" /></div>
           <div className="wrap">
-            <div className="ambient-art art-drumsticks" aria-hidden="true"><img src="/marketing/illustrations/drumsticks.png" alt="" loading="lazy" decoding="async" /></div>
+            <div className="ambient-art art-drumsticks" aria-hidden="true"><img src="/marketing/illustrations/drumsticks.webp" alt="" loading="lazy" decoding="async" /></div>
             <header className="practice-heading">
               <h2 className="reveal">והחלק המטורף, אתן לא נשארות לבד עד לשבוע הבא</h2>
               <p className="practice-lead">
@@ -340,7 +341,7 @@ export default function LessonsPage() {
           <div className="music-copy">
             <img
               className="headphones-bg"
-              src="/marketing/lessons/headphones.png"
+              src="/marketing/lessons/headphones.webp"
               alt=""
               aria-hidden="true"
               width="1536"
@@ -379,7 +380,7 @@ export default function LessonsPage() {
           </figure>
         </section>
         <section className="about section wrap">
-          <div className="ambient-art art-drummer-illustration" aria-hidden="true"><img src="/marketing/illustrations/drummer-illustration.png" alt="" loading="lazy" decoding="async" /></div>
+          <div className="ambient-art art-drummer-illustration" aria-hidden="true"><img src="/marketing/illustrations/drummer-illustration.webp" alt="" loading="lazy" decoding="async" /></div>
           <div className="section-grid">
             <div>
               <h2 className="reveal">אהלן, אני עמרי :)</h2>
@@ -495,7 +496,7 @@ export default function LessonsPage() {
               </a>
               <img
                 className="offer-badge"
-                src="/marketing/lessons/lesson-badge-v2.png"
+                src="/marketing/lessons/lesson-badge-v2.webp"
                 alt="שיעור ראשון - 199 שקלים, 40 דקות"
                 width="1024"
                 height="1024"

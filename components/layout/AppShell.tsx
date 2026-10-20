@@ -7,15 +7,10 @@ import { PracticeAtmosphere } from "./PracticeAtmosphere";
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
-  if (
-    pathname === "/" ||
-    pathname === "/thank-you" ||
-    pathname === "/about" ||
-    pathname === "/faq" ||
-    pathname.startsWith("/drum-lessons") ||
-    pathname === "/blog" ||
-    pathname.startsWith("/blog/")
-  ) {
+  // Only Omri's private app routes get the app chrome; every public page (and the 404 page) renders bare.
+  const appRoutes = ["/dashboard", "/money", "/today", "/profile", "/wins", "/reflect", "/practice", "/lessons", "/students", "/student/"];
+  const isApp = appRoutes.some((r) => pathname === r || pathname?.startsWith(r.endsWith("/") ? r : r + "/"));
+  if (!isApp) {
     return <>{children}</>;
   }
 
