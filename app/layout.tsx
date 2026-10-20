@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "עמרי ברגר - שיעורי תופים בתל אביב",
   description:
     "שיעורי תופים אישיים עם עמרי ברגר בסטודיו פרטי במרכז תל אביב. מתחילים משיר, ומתקדמים בקצב שלך.",
+  verification: { google: "a35M0VvR537gkRYX2Yx7E6qkWrbjYRVD036_8LbTFeI" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
