@@ -1,0 +1,78 @@
+.omri-lessons.kids-page .kids-lead {
+  font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+  line-height: 1.5;
+  margin-top: 1rem;
+  max-width: 28ch;
+}
+.omri-lessons.kids-page .topics h3 {
+  font: inherit;
+  margin: 0;
+}
+.omri-lessons.kids-page .kids-faq > h2 {
+  margin-bottom: 1.5rem;
+}
+.omri-lessons.kids-page .section {
+  padding-block: 72px;
+}
+.omri-lessons.kids-page .final {
+  padding-block: 64px 72px;
+}
+@media (max-width: 760px) {
+  .omri-lessons.kids-page .section {
+    padding-block: 48px;
+  }
+  .omri-lessons.kids-page .final {
+    padding-block: 40px 56px;
+  }
+}
+.omri-lessons.kids-page .kids-faq {
+  padding-bottom: 16px;
+}
+.omri-lessons.kids-page .first {
+  padding-top: 64px;
+}
+@media (max-width: 760px) {
+  .omri-lessons.kids-page .opening {
+    padding-bottom: 40px;
+  }
+  .omri-lessons.kids-page .first {
+    padding-top: 40px;
+    padding-bottom: 32px;
+  }
+}
+.omri-lessons.kids-page .studio.section {
+  padding-block: 56px;
+}
+@media (max-width: 760px) {
+  .omri-lessons.kids-page .section,
+  .omri-lessons.kids-page .studio.section {
+    padding-block: 32px;
+  }
+  .omri-lessons.kids-page .conversion {
+    padding-block: 24px;
+  }
+}
+@media (min-width: 761px) {
+  .omri-lessons.kids-page .opening {
+    align-items: center;
+  }
+  .omri-lessons.kids-page .hero-copy {
+    grid-row: 1/3;
+  }
+  .omri-lessons.kids-page .hero-photo img {
+    aspect-ratio: 5/4;
+  }
+}
+@media (max-width: 760px) {
+  .omri-lessons.kids-page .final {
+    padding-top: 16px;
+  }
+}
+@media (max-width: 760px) {
+  .omri-lessons.kids-page .first {
+    padding-bottom: 16px;
+  }
+  .omri-lessons.kids-page .studio.section {
+    padding-top: 24px;
+  }
+}
